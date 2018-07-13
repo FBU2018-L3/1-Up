@@ -14,22 +14,22 @@
 - Users can input their own activities, with app text recognition being able to decipher intent and assign experience points accordingly.
 
 ## Typical Character Narrative
-*User:* **Chad** is a college student who doesn't feel productive with his time.
+*User:* **Andy** is a college student who doesn't feel productive with his time.
 
-**Chad** opens the app, he sees:
+**Andy** opens the app, he sees:
 > A comprehensive list of activities broken down into 4 unique categories: indoor activities, outdoor activities, food, and fitness.
 > He selects one of the given categories and then selects the activity that most closely resembles the activity (or activities) that he has done.
 > He may enter some numerical details and, behind the scenes, a number of experience points are awarded to the users.
-> His awarded experience points are added to his progress bar. If the progress bar is filled up, **Chad** will "level up".
+> His awarded experience points are added to his progress bar. If the progress bar is filled up, **Andy** will "level up".
 
-**Chad** goes to his profile:
+**Andy** goes to his profile:
 > He sees a feed of his most recently recorded activities and the experience points he was awarded for them.
 > He also sees his progress bar (experience bar), his progress towards to his next level, and any earned rewards.
 > He also sees his given (or perhaps created) avatar
 > He sees any inputted/tracked sleep stats
 
-**Chad** is going to bed:
-> **Chad** opens the app and toggles the sleep button on the app.
+**Andy** is going to bed:
+> **Andy** opens the app and toggles the sleep button on the app.
 > He puts his phone down and goes to sleep.
-> **Chad** wakes up and toggles the button on the app again.
+> **Andy** wakes up and toggles the button on the app again.
 > The app calculates the number of hours slept, the earned experience points, and then adds them to his progress (experience) bar.
