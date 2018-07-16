@@ -2,6 +2,7 @@ package com.l3.one_up;
 
 import android.app.Application;
 
+import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -27,6 +28,7 @@ public class ParseApplication extends Application {
 
         //Parse Object initialization
         ParseObject.registerSubclass(Event.class);
+        ParseObject.registerSubclass(Activity.class);
 
         // set applicationId, and server server based on the values in the Heroku settings.
         // clientKey is not needed unless explicitly configured
