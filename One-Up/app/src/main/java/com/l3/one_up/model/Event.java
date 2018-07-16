@@ -12,8 +12,12 @@ import java.util.Date;
 @ParseClassName("Event")
 public class Event extends ParseObject {
 
+    // Milliseconds in a day.
+    private static final long MILLIS_24HRS = 1000 * 60 * 60 * 24;
+
     private static final String KEY_USER = "user";
     private static final String KEY_ACTIVITY = "activity";
+    private static final String KEY_CATEGORY = KEY_ACTIVITY + ".category";
     private static final String KEY_INPUT = "inputType";
     private static final String KEY_TOTALXP = "totalXP";
     private static final String KEY_CREATED = "createdAt";
@@ -66,6 +70,21 @@ public class Event extends ParseObject {
             return this;
         }
 
+        public Query byUser(ParseUser user) {
+            whereEqualTo(KEY_USER, user);
+            return this;
+        }
+
+        public Query ofActivity(String activityId) {
+            whereEqualTo(KEY_ACTIVITY, activityId);
+            return this;
+        }
+
+        public Query ofCategory(String category) {
+            whereEqualTo(KEY_CATEGORY, category);
+            return this;
+        }
+
         public Query includeUser() {
             include(KEY_USER);
             return this;
@@ -77,7 +96,7 @@ public class Event extends ParseObject {
         }
 
         public Query onlyThisWeek() {
-            whereGreaterThan(KEY_CREATED, new Date());
+            whereGreaterThanOrEqualTo(KEY_CREATED, new Date(System.currentTimeMillis() - MILLIS_24HRS * 7));
             return this;
         }
 
