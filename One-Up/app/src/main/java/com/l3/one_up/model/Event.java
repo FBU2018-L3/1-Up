@@ -1,5 +1,6 @@
 package com.l3.one_up.model;
 
+import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -8,6 +9,7 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
+@ParseClassName("Event")
 public class Event extends ParseObject {
 
     private static final String KEY_USER = "user";
