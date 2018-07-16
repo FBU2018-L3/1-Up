@@ -1,4 +1,4 @@
-# L^3's FBU Project: Gamifying Self-improvement
+# L^3's FBU Project: Gamifying Self-improvement (Testing things!)
 
 ## Required User Stories:
 - Users are allowed to document their day-to-day activities by choosing a category and choosing their activity, gaining experience points which go towards their user-specific progress bar.
