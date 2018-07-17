@@ -1,8 +1,16 @@
 package com.l3.one_up;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+
+import com.l3.one_up.R;
+
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener {
