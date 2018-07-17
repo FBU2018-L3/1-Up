@@ -12,15 +12,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.ParseUser;
+
 
 public class HomeFragment extends Fragment {
 
     private ImageView ivProfile;
     private TextView tvWelcome;
     private TextView tvLevelNum;
+    private TextView tvXPNum;
 
     private Button btnCategorySelect;
     private OnFragmentInteractionListener mListener;
+
+    private ParseUser user;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -49,6 +54,7 @@ public class HomeFragment extends Fragment {
         ivProfile = (ImageView) getActivity().findViewById(R.id.ivProfile);
         tvWelcome = (TextView) getActivity().findViewById(R.id.tvWelcome);
         tvLevelNum = (TextView) getActivity().findViewById(R.id.tvLevelNum);
+        tvXPNum = (TextView) getActivity().findViewById(R.id.tvXPNum);
 
         btnCategorySelect = (Button) getActivity().findViewById(R.id.btnCategorySelect);
         btnCategorySelect.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +63,14 @@ public class HomeFragment extends Fragment {
                 onButtonPressed();
             }
         });
+
+        user = ParseUser.getCurrentUser();
+
+        if (user != null) {
+            tvWelcome.setText("Welcome, " + user.getUsername());
+            tvLevelNum.setText(""+ user.getInt("level"));
+            tvXPNum.setText("" + user.getInt("experiencePoints"));
+        }
 
     }
 
