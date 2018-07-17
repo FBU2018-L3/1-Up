@@ -88,7 +88,26 @@ public class InputFragment extends DialogFragment {
 
     @OnClick(R.id.btnSubmit)
     public void submit(){
-        Toast.makeText(getContext(), "TODO submit", Toast.LENGTH_SHORT).show();
+        try {
+            Integer basePoints = activity.getInput().getInt((String)spInputType.getSelectedItem());
+            Integer exp = basePoints * Integer.parseInt(etValue.getText().toString());
+            ParseUser current = ParseUser.getCurrentUser();
+            current.put("experiencePoints", ParseUser.getCurrentUser().getInt("experiencePoints")+exp);
+            current.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if(e==null){
+                        Toast.makeText(getContext(), "SAVED", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
