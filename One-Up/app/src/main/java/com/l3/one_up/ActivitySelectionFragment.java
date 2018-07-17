@@ -3,61 +3,87 @@ package com.l3.one_up;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.l3.one_up.model.Activity;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ActivitySelectionFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ActivitySelectionFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class ActivitySelectionFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    public String tag = "ActivitySelectionFragment";
+    /* set up views and recycler */
+    public RecyclerView rvActivityView;
+    /* our data set */
+    private ArrayList<Activity> myActivities;
+    /* our "context" */
+    private FragmentActivity fragAct;
+    /* adapter */
+    private ActivityItemAdapter itemAdapter;
+    /* our command string that tells us which activities to load */
+    public String category;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
 
     public ActivitySelectionFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ActivitySelectionFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ActivitySelectionFragment newInstance(String param1, String param2) {
-        ActivitySelectionFragment fragment = new ActivitySelectionFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Log.d(tag, "In our activity selection fragment");
+        /* TODO: Switch this to reflect user input/click */
+        category = "fitness";
+
+        /* set up our context */
+        fragAct = (FragmentActivity) getActivity();
+        /* set up recycler view */
+        rvActivityView = fragAct.findViewById(R.id.rvActivityView);
+        /* init data set */
+        myActivities = new ArrayList<>();
+        /* init adapter */
+        itemAdapter = new ActivityItemAdapter(myActivities);
+        rvActivityView.setLayoutManager(new LinearLayoutManager(fragAct));
+        /* set up adapter */
+        rvActivityView.setAdapter(itemAdapter);
+        /* populate with activities */
+        loadActivities(category);
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    private void loadActivities(String category) {
+        final Activity.Query activityQuery = new Activity.Query();
+        /* get specified category activities */
+        activityQuery.getCategoryAct(category);
+        activityQuery.findInBackground(new FindCallback<Activity>() {
+            @Override
+            public void done(List<Activity> objects, ParseException e) {
+                if(e == null){
+                    Log.d(tag, "Activities loaded successfully");
+                    Log.d(tag, "Objects list size: " + objects.size());
+                    for(int i = 0; i < objects.size(); i++){
+                        myActivities.add(objects.get(i));
+                        Log.d(tag, "Name: " + myActivities.get(i).getName());
+                        itemAdapter.notifyItemInserted(myActivities.size() - 1);
+                    }
+                }
+                else{
+                    Log.d(tag, "Failed to load activies :(");
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
@@ -67,42 +93,4 @@ public class ActivitySelectionFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_activity_selection, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }
