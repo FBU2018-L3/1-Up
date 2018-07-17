@@ -6,6 +6,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -27,7 +29,7 @@ public class Activity extends ParseObject {
 
     public Integer getBaseXP() { return getInt(KEY_BASE); }
 
-    public ParseObject getInput() { return getParseObject(KEY_INPUT); }
+    public JSONObject getInput() { return getJSONObject(KEY_INPUT); }
 
     public static class Query extends ParseQuery<Activity> {
 
