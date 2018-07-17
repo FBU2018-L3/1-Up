@@ -1,7 +1,5 @@
 package com.l3.one_up;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,17 +33,28 @@ public class ActivitySelectionFragment extends Fragment {
     /* our command string that tells us which activities to load */
     public String category;
 
+    private static String KEY_CATEGORY = "keyCategory";
 
     public ActivitySelectionFragment() {
         // Required empty public constructor
+    }
+
+    public static ActivitySelectionFragment newInstance(String categoryName) {
+
+        Bundle args = new Bundle();
+        args.putString(KEY_CATEGORY, categoryName);
+        ActivitySelectionFragment fragment = new ActivitySelectionFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(tag, "In our activity selection fragment");
-        /* TODO: Switch this to reflect user input/click */
-        category = "fitness";
+
+        Bundle args = getArguments();
+        category = args.getString(KEY_CATEGORY);
 
         /* set up our context */
         fragAct = (FragmentActivity) getActivity();
