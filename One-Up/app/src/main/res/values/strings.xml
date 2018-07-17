@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">One-Up</string>
+    <string-array name="categories">
+        <item>indoor</item>
+        <item>food</item>
+        <item>outdoor</item>
+        <item>fitness</item>
+    </string-array>
 </resources>
