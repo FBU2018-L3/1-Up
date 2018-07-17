@@ -89,17 +89,26 @@ public class InputFragment extends DialogFragment {
     @OnClick(R.id.btnSubmit)
     public void submit(){
         try {
+            // Calculation of new xp and level
             Integer basePoints = activity.getInput().getInt((String)spInputType.getSelectedItem());
             Integer exp = basePoints * Integer.parseInt(etValue.getText().toString());
+            final Integer finalExp = ParseUser.getCurrentUser().getInt("experiencePoints")+exp;
+            final Integer level = finalExp/100;
             ParseUser current = ParseUser.getCurrentUser();
-            current.put("experiencePoints", ParseUser.getCurrentUser().getInt("experiencePoints")+exp);
+            // Updating xp and lvl
+            current.put("experiencePoints", finalExp);
+            current.put("level", level);
+            // Save
             current.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
                     if(e==null){
+                        Toast.makeText(getContext(), "Level: " + level, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Total xp: " + finalExp, Toast.LENGTH_SHORT).show();
                         Toast.makeText(getContext(), "SAVED", Toast.LENGTH_SHORT).show();
                     }
                     else{
+                        Toast.makeText(getContext(), "There was an error, please try again later", Toast.LENGTH_LONG).show();
                         e.printStackTrace();
                     }
                 }
