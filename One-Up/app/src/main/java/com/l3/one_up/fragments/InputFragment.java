@@ -3,6 +3,7 @@ package com.l3.one_up.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,6 +93,8 @@ public class InputFragment extends DialogFragment {
             // Calculation of new xp and level
             Integer basePoints = activity.getInput().getInt((String)spInputType.getSelectedItem());
             Integer exp = basePoints * Integer.parseInt(etValue.getText().toString());
+            final Integer currentExp = ParseUser.getCurrentUser().getInt("experiencePoints");
+            final Integer currentLvl = currentExp/100;
             final Integer finalExp = ParseUser.getCurrentUser().getInt("experiencePoints")+exp;
             final Integer level = finalExp/100;
             ParseUser current = ParseUser.getCurrentUser();
@@ -103,9 +106,10 @@ public class InputFragment extends DialogFragment {
                 @Override
                 public void done(ParseException e) {
                     if(e==null){
-                        Toast.makeText(getContext(), "Level: " + level, Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getContext(), "Total xp: " + finalExp, Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getContext(), "SAVED", Toast.LENGTH_SHORT).show();
+                        FragmentManager fm = getActivity().getSupportFragmentManager();
+                        InputConfirmationFragment icf = InputConfirmationFragment.newInstance(currentExp, currentLvl);
+                        icf.show(fm, "icf");
+                        dismiss();
                     }
                     else{
                         Toast.makeText(getContext(), "There was an error, please try again later", Toast.LENGTH_LONG).show();
