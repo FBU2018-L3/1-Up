@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">One-Up</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="categories">
+        <item>indoor</item>
+        <item>food</item>
+        <item>outdoor</item>
+        <item>fitness</item>
+    </string-array>
 </resources>
