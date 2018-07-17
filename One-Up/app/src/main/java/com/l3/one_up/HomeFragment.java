@@ -8,8 +8,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.parse.ParseUser;
@@ -22,7 +24,10 @@ public class HomeFragment extends Fragment {
     private TextView tvLevelNum;
     private TextView tvXPNum;
 
-    private Button btnCategorySelect;
+    private ListView lvCategories;
+    private ArrayAdapter categoriesAdapter;
+    private String[] categories;
+
     private OnFragmentInteractionListener mListener;
 
     private ParseUser user;
@@ -56,27 +61,33 @@ public class HomeFragment extends Fragment {
         tvLevelNum = (TextView) getActivity().findViewById(R.id.tvLevelNum);
         tvXPNum = (TextView) getActivity().findViewById(R.id.tvXPNum);
 
-        btnCategorySelect = (Button) getActivity().findViewById(R.id.btnCategorySelect);
-        btnCategorySelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onButtonPressed();
-            }
-        });
-
         user = ParseUser.getCurrentUser();
 
+        // populate text fields w user info
         if (user != null) {
             tvWelcome.setText("Welcome, " + user.getUsername());
             tvLevelNum.setText(""+ user.getInt("level"));
             tvXPNum.setText("" + user.getInt("experiencePoints"));
         }
 
+        categories = getResources().getStringArray(R.array.categories);
+
+        categoriesAdapter = new ArrayAdapter<>(getContext(), R.layout.item_category, categories);
+
+        lvCategories = (ListView) getActivity().findViewById(R.id.lvCategories);
+        lvCategories.setAdapter(categoriesAdapter);
+        lvCategories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                onButtonPressed(categories[position]);
+            }
+        });
+
     }
 
-    public void onButtonPressed() {
+    public void onButtonPressed(String categoryName) {
         if (mListener != null) {
-            mListener.onCategoryClick("fitness");
+            mListener.onCategoryClick(categoryName);
         }
     }
 
