@@ -16,12 +16,14 @@ import android.widget.Toast;
 
 import com.l3.one_up.R;
 import com.l3.one_up.model.Activity;
+import com.l3.one_up.model.Event;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,26 +92,24 @@ public class InputFragment extends DialogFragment {
     @OnClick(R.id.btnSubmit)
     public void submit(){
         try {
-            // Calculation of new xp and level
             Integer basePoints = activity.getInputType().getInt((String)spInputType.getSelectedItem());
-            Integer exp = basePoints * Integer.parseInt(etValue.getText().toString());
-            final Integer currentExp = ParseUser.getCurrentUser().getInt("experiencePoints");
-            final Integer currentLvl = currentExp/100;
-            final Integer finalExp = ParseUser.getCurrentUser().getInt("experiencePoints")+exp;
-            final Integer level = finalExp/100;
-            ParseUser current = ParseUser.getCurrentUser();
-            // Updating xp and lvl
-            current.put("experiencePoints", finalExp);
-            current.put("level", level);
-            // Save
-            current.saveInBackground(new SaveCallback() {
+            final Integer exp = basePoints * Integer.parseInt(etValue.getText().toString());
+
+            // Obtaining the user
+            final ParseUser current = ParseUser.getCurrentUser();
+
+            // Event
+            Event event = new Event();
+            event.setActivity(activity);
+            event.setTotalXP(exp);
+            event.setUser(current);
+            event.setInputType(new JSONObject().put((String)spInputType.getSelectedItem(), etValue.getText().toString()));
+            event.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    if(e==null){
-                        FragmentManager fm = getActivity().getSupportFragmentManager();
-                        InputConfirmationFragment icf = InputConfirmationFragment.newInstance(currentExp, currentLvl);
-                        icf.show(fm, "icf");
-                        dismiss();
+                    if(e==null)
+                    {
+                        updateUser(current, exp);
                     }
                     else{
                         Toast.makeText(getContext(), "There was an error, please try again later", Toast.LENGTH_LONG).show();
@@ -118,11 +118,37 @@ public class InputFragment extends DialogFragment {
                 }
             });
 
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
 
-
+    private void updateUser(ParseUser current, int gainedExp){
+        // Calculation of new xp and level
+        final Integer currentExp = ParseUser.getCurrentUser().getInt("experiencePoints");
+        final Integer currentLvl = currentExp/100;
+        final Integer finalExp = ParseUser.getCurrentUser().getInt("experiencePoints")+gainedExp;
+        final Integer level = finalExp/100;
+        // Updating xp and lvl
+        current.put("experiencePoints", finalExp);
+        current.put("level", level);
+        // Save
+        current.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e==null){
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    InputConfirmationFragment icf = InputConfirmationFragment.newInstance(currentExp, currentLvl);
+                    icf.show(fm, "icf");
+                    dismiss();
+                }
+                else{
+                    Toast.makeText(getContext(), "There was an error, please try again later", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 }
