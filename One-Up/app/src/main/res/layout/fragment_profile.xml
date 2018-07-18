@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/userInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_launcher"
+                android:layout_margin="10dp" />
+
+            <TextView
+                android:id="@+id/tvWelcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/rlXP"
+                android:layout_toRightOf="@id/ivProfile"
+                android:layout_centerVertical="true"
+                android:text="Welcome, User!" />
+
+            <RelativeLayout
+                android:id="@+id/rlXP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/rlLevel"
+                android:layout_margin="10dp" >
+
+            <TextView
+                android:id="@+id/tvXPText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="XP"
+                android:textAppearance="@android:style/TextAppearance.Small" />
+
+            <TextView
+                android:id="@+id/tvXPNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvXPText"
+                android:layout_centerHorizontal="true"
+                android:text="245"
+                android:textAppearance="@android:style/TextAppearance.Large" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="10dp" >
+
+                <TextView
+                    android:id="@+id/tvLevelText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Level"
+                    android:textAppearance="@android:style/TextAppearance.Small" />
+
+                <TextView
+                    android:id="@+id/tvLevelNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvLevelText"
+                    android:layout_centerHorizontal="true"
+                    android:text="5"
+                    android:textAppearance="@android:style/TextAppearance.Large" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <!-- TODO insert timeline feed here -->
+        <FrameLayout
+            android:id="@+id/feedContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/userInfo">
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

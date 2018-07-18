@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_stats"
+        android:enabled="true"
+        android:icon="@android:drawable/btn_plus"
+        android:title="Stats"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_profile"
+        android:enabled="true"
+        android:icon="@android:drawable/btn_plus"
+        android:title="Profile"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_timeline"
+        android:enabled="true"
+        android:icon="@android:drawable/btn_plus"
+        android:title="Timeline"
+        app:showAsAction="ifRoom" />
+</menu>
