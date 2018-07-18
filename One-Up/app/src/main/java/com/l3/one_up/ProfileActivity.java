@@ -1,13 +1,16 @@
 package com.l3.one_up;
 
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
+
+import com.parse.ParseUser;
 
 public class ProfileActivity extends AppCompatActivity implements ProfileFragment.OnFragmentInteractionListener {
 
@@ -49,7 +52,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileFragmen
     }
 
     @Override
-    public void onLogoutClicked(Uri uri) {
-        // TODO - log out
+    public void onLogoutClicked() {
+        ParseUser.logOut();
+        Log.d("HomeActivity", "User logged out");
+        Intent returnToLogin = new Intent(ProfileActivity.this, LoginActivity.class);
+        returnToLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(returnToLogin);
     }
 }

@@ -1,7 +1,7 @@
 package com.l3.one_up;
 
+import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,10 +21,12 @@ public class ProfileFragment extends Fragment {
     private TextView tvWelcome;
     private TextView tvLevelNum;
     private TextView tvXPNum;
+    private Button btnLogOut;
 
     private OnFragmentInteractionListener mListener;
 
     private ParseUser user;
+    private Activity activity;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -50,11 +53,23 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        activity = getActivity();
+
         super.onViewCreated(view, savedInstanceState);
-        ivProfile = (ImageView) getActivity().findViewById(R.id.ivProfile);
-        tvWelcome = (TextView) getActivity().findViewById(R.id.tvWelcome);
-        tvLevelNum = (TextView) getActivity().findViewById(R.id.tvLevelNum);
-        tvXPNum = (TextView) getActivity().findViewById(R.id.tvXPNum);
+        ivProfile = (ImageView) activity.findViewById(R.id.ivProfile);
+        tvWelcome = (TextView) activity.findViewById(R.id.tvWelcome);
+        tvLevelNum = (TextView) activity.findViewById(R.id.tvLevelNum);
+        tvXPNum = (TextView) activity.findViewById(R.id.tvXPNum);
+
+        btnLogOut = (Button) activity.findViewById(R.id.btnLogOut);
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mListener != null) {
+                    mListener.onLogoutClicked();
+                }
+            }
+        });
 
         user = ParseUser.getCurrentUser();
 
@@ -85,6 +100,6 @@ public class ProfileFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        void onLogoutClicked(Uri uri);
+        void onLogoutClicked();
     }
 }
