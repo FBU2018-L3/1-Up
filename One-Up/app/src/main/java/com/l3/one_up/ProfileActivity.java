@@ -38,12 +38,14 @@ public class ProfileActivity extends AppCompatActivity implements ProfileFragmen
             }
         });
 
+        startFragment(profileFragment);
+
     }
 
     private void startFragment(Fragment fragment) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragmentHolder, fragment);
-        ft.addToBackStack("main").commit();
+        ft.commit();
     }
 
     @Override

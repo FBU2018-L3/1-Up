@@ -60,9 +60,7 @@ public class ProfileFragment extends Fragment {
 
         // populate text fields w user info
         if (user != null) {
-            StringBuilder welcomeText = new StringBuilder("Welcome, ");
-            welcomeText.append(user.getUsername());
-            tvWelcome.setText(welcomeText.toString());
+            tvWelcome.setText(user.getUsername());
             tvLevelNum.setText(String.valueOf(user.getInt("level")));
             tvXPNum.setText(String.valueOf(user.getInt("experiencePoints")));
         }
