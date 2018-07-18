@@ -61,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser user = new ParseUser();
         user.setUsername(userName);
         user.setPassword(pass);
+        user.put("isAsleep", false);
         user.signUpInBackground(new SignUpCallback(){
 
             @Override

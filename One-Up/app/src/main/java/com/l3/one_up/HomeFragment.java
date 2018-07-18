@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import com.l3.one_up.fragments.SleepFragment;
 import com.parse.ParseUser;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 
 public class HomeFragment extends Fragment {
@@ -31,6 +41,9 @@ public class HomeFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private ParseUser user;
+
+    private Unbinder unbinder;
+    @BindView(R.id.tbSleepSwitch) ToggleButton tbSleepSwitch;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -50,12 +63,15 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         ivProfile = (ImageView) getActivity().findViewById(R.id.ivProfile);
         tvWelcome = (TextView) getActivity().findViewById(R.id.tvWelcome);
         tvLevelNum = (TextView) getActivity().findViewById(R.id.tvLevelNum);
@@ -83,6 +99,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        tbSleepSwitch.setChecked(user.getBoolean("isAsleep"));
     }
 
     public void onButtonPressed(String categoryName) {
@@ -106,9 +123,22 @@ public class HomeFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        unbinder.unbind();
     }
 
     public interface OnFragmentInteractionListener {
         void onCategoryClick(String categoryName);
+    }
+
+    @OnCheckedChanged(R.id.tbSleepSwitch)
+    public void switchSleep(){
+        gotoSleep();
+    }
+
+    private void gotoSleep(){
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        SleepFragment fragment = SleepFragment.newInstance();
+        ft.replace(R.id.fragmentHolder, fragment);
+        ft.commit();
     }
 }
