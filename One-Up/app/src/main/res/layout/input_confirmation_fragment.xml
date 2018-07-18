@@ -34,7 +34,7 @@
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvCongrats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/rlImgLvl"
@@ -50,20 +50,21 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/tvCongrats"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/tvUserName"
-        android:layout_toRightOf="@id/rlImgLvl"
-        android:layout_alignEnd="@id/textView"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/rlImgLvl"
+        android:indeterminate="false"
         android:max="100" />
 
     <TextView
         android:id="@+id/tvUserName"
-        android:layout_alignEnd="@id/textView"
+        android:layout_alignEnd="@id/tvCongrats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/tvCongrats"
         android:layout_toEndOf="@+id/rlImgLvl"
         android:text="TextView"
         android:textAlignment="center"

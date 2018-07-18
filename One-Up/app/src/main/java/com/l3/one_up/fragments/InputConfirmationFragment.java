@@ -1,15 +1,20 @@
 package com.l3.one_up.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.jinatonic.confetti.CommonConfetti;
 import com.l3.one_up.R;
+import com.l3.one_up.animations.ProgressBarAnimation;
 import com.l3.one_up.model.Activity;
 import com.parse.ParseUser;
 
@@ -28,6 +33,8 @@ public class InputConfirmationFragment extends DialogFragment {
     @BindView(R.id.tvUserName) TextView tvUserName;
     @BindView(R.id.pbExperiencePoints) ProgressBar pbExperiencePoints;
     @BindView(R.id.tvUserLvl) TextView tvUserLvl;
+    @BindView(R.id.rlImgLvl) RelativeLayout rlImgLvl;
+    @BindView(R.id.tvCongrats) TextView tvCongrats;
 
     // Empty constructor required
     public InputConfirmationFragment(){}
@@ -51,12 +58,49 @@ public class InputConfirmationFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        int startXp = getArguments().getInt("startXp");
-        int startLvl = getArguments().getInt("startLvl");
         ParseUser user = ParseUser.getCurrentUser();
+
+        int startXp = getArguments().getInt("startXp")%100;
+        int endXp = user.getInt("experiencePoints") % 100;
+        int startLvl = getArguments().getInt("startLvl");
+
         tvUserName.setText(user.getUsername());
-        pbExperiencePoints.setProgress(user.getInt("experiencePoints")%100);
+        //pbExperiencePoints.setProgress(user.getInt("experiencePoints")%100);
         tvUserLvl.setText(user.getInt("level")+"");
+
+
+        // Animation:
+        ProgressBarAnimation anim;
+        if(startXp >= endXp) {
+            anim = new ProgressBarAnimation(pbExperiencePoints, startXp % 100,  100);
+            anim.setDuration(1000);
+            pbExperiencePoints.startAnimation(anim);
+            anim = new ProgressBarAnimation(pbExperiencePoints, 0,  user.getInt("experiencePoints") % 100);
+            anim.setDuration(1000);
+            pbExperiencePoints.startAnimation(anim);
+        }
+        else
+        {
+            anim = new ProgressBarAnimation(pbExperiencePoints, startXp % 100, user.getInt("experiencePoints") % 100);
+            anim.setDuration(1000);
+            pbExperiencePoints.startAnimation(anim);
+        }
+
+        if(user.getInt("level")>startLvl){
+            final ViewTreeObserver viewTreeObserver = view.getViewTreeObserver();
+            tvCongrats.setText(tvCongrats.getText().toString()+"\nYou leveled up!");
+            if (viewTreeObserver.isAlive()) {
+                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        CommonConfetti.rainingConfetti(rlImgLvl, new int[] { Color.RED, Color.YELLOW })
+                                .stream(100);
+                    }
+                });
+            }
+
+        }
+
     }
 
     @Override
