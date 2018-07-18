@@ -12,22 +12,28 @@ import android.widget.ToggleButton;
 
 import com.l3.one_up.HomeFragment;
 import com.l3.one_up.R;
+import com.l3.one_up.listeners.OnUserTogglesSleepListener;
 import com.parse.ParseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class SleepFragment extends Fragment {
+
+    private OnUserTogglesSleepListener sleepListener;
 
     private Unbinder unbinder;
     @BindView(R.id.tbSleepSwitch) ToggleButton tbSleepSwitch;
 
     public SleepFragment(){}
 
-    public static SleepFragment newInstance(){
-        return new SleepFragment();
+    public static SleepFragment newInstance(OnUserTogglesSleepListener sleepListener){
+        SleepFragment sf = new SleepFragment();
+        sf.sleepListener = sleepListener;
+        return sf;
     }
 
     @Nullable
@@ -41,18 +47,12 @@ public class SleepFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        tbSleepSwitch.setChecked(true);
     }
 
-    private void awake(){
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        HomeFragment fragment = HomeFragment.newInstance();
-        ft.replace(R.id.fragmentHolder, fragment);
-        ft.commit();
-    }
-
-    @OnCheckedChanged(R.id.tbSleepSwitch)
+    @OnClick(R.id.tbSleepSwitch)
     public void switchSleep(){
-        awake();
+        sleepListener.switchSleep(false);
     }
 
     @Override
