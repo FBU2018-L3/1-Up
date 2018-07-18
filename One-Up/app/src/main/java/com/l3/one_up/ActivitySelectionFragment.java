@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.l3.one_up.fragments.InputFragment;
 import com.l3.one_up.model.Activity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ActivitySelectionFragment extends Fragment {
+public class ActivitySelectionFragment extends Fragment implements ActivityItemAdapter.Callback {
     public String tag = "ActivitySelectionFragment";
     /* set up views and recycler */
     public RecyclerView rvActivityView;
@@ -63,7 +65,7 @@ public class ActivitySelectionFragment extends Fragment {
         /* init data set */
         myActivities = new ArrayList<>();
         /* init adapter */
-        itemAdapter = new ActivityItemAdapter(myActivities);
+        itemAdapter = new ActivityItemAdapter(myActivities, this);
         rvActivityView.setLayoutManager(new LinearLayoutManager(fragAct));
         /* set up adapter */
         rvActivityView.setAdapter(itemAdapter);
@@ -102,4 +104,10 @@ public class ActivitySelectionFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_activity_selection, container, false);
     }
 
+    @Override
+    public void passActivity(Activity activity) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        InputFragment inputFragment = InputFragment.newInstance(activity);
+        inputFragment.show(fragmentManager, "tagz");
+    }
 }

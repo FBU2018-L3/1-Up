@@ -1,5 +1,6 @@
 package com.l3.one_up;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -23,10 +24,12 @@ public class ActivityItemAdapter extends RecyclerView.Adapter<ActivityItemAdapte
     private String tag = "ActivityItemAdapter";
     private static ArrayList<Activity> categoryActivities;
     static Context context;
+    private Callback callback;
 
     /* contructor that takes in our data set */
-    public ActivityItemAdapter(ArrayList<Activity> categoryActivities) {
+    public ActivityItemAdapter(ArrayList<Activity> categoryActivities, Callback callback) {
         this.categoryActivities = categoryActivities;
+        this.callback = callback;
     }
 
 
@@ -76,8 +79,12 @@ public class ActivityItemAdapter extends RecyclerView.Adapter<ActivityItemAdapte
             int position = getAdapterPosition();
             if(position != RecyclerView.NO_POSITION){
                 Activity myActivity = categoryActivities.get(position);
-                Toast.makeText(context, "Clicked on: " + myActivity.getName(), Toast.LENGTH_LONG).show();
+                callback.passActivity(myActivity);
             }
         }
+    }
+
+    public interface Callback {
+        void passActivity(Activity activity);
     }
 }

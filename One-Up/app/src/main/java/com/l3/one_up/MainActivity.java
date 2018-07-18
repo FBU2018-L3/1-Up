@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ActivitySelectionFragment fragmentDemo = ActivitySelectionFragment.newInstance(categoryName);
         ft.replace(R.id.fragmentHolder, fragmentDemo);
-        ft.commit();
+        ft.addToBackStack("tag").commit();
 
     }
 }
