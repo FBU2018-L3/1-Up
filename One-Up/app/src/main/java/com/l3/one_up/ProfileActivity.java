@@ -16,6 +16,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        final ProfileFragment profileFragment = ProfileFragment.newInstance();
+
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -26,6 +28,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileFragmen
                         // do something here
                         return true;
                     case R.id.action_profile:
+                        startFragment(profileFragment);
                         return true;
                     case R.id.action_timeline:
                         // do something here
