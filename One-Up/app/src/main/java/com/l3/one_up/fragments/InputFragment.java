@@ -64,10 +64,10 @@ public class InputFragment extends DialogFragment {
         activity = getArguments().getParcelable("activity");
 
         List<String> spinnerArray =  new ArrayList<String>();
-        for(int i =0; i< activity.getInput().names().length(); i++)
+        for(int i =0; i< activity.getInputType().names().length(); i++)
         {
             try {
-                spinnerArray.add(activity.getInput().names().getString(i));
+                spinnerArray.add(activity.getInputType().names().getString(i));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -91,7 +91,7 @@ public class InputFragment extends DialogFragment {
     public void submit(){
         try {
             // Calculation of new xp and level
-            Integer basePoints = activity.getInput().getInt((String)spInputType.getSelectedItem());
+            Integer basePoints = activity.getInputType().getInt((String)spInputType.getSelectedItem());
             Integer exp = basePoints * Integer.parseInt(etValue.getText().toString());
             final Integer currentExp = ParseUser.getCurrentUser().getInt("experiencePoints");
             final Integer currentLvl = currentExp/100;

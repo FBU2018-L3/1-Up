@@ -21,7 +21,7 @@ public class Activity extends ParseObject {
     private static final String KEY_NAME = "name";
     private static final String KEY_TAG = "category";
     private static final String KEY_BASE = "baselineXP";
-    private static final String KEY_INPUT = "inputType";
+    private static final String KEY_INPUT_TYPE = "inputType";
 
     public String getName() { return getString(KEY_NAME); }
 
@@ -29,7 +29,7 @@ public class Activity extends ParseObject {
 
     public Integer getBaseXP() { return getInt(KEY_BASE); }
 
-    public JSONObject getInput() { return getJSONObject(KEY_INPUT); }
+    public JSONObject getInputType() { return getJSONObject(KEY_INPUT_TYPE); }
 
     public static class Query extends ParseQuery<Activity> {
 
