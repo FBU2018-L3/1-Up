@@ -26,6 +26,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        if(ParseUser.getCurrentUser()!=null){
+            startHomeActivity();
+        }
     }
 
     @OnClick(R.id.btnLogin)
@@ -40,9 +43,7 @@ public class LoginActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if(e==null){
                     toast("Logged in");
-                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(i);
-                    finish();
+                    startHomeActivity();
                 }
                 else {
                     Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -78,5 +79,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void toast(String msg){
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    private void startHomeActivity(){
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(i);
+        finish();
     }
 }
