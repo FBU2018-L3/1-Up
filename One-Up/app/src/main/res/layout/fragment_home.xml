@@ -83,9 +83,12 @@
     <ListView
         android:id="@+id/lvCategories"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/rlHeader" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rlHeader"
+        android:layout_above="@id/sleepToggle"
+        android:layout_alignParentStart="true" />
+
+    <include layout="@layout/sleep_toggle" android:id="@+id/sleepToggle"/>
 
 
 </RelativeLayout>

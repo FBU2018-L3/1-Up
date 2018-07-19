@@ -59,5 +59,9 @@ public class Activity extends ParseObject {
             return this;
         }
 
+        public Query fromLocalDatastore() {
+            super.fromLocalDatastore();
+            return this;
+        }
     }
 }
