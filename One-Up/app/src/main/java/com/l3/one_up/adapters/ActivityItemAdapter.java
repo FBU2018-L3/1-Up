@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Created by luzcamacho on 7/16/18.
  */
 
-public class ActivityItemAdapter extends RecyclerView.Adapter<ActivityItemAdapter.ViewHolder> {
+public class  ActivityItemAdapter extends RecyclerView.Adapter<ActivityItemAdapter.ViewHolder> {
     private String tag = "ActivityItemAdapter";
     private static ArrayList<Activity> categoryActivities;
     static Context context;
