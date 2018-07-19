@@ -16,6 +16,7 @@ import com.l3.one_up.R;
 import com.l3.one_up.listeners.OnUserTogglesSleepListener;
 import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
+import com.l3.one_up.model.User;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -81,7 +82,7 @@ public class SleepFragment extends Fragment {
         try {
             event.setInputType(new JSONObject().put("hours", totalTimeHours));
             event.setTotalXP(xp);
-            event.setUser(ParseUser.getCurrentUser());
+            event.setUser(User.getCurrentUser());
             Activity.Query query = new Activity.Query();
 
             // Search the local database for the sleep activity
@@ -132,14 +133,11 @@ public class SleepFragment extends Fragment {
             @Override
             public void done(ParseException e) {
                 if(e==null){
-                    ParseUser user = ParseUser.getCurrentUser();
+                    User user = User.getCurrentUser();
                     sleepListener.toggleSleep(false);
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    int originalXp = user.getInt("experiencePoints");
-                    InputConfirmationFragment inputFragment = InputConfirmationFragment.newInstance(originalXp, user.getInt("level"));
-                    user.put("experiencePoints", originalXp + xp);
-                    user.put("level", (originalXp + xp)/100);
-                    user.saveInBackground();
+                    int startLvl = user.getLevel();
+                    InputConfirmationFragment inputFragment = InputConfirmationFragment.newInstance(user.updateExperiencePoints(xp), startLvl);
                     inputFragment.show(fragmentManager, "tagz");
                 }
                 else{

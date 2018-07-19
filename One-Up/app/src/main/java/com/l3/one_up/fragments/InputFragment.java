@@ -17,8 +17,8 @@ import android.widget.Toast;
 import com.l3.one_up.R;
 import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
+import com.l3.one_up.model.User;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.json.JSONArray;
@@ -96,7 +96,7 @@ public class InputFragment extends DialogFragment {
             final Integer exp = basePoints * Integer.parseInt(etValue.getText().toString());
 
             // Obtaining the user
-            final ParseUser current = ParseUser.getCurrentUser();
+            final User current = User.getCurrentUser();
 
             // Event
             Event event = new Event();
@@ -125,17 +125,12 @@ public class InputFragment extends DialogFragment {
     }
 
 
-    private void updateUser(ParseUser current, int gainedExp){
-        // Calculation of new xp and level
-        final Integer currentExp = ParseUser.getCurrentUser().getInt("experiencePoints");
-        final Integer currentLvl = currentExp/100;
-        final Integer finalExp = ParseUser.getCurrentUser().getInt("experiencePoints")+gainedExp;
-        final Integer level = finalExp/100;
+    private void updateUser(User current, int gainedExp){
+        final Integer currentExp = current.getExperiencePoints();
+        final Integer currentLvl = current.getLevel();
+
         // Updating xp and lvl
-        current.put("experiencePoints", finalExp);
-        current.put("level", level);
-        // Save
-        current.saveInBackground(new SaveCallback() {
+        current.updateExperiencePoints(gainedExp, new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if(e==null){
