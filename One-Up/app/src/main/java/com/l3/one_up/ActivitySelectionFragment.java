@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
 import com.l3.one_up.fragments.InputFragment;
@@ -88,32 +89,33 @@ public class ActivitySelectionFragment extends Fragment implements ActivityItemA
         MenuItem item = menu.add("Search");
         item.setIcon(R.drawable.search_icon);
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-//        SearchView searchView = new SearchView(getActivity());
+        SearchView searchView = new SearchView(getActivity());
+
+        /* modifying the text inside edittext component */
+        int id = searchView.getContext().getResources().getIdentifier("android:id/activitySearchBar", null, null);
+        TextView textView = (AutoCompleteTextView) searchView.findViewById(R.id.search_src_text);
+        Log.d(tag, "Id: " + id);
+        textView.setHint("Search activities");
+        textView.setHintTextColor(getResources().getColor(R.color.testColor));
+        textView.setTextColor(getResources().getColor(R.color.writeColor));
 //
-//        /* modifying the text inside edittext component */
-//        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-//        TextView textView = (TextView) searchView.findViewById(id);
-//        textView.setHint("Search activities");
-//        textView.setHintTextColor(getResources().getColor(R.color.testColor));
-//        textView.setTextColor(getResources().getColor(R.color.writeColor));
-//
-//        /* implement the listener */
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                /* once the user hits the submit bar */
-//                Log.d(tag, "submitted text");
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                /* every time the user changes their search */
-//                Log.d(tag, "changed text");
-//                return false;
-//            }
-//        });
-//        item.setActionView(searchView);
+        /* implement the listener */
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                /* once the user hits the submit bar */
+                Log.d(tag, "submitted text");
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                /* every time the user changes their search */
+                Log.d(tag, "changed text");
+                return false;
+            }
+        });
+        item.setActionView(searchView);
     }
 
     private void loadActivities(String category) {
