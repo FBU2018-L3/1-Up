@@ -3,6 +3,7 @@
     <string name="submit">Submit</string>
     <string name="you_did">you did?</string>
     <string name="how_many">How many</string>
+    <string name="activitySearch">Search activities</string>
     <string-array name="categories">
         <item>indoor</item>
         <item>food</item>
