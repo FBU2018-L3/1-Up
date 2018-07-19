@@ -1,4 +1,4 @@
-package com.l3.one_up;
+package com.l3.one_up.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,8 +15,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-
 import com.l3.one_up.listeners.OnUserTogglesSleepListener;
+import com.l3.one_up.R;
 import com.parse.ParseUser;
 
 import butterknife.BindView;
@@ -82,10 +82,21 @@ public class HomeFragment extends Fragment {
 
         // populate text fields w user info
         if (user != null) {
-            tvWelcome.setText("Welcome, " + user.getUsername());
-            tvLevelNum.setText(""+ user.getInt("level"));
-            tvXPNum.setText("" + user.getInt("experiencePoints"));
+            StringBuilder welcomeText = new StringBuilder("Welcome, ");
+            welcomeText.append(user.getUsername());
+            tvWelcome.setText(welcomeText.toString());
+            tvLevelNum.setText(String.valueOf(user.getInt("level")));
+            tvXPNum.setText(String.valueOf(user.getInt("experiencePoints")));
         }
+
+        ivProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+                    mListener.onProfilePictureClick();
+                }
+            }
+        });
 
         categories = getResources().getStringArray(R.array.categories);
 
@@ -128,6 +139,7 @@ public class HomeFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
+        void onProfilePictureClick();
         void onCategoryClick(String categoryName);
     }
 

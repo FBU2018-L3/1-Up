@@ -1,6 +1,6 @@
 package com.l3.one_up;
 
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +12,8 @@ import com.l3.one_up.listeners.OnUserTogglesSleepListener;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.l3.one_up.fragments.ActivitySelectionFragment;
+import com.l3.one_up.fragments.HomeFragment;
 
 public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, OnUserTogglesSleepListener {
 
@@ -19,17 +21,30 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        displayFragment();
+        selectFragment();
     }
 
     @Override
     public void onCategoryClick(String categoryName) {
         Toast.makeText(getApplicationContext(), categoryName + " button was clicked!", Toast.LENGTH_SHORT).show();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ActivitySelectionFragment fragmentDemo = ActivitySelectionFragment.newInstance(categoryName);
-        ft.replace(R.id.fragmentHolder, fragmentDemo);
-        ft.addToBackStack("tag").commit();
+        ActivitySelectionFragment activitySelectionFragment = ActivitySelectionFragment.newInstance(categoryName);
+        startFragment(activitySelectionFragment);
+    }
 
+    @Override
+    public void onProfilePictureClick() {
+        startActivity(ProfileActivity.class);
+    }
+
+    private void startActivity(Class activityClass) {
+        Intent i = new Intent(this, activityClass);
+        startActivity(i);
+    }
+
+    private void startFragment(Fragment fragment) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragmentHolder, fragment);
+        ft.addToBackStack("main").commit();
     }
 
     @Override
@@ -40,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
             @Override
             public void done(ParseException e) {
                 if(e==null){
-                    displayFragment();
+                    selectFragment();
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "Hey, there was a problem, you can't go to sleep :c", Toast.LENGTH_SHORT);
@@ -50,16 +65,12 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         });
     }
 
-    private void displayFragment(){
-        Fragment fragment;
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+    private void selectFragment(){
         if(ParseUser.getCurrentUser().getBoolean("isAsleep")){
-            fragment = SleepFragment.newInstance(this);
+            startFragment(SleepFragment.newInstance(this));
         }
         else{
-            fragment = HomeFragment.newInstance(this);
+            startFragment(HomeFragment.newInstance(this));
         }
-        ft.replace(R.id.fragmentHolder, fragment);
-        ft.commit();
     }
 }
