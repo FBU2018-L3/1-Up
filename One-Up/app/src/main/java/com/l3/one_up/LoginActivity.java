@@ -1,5 +1,6 @@
 package com.l3.one_up;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -24,11 +26,20 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        com.l3.one_up.model.Activity.Query query = new com.l3.one_up.model.Activity.Query();
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         if(ParseUser.getCurrentUser()!=null){
             startHomeActivity();
         }
+
+        //Obtaining the sleep activity to persist it during all the app
+        query.getInBackground("v3IoWcJGy9", new GetCallback<com.l3.one_up.model.Activity>() {
+            @Override
+            public void done(com.l3.one_up.model.Activity sleepActivity, ParseException e) {
+                sleepActivity.pinInBackground();
+            }
+        });
     }
 
     @OnClick(R.id.btnLogin)

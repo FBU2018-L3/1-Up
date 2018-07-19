@@ -1,6 +1,7 @@
 package com.l3.one_up;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -131,8 +132,16 @@ public class HomeFragment extends Fragment {
     }
 
     @OnCheckedChanged(R.id.tbSleepSwitch)
-    public void switchSleep(){
-       sleepListener.switchSleep(true);
+    public void onToggleButtonClicked(){
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        // Getting the current timestamp
+        long time = System.currentTimeMillis();
+
+        // Save into shared preferences
+        editor.putLong("sleepTime", time).apply();
+        sleepListener.toggleSleep(true);
     }
 
 

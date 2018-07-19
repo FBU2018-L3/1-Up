@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     }
 
     @Override
-    public void switchSleep(boolean asleep) {
+    public void toggleSleep(boolean asleep) {
         ParseUser user = ParseUser.getCurrentUser();
         user.put("isAsleep", asleep);
         user.saveInBackground(new SaveCallback() {
