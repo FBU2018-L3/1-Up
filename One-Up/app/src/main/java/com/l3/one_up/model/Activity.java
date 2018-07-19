@@ -37,7 +37,7 @@ public class Activity extends ParseObject {
             super(Activity.class);
         }
         /* Returns the specified information in the ArrayList (they should all be) for all for all activities  */
-        public Query returnInputs(ArrayList<String> myInput) {
+        public Query returnInputTypes(ArrayList<String> myInput) {
             selectKeys(myInput);
             setLimit(25); //delete this line if you want to return ALL results under the given parameters
             return this;
