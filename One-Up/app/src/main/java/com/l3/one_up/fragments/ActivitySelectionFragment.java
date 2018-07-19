@@ -1,4 +1,4 @@
-package com.l3.one_up;
+package com.l3.one_up.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,9 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.l3.one_up.fragments.InputFragment;
+import com.l3.one_up.adapters.ActivityItemAdapter;
+import com.l3.one_up.R;
 import com.l3.one_up.model.Activity;
 import com.parse.FindCallback;
 import com.parse.ParseException;

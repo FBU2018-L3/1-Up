@@ -1,4 +1,4 @@
-package com.l3.one_up;
+package com.l3.one_up.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.l3.one_up.R;
 import com.parse.ParseUser;
 
 

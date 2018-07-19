@@ -1,4 +1,4 @@
-package com.l3.one_up;
+package com.l3.one_up.fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.l3.one_up.R;
 import com.parse.ParseUser;
 
 public class ProfileFragment extends Fragment {

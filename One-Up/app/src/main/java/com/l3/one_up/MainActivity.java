@@ -7,6 +7,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.l3.one_up.fragments.ActivitySelectionFragment;
+import com.l3.one_up.fragments.HomeFragment;
+
 public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener {
 
     @Override

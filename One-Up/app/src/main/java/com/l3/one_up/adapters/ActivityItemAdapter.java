@@ -1,6 +1,5 @@
-package com.l3.one_up;
+package com.l3.one_up.adapters;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,11 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.l3.one_up.R;
 import com.l3.one_up.model.Activity;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
