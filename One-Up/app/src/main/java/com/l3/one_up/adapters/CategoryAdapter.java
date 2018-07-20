@@ -52,6 +52,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
             tvCategoryName = itemView.findViewById(R.id.tvCategoryName);
             ivCategoryIcon = itemView.findViewById(R.id.ivCategoryIcon);
+
+            itemView.setOnClickListener(this);
         }
 
         @Override
