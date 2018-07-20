@@ -113,12 +113,6 @@ public class HomeFragment extends Fragment {
         tbSleepSwitch.setChecked(user.getBoolean("isAsleep"));
     }
 
-    public void onButtonPressed(String categoryName) {
-        if (mListener != null) {
-            mListener.onCategoryClick(categoryName);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
