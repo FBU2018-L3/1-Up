@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvEventDate"
+        android:layout_width="75dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:text="eventDate" />
+
+    <TextView
+        android:id="@+id/tvEventName"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/tvEventDate"
+        android:text="eventName" />
+
+    <TextView
+        android:id="@+id/tvEventEXP"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/tvEventDate"
+        android:layout_toEndOf="@+id/tvEventName"
+        android:text="eventEXP" />
+
+    <TextView
+        android:id="@+id/tvEventNum"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvEventName"
+        android:text="EventNum" />
+
+    <TextView
+        android:id="@+id/tvEventNumType"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@+id/tvEventName"
+        android:layout_centerHorizontal="true"
+        android:text="EventNumType" />
+</RelativeLayout>

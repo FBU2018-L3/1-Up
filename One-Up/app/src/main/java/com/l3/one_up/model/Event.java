@@ -30,8 +30,8 @@ public class Event extends ParseObject {
         put(KEY_USER, user);
     }
 
-    public ParseObject getActivity() {
-        return getParseObject(KEY_ACTIVITY);
+    public Activity getActivity() {
+        return (Activity) getParseObject(KEY_ACTIVITY);
     }
 
     public void setActivity(ParseObject activity) {
