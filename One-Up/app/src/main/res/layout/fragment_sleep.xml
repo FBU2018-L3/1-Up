@@ -3,15 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background_sleep_android">
+
 
     <ImageView
         android:id="@+id/ivCategoryIcon"
         android:layout_width="match_parent"
-        android:layout_height="397dp"
+        android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        app:srcCompat="@mipmap/ic_launcher" />
+        app:srcCompat="@drawable/sleep_android" />
 
     <include layout="@layout/sleep_toggle" android:id="@+id/sleepToggle"/>
 </RelativeLayout>
