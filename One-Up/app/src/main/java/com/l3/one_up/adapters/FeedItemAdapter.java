@@ -15,6 +15,7 @@ import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
 import com.parse.ParseObject;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -51,18 +52,27 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.ViewHo
     public void onBindViewHolder(@NonNull FeedItemAdapter.ViewHolder holder, int position) {
         Event event = recentEvents.get(position);
         /* parse out the activity, draw its name */
-        Activity activity = (Activity) event.getActivity();
+        Activity activity = event.getActivity();
         holder.tvEventName.setText(activity.getName());
         /* get the parse input object */
         JSONObject inputTypes = event.getInputType();
         Iterator iter = inputTypes.keys();
+        String key = "";
+        String value = "";
         while (iter.hasNext()) {
-            Log.d(tag, iter.next().toString());
+            key = iter.next().toString();
+            Log.d(tag, key);
+            try {
+                value = String.valueOf(inputTypes.getInt(key));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.d(tag, value);
         }
-        holder.tvEventNum.setText(":)");
-        holder.tvEventNumType.setText(":')");
+        holder.tvEventNum.setText(value);
+        holder.tvEventNumType.setText(key);
         /* set date and exp points gained */
-        holder.tvEventDate.setText(event.getDate("createdAt").toString());
+        holder.tvEventDate.setText(event.getCreatedAt().toString());
         holder.tvEventEXP.setText(String.valueOf(event.getTotalXP()));
     }
 

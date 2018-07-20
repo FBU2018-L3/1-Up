@@ -1,11 +1,14 @@
 package com.l3.one_up.fragments;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,6 +84,11 @@ public class ProfileFragment extends Fragment {
             tvXPNum.setText(String.valueOf(user.getInt("experiencePoints")));
         }
 
+        /* launch the fragment from here */
+        FeedFragment feedFragment = new FeedFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        android.support.v4.app.FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.feedContainer, feedFragment).commit();
     }
 
     @Override

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.l3.one_up.R;
 import com.l3.one_up.adapters.FeedItemAdapter;
+import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -68,12 +69,18 @@ public class FeedFragment extends Fragment {
 
     public void loadFeed() {
         final Event.Query eventQuery = new Event.Query();
-        eventQuery.byUser(ParseUser.getCurrentUser()).mostRecentFirst().onlyThisWeek();
+        eventQuery.includeActivity().byUser(ParseUser.getCurrentUser()).mostRecentFirst().onlyThisWeek();
         eventQuery.findInBackground(new FindCallback<Event>() {
             @Override
             public void done(List<Event> objects, ParseException e) {
                 if(e == null){
+                    Log.d(tag, "This is the size: " + objects.size());
                     Toast.makeText(fragAct, "Got events :)", Toast.LENGTH_LONG).show();
+                    for(int i = 0; i < objects.size(); i++){
+                        Event myEvent = objects.get(i);
+                        recentEvents.add(myEvent);
+                        feedItemAdapter.notifyItemInserted(recentEvents.size() - 1);
+                    }
                 }
                 else {
                     Toast.makeText(fragAct, "Got no event :(", Toast.LENGTH_LONG).show();
