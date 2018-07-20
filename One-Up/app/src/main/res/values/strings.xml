@@ -5,9 +5,9 @@
     <string name="how_many">How many</string>
     <string name="activitySearch">Search activities</string>
     <string-array name="categories">
-        <item>indoor</item>
         <item>food</item>
-        <item>outdoor</item>
         <item>fitness</item>
+        <item>indoor</item>
+        <item>outdoor</item>
     </string-array>
 </resources>
