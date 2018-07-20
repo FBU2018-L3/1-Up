@@ -84,8 +84,9 @@ public class ProfileFragment extends Fragment {
             tvXPNum.setText(String.valueOf(user.getInt("experiencePoints")));
         }
 
-        /* launch the fragment from here */
-        FeedFragment feedFragment = new FeedFragment();
+        /* launch the feed fragment from here */
+        boolean isTimeline = false;
+        FeedFragment feedFragment = FeedFragment.newInstance(isTimeline);
         FragmentManager fragmentManager = getFragmentManager();
         android.support.v4.app.FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.replace(R.id.feedContainer, feedFragment).commit();

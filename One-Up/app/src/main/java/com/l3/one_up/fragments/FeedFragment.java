@@ -19,6 +19,7 @@ import com.l3.one_up.R;
 import com.l3.one_up.adapters.FeedItemAdapter;
 import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
+import com.l3.one_up.model.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -36,15 +37,31 @@ public class FeedFragment extends Fragment {
     FeedItemAdapter feedItemAdapter;
     /* our "context" */
     FragmentActivity fragAct;
+    /* key for retrieving our flag */
+    String KEY_FLAG = "isTimeline";
+    /* boolean flag for telling us whether we are displaying to feed or timeline */
+    boolean isTimline;
 
     public FeedFragment() {
         // Required empty public constructor
     }
 
+    /* instantiate bundle things here, pass in flag */
+    public static FeedFragment newInstance(boolean isTimeline) {
+        Bundle args = new Bundle();
+        FeedFragment fragment = new FeedFragment();
+        args.putBoolean("isTimeline", isTimeline);
+        fragment.setArguments(args);
+        return fragment;
+    }
+    
+    
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(tag, "In our feed fragment");
+        /* get pur flag which will dictate how we initialize */
+        isTimline = getArguments().getBoolean(KEY_FLAG);
         /* set up our context */
         fragAct = (FragmentActivity) getActivity();
         /* set up recycler view */
@@ -56,9 +73,12 @@ public class FeedFragment extends Fragment {
         feedItemAdapter = new FeedItemAdapter(recentEvents);
         /* set as adapter and more! */
         rvFeed.setAdapter(feedItemAdapter);
-        /* call functions to populate  our feed */
-        loadFeed();
+        /* call functions to populate  our feed/timeline */
+        loadEvents();
     }
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,9 +87,20 @@ public class FeedFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_feed, container, false);
     }
 
-    public void loadFeed() {
+    public void loadEvents(){
         final Event.Query eventQuery = new Event.Query();
-        eventQuery.includeActivity().byUser(ParseUser.getCurrentUser()).mostRecentFirst().onlyThisWeek();
+        /* if else statements to check which screen we are populating */
+        if(this.isTimline){
+            eventQuery.includeActivity().byUser(User.getCurrentUser()).mostRecentFirst();
+        }
+        else if(this.isTimline == false){
+            eventQuery.includeActivity().byUser(User.getCurrentUser()).mostRecentFirst().onlyThisWeek();
+        }
+        else{
+            Log.d(tag, "Is timeline variable is ever initialized");
+            return;
+        }
+
         eventQuery.findInBackground(new FindCallback<Event>() {
             @Override
             public void done(List<Event> objects, ParseException e) {
@@ -82,8 +113,10 @@ public class FeedFragment extends Fragment {
                         feedItemAdapter.notifyItemInserted(recentEvents.size() - 1);
                     }
                 }
-                else {
+                else{
+                    Log.d(tag, "Failed to get events :'(");
                     Toast.makeText(fragAct, "Got no event :(", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
                 }
             }
         });
