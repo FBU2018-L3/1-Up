@@ -4,14 +4,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.l3.one_up.R;
@@ -21,7 +19,6 @@ import com.l3.one_up.model.User;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -55,7 +52,7 @@ public class InputFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.input_fragment, container);
+        View view = inflater.inflate(R.layout.fragment_input, container);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -126,17 +123,20 @@ public class InputFragment extends DialogFragment {
 
 
     private void updateUser(User current, int gainedExp){
-        final Integer currentExp = current.getExperiencePoints();
-        final Integer currentLvl = current.getLevel();
+        final Integer startXp = current.getCurrentXpFromLevel();
+        final Integer startLvl = current.getLevel();
 
         // Updating xp and lvl
         current.updateExperiencePoints(gainedExp, new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if(e==null){
+                    int i = User.getCurrentUser().getCurrentXpFromLevel();
+                    int x = User.getCurrentUser().getExperiencePoints();
                     FragmentManager fm = getActivity().getSupportFragmentManager();
-                    InputConfirmationFragment icf = InputConfirmationFragment.newInstance(currentExp, currentLvl);
+                    InputConfirmationFragment icf = InputConfirmationFragment.newInstance(startXp, startLvl);
                     icf.show(fm, "icf");
+
                     dismiss();
                 }
                 else{

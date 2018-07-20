@@ -57,9 +57,11 @@ public class User extends ParseUser {
         put(KEY_LEVEL, this.getExperiencePoints()/100);
     }
 
-    public int getCurrentLevelXP(){
-        return this.getExperiencePoints()/100;
+    public int getCurrentXpFromLevel(){
+        return this.getExperiencePoints()%100;
     }
+
+    public int getNeededXpToLevelUp() { return 100; }
 
     public static User getCurrentUser(){
         return (User)ParseUser.getCurrentUser();

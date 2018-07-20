@@ -15,8 +15,7 @@ import android.widget.TextView;
 import com.github.jinatonic.confetti.CommonConfetti;
 import com.l3.one_up.R;
 import com.l3.one_up.animations.ProgressBarAnimation;
-import com.l3.one_up.model.Activity;
-import com.parse.ParseUser;
+import com.l3.one_up.model.User;
 
 
 import butterknife.BindView;
@@ -50,7 +49,7 @@ public class InputConfirmationFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.input_confirmation_fragment, container);
+        View view = inflater.inflate(R.layout.fragment_input_confirmation, container);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -58,30 +57,32 @@ public class InputConfirmationFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ParseUser user = ParseUser.getCurrentUser();
+        User user = User.getCurrentUser();
 
-        int startXp = getArguments().getInt("startXp")%100;
-        int endXp = user.getInt("experiencePoints") % 100;
+        int startXp = getArguments().getInt("startXp");
+        int endXp = user.getCurrentXpFromLevel();
         int startLvl = getArguments().getInt("startLvl");
 
         tvUserName.setText(user.getUsername());
         //pbExperiencePoints.setProgress(user.getInt("experiencePoints")%100);
-        tvUserLvl.setText(user.getInt("level")+"");
+        tvUserLvl.setText(String.valueOf(user.getLevel()));
+
+        pbExperiencePoints.setMax(User.getCurrentUser().getNeededXpToLevelUp());
 
 
         // Animation:
         ProgressBarAnimation anim;
         if(startXp >= endXp) {
-            anim = new ProgressBarAnimation(pbExperiencePoints, startXp % 100,  100);
+            anim = new ProgressBarAnimation(pbExperiencePoints, startXp,  100);
             anim.setDuration(1000);
             pbExperiencePoints.startAnimation(anim);
-            anim = new ProgressBarAnimation(pbExperiencePoints, 0,  user.getInt("experiencePoints") % 100);
+            anim = new ProgressBarAnimation(pbExperiencePoints, 0, endXp);
             anim.setDuration(1000);
             pbExperiencePoints.startAnimation(anim);
         }
         else
         {
-            anim = new ProgressBarAnimation(pbExperiencePoints, startXp % 100, user.getInt("experiencePoints") % 100);
+            anim = new ProgressBarAnimation(pbExperiencePoints, startXp, endXp);
             anim.setDuration(1000);
             pbExperiencePoints.startAnimation(anim);
         }
