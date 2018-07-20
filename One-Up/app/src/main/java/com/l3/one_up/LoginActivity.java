@@ -37,7 +37,13 @@ public class LoginActivity extends AppCompatActivity {
         query.getInBackground("v3IoWcJGy9", new GetCallback<com.l3.one_up.model.Activity>() {
             @Override
             public void done(com.l3.one_up.model.Activity sleepActivity, ParseException e) {
-                sleepActivity.pinInBackground();
+                if(e == null){
+                    sleepActivity.pinInBackground();
+                }
+                else{
+                    Log.d("LoginActivity", "failed");
+                    e.printStackTrace();
+                }
             }
         });
     }

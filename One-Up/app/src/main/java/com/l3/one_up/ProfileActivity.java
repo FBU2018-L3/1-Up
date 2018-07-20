@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.l3.one_up.fragments.FeedFragment;
 import com.l3.one_up.fragments.ProfileFragment;
 import com.parse.ParseUser;
 
@@ -35,7 +36,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileFragmen
                         startFragment(profileFragment);
                         return true;
                     case R.id.action_timeline:
-                        // do something here
+                        /* creating a new Instance of our feed fragment */
+                        boolean isTimeline = true; // for clarity's sake
+                        FeedFragment timelineFragment = FeedFragment.newInstance(isTimeline);
+                        startFragment(timelineFragment);
                         return true;
                 }
                 return false;
