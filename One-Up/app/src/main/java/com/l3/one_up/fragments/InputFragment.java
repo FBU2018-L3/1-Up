@@ -4,24 +4,21 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.l3.one_up.R;
 import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
+import com.l3.one_up.model.User;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -55,7 +52,7 @@ public class InputFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.input_fragment, container);
+        View view = inflater.inflate(R.layout.fragment_input, container);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -96,7 +93,7 @@ public class InputFragment extends DialogFragment {
             final Integer exp = basePoints * Integer.parseInt(etValue.getText().toString());
 
             // Obtaining the user
-            final ParseUser current = ParseUser.getCurrentUser();
+            final User current = User.getCurrentUser();
 
             // Event
             Event event = new Event();
@@ -125,23 +122,21 @@ public class InputFragment extends DialogFragment {
     }
 
 
-    private void updateUser(ParseUser current, int gainedExp){
-        // Calculation of new xp and level
-        final Integer currentExp = ParseUser.getCurrentUser().getInt("experiencePoints");
-        final Integer currentLvl = currentExp/100;
-        final Integer finalExp = ParseUser.getCurrentUser().getInt("experiencePoints")+gainedExp;
-        final Integer level = finalExp/100;
+    private void updateUser(User current, int gainedExp){
+        final Integer startXp = current.getCurrentXpFromLevel();
+        final Integer startLvl = current.getLevel();
+
         // Updating xp and lvl
-        current.put("experiencePoints", finalExp);
-        current.put("level", level);
-        // Save
-        current.saveInBackground(new SaveCallback() {
+        current.updateExperiencePoints(gainedExp, new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if(e==null){
+                    int i = User.getCurrentUser().getCurrentXpFromLevel();
+                    int x = User.getCurrentUser().getExperiencePoints();
                     FragmentManager fm = getActivity().getSupportFragmentManager();
-                    InputConfirmationFragment icf = InputConfirmationFragment.newInstance(currentExp, currentLvl);
+                    InputConfirmationFragment icf = InputConfirmationFragment.newInstance(startXp, startLvl);
                     icf.show(fm, "icf");
+
                     dismiss();
                 }
                 else{
