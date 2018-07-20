@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.l3.one_up.R;
 import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
+import com.l3.one_up.model.ParseRelativeDate;
 import com.parse.ParseObject;
 
 import org.json.JSONException;
@@ -72,7 +73,11 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.ViewHo
         holder.tvEventNum.setText(value);
         holder.tvEventNumType.setText(key);
         /* set date and exp points gained */
-        holder.tvEventDate.setText(event.getCreatedAt().toString());
+        String rawDate = event.getCreatedAt().toString();
+        ParseRelativeDate thingy = new ParseRelativeDate();
+        String relativeDate = thingy.getRelativeTimeAgo(rawDate);
+        Log.d(tag, "Time?: " + relativeDate);
+        holder.tvEventDate.setText(relativeDate);
         holder.tvEventEXP.setText(String.valueOf(event.getTotalXP()));
     }
 
