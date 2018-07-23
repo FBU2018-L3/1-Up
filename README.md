@@ -8,7 +8,7 @@
 ## Optional User Stories:
 - Users can connect their facebook or other social media accounts to see their friends on the application
 ...Friends can send each other bonuses or complete activities together and record it, gaining more experience points than they would if they completed the activity by themselves
-- The kindle library can be synced to the app, tracking the time and the amount of words read to award experience points under the reading activity accordingly.
+- **[DISCONTINUED, amazon has no API for this :( ]** The kindle library can be synced to the app, tracking the time and the amount of words read to award experience points under the reading activity accordingly.
 - Users can allow the app to see their location to gain experience points depending on whether or not they are at a registered location.
 - "Sleep mode" can track battery usage/app usage to determine whether the user is actively using the mobile device and pause the sleep timer accordingly.
 - Users can input their own activities, with app text recognition being able to decipher intent and assign experience points accordingly.
