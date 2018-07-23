@@ -3,12 +3,14 @@ package com.l3.one_up.fragments;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +18,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.l3.one_up.DeepLinkingActivity;
 import com.l3.one_up.R;
 import com.parse.ParseUser;
 
 public class ProfileFragment extends Fragment {
-
+    private final String tag = "ProfileFragment";
     private ImageView ivProfile;
     private TextView tvWelcome;
     private TextView tvLevelNum;
     private TextView tvXPNum;
     private Button btnLogOut;
+    /* NEW: FB login button */
+    private Button btfbLogin;
+    private static final int REQUEST_CODE = 1;
 
     private OnFragmentInteractionListener mListener;
 
@@ -74,6 +80,16 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
+        /* NEW: trying to launch our login activity */
+        /* Note to self: Ask Lucie where shes implemented the listener functions because consistency */
+        btfbLogin = (Button) activity.findViewById(R.id.btfbLogin);
+        btfbLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent launchFBlogin = new Intent(activity.getApplicationContext(), DeepLinkingActivity.class);
+                startActivityForResult(launchFBlogin, REQUEST_CODE);
+            }
+        });
 
         user = ParseUser.getCurrentUser();
 
@@ -91,6 +107,8 @@ public class ProfileFragment extends Fragment {
         android.support.v4.app.FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.replace(R.id.feedContainer, feedFragment).commit();
     }
+
+
 
     @Override
     public void onAttach(Context context) {
