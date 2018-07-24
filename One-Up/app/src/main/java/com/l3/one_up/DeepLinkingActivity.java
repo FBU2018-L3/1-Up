@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -20,6 +21,7 @@ public class DeepLinkingActivity extends AppCompatActivity {
     private LoginButton btFBConnect;
     public CallbackManager callbackManager;
     final private static String EMAIL = "email";
+    final private static String FRIENDS = "user_friends";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +30,7 @@ public class DeepLinkingActivity extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create();
         btFBConnect = findViewById(R.id.btFBConnect);
-        btFBConnect.setReadPermissions(Arrays.asList(EMAIL));
+        btFBConnect.setReadPermissions(Arrays.asList(EMAIL, FRIENDS));
 
         // Callback registration
         btFBConnect.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -37,6 +39,9 @@ public class DeepLinkingActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Login sucessful", Toast.LENGTH_LONG).show();
                 Log.d(tag, "FB Login Sucessful");
                 Log.d(tag, "Printing our access token: " + loginResult.getAccessToken().getUserId());
+                AccessToken test = AccessToken.getCurrentAccessToken();
+                Log.d(tag, "Testing. Please give me a user id: " + test.getUserId());
+                Log.d(tag, "Get token?: " + test.getUserId());
             }
 
             @Override
