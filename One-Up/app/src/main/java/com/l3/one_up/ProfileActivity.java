@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
@@ -43,6 +44,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileFragmen
                         FeedFragment timelineFragment = FeedFragment.newInstance(isTimeline);
                         startFragment(timelineFragment);
                         return true;
+                    case R.id.action_friends:
+                        Toast.makeText(getApplicationContext(), "Friends section is under construction!", Toast.LENGTH_LONG).show();
                 }
                 return false;
             }

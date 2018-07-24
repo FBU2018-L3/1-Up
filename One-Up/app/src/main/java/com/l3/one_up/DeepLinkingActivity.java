@@ -24,7 +24,6 @@ import java.util.Arrays;
 public class DeepLinkingActivity extends AppCompatActivity {
     private String tag = "DeepLinkActivity";
     private LoginButton btFBConnect;
-    private Button btTestFriends;
     public CallbackManager callbackManager;
     final private static String EMAIL = "email";
     final private static String FRIENDS = "user_friends";
@@ -36,19 +35,15 @@ public class DeepLinkingActivity extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create();
         btFBConnect = findViewById(R.id.btFBConnect);
-        btTestFriends = findViewById(R.id.btTestFriends);
         btFBConnect.setReadPermissions(Arrays.asList(EMAIL, FRIENDS));
-//        LoginManager loginManager = LoginManager.getInstance();
-        // Callback registration
+
         btFBConnect.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                /* We can use this LoginResult object to see recently granted permissions and to
+                * get the access token (sets our access token to the current access token ) */
                 Toast.makeText(getApplicationContext(), "Login sucessful", Toast.LENGTH_LONG).show();
                 Log.d(tag, "FB Login Sucessful");
-                Log.d(tag, "Printing our access token: " + loginResult.getAccessToken().getUserId());
-                AccessToken test = AccessToken.getCurrentAccessToken();
-                Log.d(tag, "Testing. Please give me a user id: " + test.getUserId());
-                Log.d(tag, "Get token?: " + test.getUserId());
             }
 
             @Override
@@ -63,40 +58,10 @@ public class DeepLinkingActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         });
-
-        btTestFriends.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                testFriends();
-            }
-        });
-    }
-
-    public boolean isLoggedIn(){
-        AccessToken test = AccessToken.getCurrentAccessToken();
-        if(test == null){
-            Log.d(tag, "Guess it is null???");
-            return false;
-        }
-        else{
-            Log.d(tag, "What is printed?: " + test.getToken());
-            return true;
-        }
-    }
-
-    private void testFriends() {
-        if(isLoggedIn()) logout();
-        else Toast.makeText(getApplicationContext(), "User is already logged out!", Toast.LENGTH_LONG).show();
-    }
-
-    public void logout() {
-        LoginManager loginManager = LoginManager.getInstance();
-        loginManager.logOut();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(tag, "We in here");
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }

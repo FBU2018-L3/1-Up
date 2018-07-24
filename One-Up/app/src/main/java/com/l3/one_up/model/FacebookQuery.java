@@ -21,7 +21,6 @@ import java.util.Iterator;
 public class FacebookQuery {
     private String tag = "FacebookQuery";
     private String USER_ID;
-    private String PARAM;
 
     public FacebookQuery(){
         this.USER_ID = AccessToken.getCurrentAccessToken().getUserId();
@@ -30,7 +29,7 @@ public class FacebookQuery {
     public ArrayList<FacebookUser> getFriends() {
         final ArrayList<FacebookUser> userFriends = new ArrayList<>();
         /* our parameter since we are returning the friends */
-        PARAM = "/friends";
+        final String PARAM = "/friends";
         /* combo for the full URL */
         String fullURL = USER_ID + PARAM;
         /* Send our graphrequest */
@@ -66,6 +65,7 @@ public class FacebookQuery {
         return userFriends;
     }
 
+    /* simple class that holds basic user information. Can expand if we decide to extract more */
     public class FacebookUser {
         public String Username;
         public String UserID;
