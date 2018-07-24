@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 import com.l3.one_up.fragments.FeedFragment;
 import com.l3.one_up.fragments.ProfileFragment;
+import com.l3.one_up.fragments.StatsFragment;
 import com.parse.ParseUser;
 
 public class ProfileActivity extends AppCompatActivity implements ProfileFragment.OnFragmentInteractionListener {
@@ -30,7 +31,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileFragmen
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_stats:
-                        // do something here
+                        StatsFragment statsFragment = StatsFragment.newInstance();
+                        startFragment(statsFragment);
                         return true;
                     case R.id.action_profile:
                         startFragment(profileFragment);
