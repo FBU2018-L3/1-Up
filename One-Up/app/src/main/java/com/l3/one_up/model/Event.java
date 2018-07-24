@@ -120,7 +120,7 @@ public class Event extends ParseObject {
             return this;
         }
 
-        public Query notPrivate(){
+        public Query getPublicEvents(){
             whereEqualTo(KEY_IS_PRIVATE, false);
             return this;
         }
