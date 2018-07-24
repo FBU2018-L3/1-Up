@@ -2,6 +2,7 @@ package com.l3.one_up;
 
 import android.app.Application;
 
+import com.facebook.login.LoginManager;
 import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
 import com.l3.one_up.model.User;

@@ -4,21 +4,27 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.l3.one_up.model.FacebookQuery;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DeepLinkingActivity extends AppCompatActivity {
     private String tag = "DeepLinkActivity";
     private LoginButton btFBConnect;
+    private Button btTestFriends;
     public CallbackManager callbackManager;
     final private static String EMAIL = "email";
     final private static String FRIENDS = "user_friends";
@@ -30,8 +36,9 @@ public class DeepLinkingActivity extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create();
         btFBConnect = findViewById(R.id.btFBConnect);
+        btTestFriends = findViewById(R.id.btTestFriends);
         btFBConnect.setReadPermissions(Arrays.asList(EMAIL, FRIENDS));
-
+//        LoginManager loginManager = LoginManager.getInstance();
         // Callback registration
         btFBConnect.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -56,6 +63,35 @@ public class DeepLinkingActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         });
+
+        btTestFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                testFriends();
+            }
+        });
+    }
+
+    public boolean isLoggedIn(){
+        AccessToken test = AccessToken.getCurrentAccessToken();
+        if(test == null){
+            Log.d(tag, "Guess it is null???");
+            return false;
+        }
+        else{
+            Log.d(tag, "What is printed?: " + test.getToken());
+            return true;
+        }
+    }
+
+    private void testFriends() {
+        if(isLoggedIn()) logout();
+        else Toast.makeText(getApplicationContext(), "User is already logged out!", Toast.LENGTH_LONG).show();
+    }
+
+    public void logout() {
+        LoginManager loginManager = LoginManager.getInstance();
+        loginManager.logOut();
     }
 
     @Override
