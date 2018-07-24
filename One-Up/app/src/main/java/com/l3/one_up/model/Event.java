@@ -21,6 +21,7 @@ public class Event extends ParseObject {
     private static final String KEY_INPUT = "inputType";
     private static final String KEY_TOTALXP = "totalXP";
     private static final String KEY_CREATED = "createdAt";
+    private static final String KEY_IS_PRIVATE = "isPrivate";
 
     public ParseUser getUser() {
         return getParseUser(KEY_USER);
@@ -42,6 +43,8 @@ public class Event extends ParseObject {
         return getJSONObject(KEY_INPUT);
     }
 
+    public boolean getIsPrivate(){ return getBoolean(KEY_IS_PRIVATE); }
+
     public void setInputType(JSONObject inputType) {
         put(KEY_INPUT, inputType);
     }
@@ -54,6 +57,8 @@ public class Event extends ParseObject {
         put(KEY_TOTALXP, points);
     }
 
+    public void setIsPrivate(boolean isPrivate) { put(KEY_IS_PRIVATE, isPrivate); }
+
     @Override
     public Date getCreatedAt() {
         return super.getCreatedAt();
@@ -65,13 +70,18 @@ public class Event extends ParseObject {
             super(Event.class);
         }
 
-        public Query getX(int howMany) {
+        public Query limitTo(int howMany) {
             setLimit(howMany);
             return this;
         }
 
         public Query byUser(ParseUser user) {
             whereEqualTo(KEY_USER, user);
+            return this;
+        }
+
+        public Query byUserId(String id){
+            whereEqualTo(KEY_USER, id);
             return this;
         }
 
@@ -107,6 +117,11 @@ public class Event extends ParseObject {
 
         public Query oldestFirst() {
             orderByAscending(KEY_CREATED);
+            return this;
+        }
+
+        public Query notPrivate(){
+            whereEqualTo(KEY_IS_PRIVATE, false);
             return this;
         }
     }
