@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.l3.one_up.fragments.FeedFragment;
 import com.l3.one_up.fragments.ProfileFragment;
 import com.parse.ParseUser;
@@ -56,9 +58,24 @@ public class ProfileActivity extends AppCompatActivity implements ProfileFragmen
         ft.commit();
     }
 
+    public boolean isFacebookLoggedIn(){
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if(accessToken == null) return false;
+        else return true;
+    }
+
+    public void FacebookLogout(){
+        LoginManager loginManager = LoginManager.getInstance();
+        loginManager.logOut();
+    }
+
     @Override
     public void onLogoutClicked() {
         ParseUser.logOut();
+        if(isFacebookLoggedIn()){
+            Log.d("HomeActivity", "Logging out the Facebook user");
+            FacebookLogout();
+        }
         Log.d("HomeActivity", "User logged out");
         Intent returnToLogin = new Intent(ProfileActivity.this, LoginActivity.class);
         returnToLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
