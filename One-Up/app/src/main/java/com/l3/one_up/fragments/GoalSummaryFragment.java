@@ -5,18 +5,28 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.l3.one_up.R;
+import com.l3.one_up.adapters.GoalItemAdapter;
+import com.l3.one_up.model.Goal;
+
+import java.util.ArrayList;
 
 public class GoalSummaryFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
     private Button btnNewGoal;
+
+    private RecyclerView rvGoals;
+    private GoalItemAdapter goalAdapter;
+    private ArrayList<Goal> goals;
 
     public GoalSummaryFragment() {
         // Required empty public constructor
@@ -53,6 +63,11 @@ public class GoalSummaryFragment extends Fragment {
                 onButtonPressed();
             }
         });
+        rvGoals = (RecyclerView) getActivity().findViewById(R.id.rvGoals);
+        rvGoals.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        goalAdapter = new GoalItemAdapter(new ArrayList<Goal>());
+        rvGoals.setAdapter(goalAdapter);
     }
 
     public void onButtonPressed() {

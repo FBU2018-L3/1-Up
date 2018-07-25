@@ -19,6 +19,11 @@ public class GoalItemAdapter extends RecyclerView.Adapter<GoalItemAdapter.ViewHo
 
     private Context context;
 
+    public GoalItemAdapter(ArrayList<Goal> goalList) {
+        super();
+        this.goals = goalList;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
