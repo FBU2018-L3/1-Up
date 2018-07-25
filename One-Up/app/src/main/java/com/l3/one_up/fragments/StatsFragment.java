@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.l3.one_up.Objective;
 import com.l3.one_up.R;
 
 public class StatsFragment extends Fragment
@@ -75,8 +76,8 @@ public class StatsFragment extends Fragment
 
     @Override
     public void onCategoryClick(String categoryName) {
-        Toast.makeText(this.getContext(), "StatsFragment: category was clicked", Toast.LENGTH_SHORT);
-        ActivitySelectionFragment activitySelectionFragment = ActivitySelectionFragment.newInstance(categoryName);
+        Toast.makeText(this.getContext(), "StatsFragment: category was clicked", Toast.LENGTH_SHORT).show();
+        ActivitySelectionFragment activitySelectionFragment = ActivitySelectionFragment.newInstance(categoryName, Objective.GOAL);
         startFragment(activitySelectionFragment);
     }
 }

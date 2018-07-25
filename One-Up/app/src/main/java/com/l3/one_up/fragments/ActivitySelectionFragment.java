@@ -20,8 +20,9 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
-import com.l3.one_up.adapters.ActivityItemAdapter;
+import com.l3.one_up.Objective;
 import com.l3.one_up.R;
+import com.l3.one_up.adapters.ActivityItemAdapter;
 import com.l3.one_up.model.Activity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -47,16 +48,19 @@ public class ActivitySelectionFragment extends Fragment
     /* complete copy of all activities per category */
     public ArrayList<Activity> completeActivities;
 
+    private Objective objective;
+
     private static String KEY_CATEGORY = "keyCategory";
+    private static String KEY_OBJECTIVE = "objective";
 
     public ActivitySelectionFragment() {
         // Required empty public constructor
     }
 
-    public static ActivitySelectionFragment newInstance(String categoryName) {
-
+    public static ActivitySelectionFragment newInstance(String categoryName, Objective objective) {
         Bundle args = new Bundle();
         args.putString(KEY_CATEGORY, categoryName);
+        args.putInt(KEY_OBJECTIVE, objective.ordinal());
         ActivitySelectionFragment fragment = new ActivitySelectionFragment();
         fragment.setArguments(args);
         return fragment;
@@ -69,6 +73,9 @@ public class ActivitySelectionFragment extends Fragment
 
         Bundle args = getArguments();
         category = args.getString(KEY_CATEGORY);
+
+        int objectiveIndex = args.getInt(KEY_OBJECTIVE);
+        objective = Objective.values()[objectiveIndex];
 
         /* set up our context */
         fragAct = (FragmentActivity) getActivity();
@@ -181,7 +188,7 @@ public class ActivitySelectionFragment extends Fragment
     @Override
     public void passActivity(Activity activity) {
         FragmentManager fragmentManager = getChildFragmentManager();
-        InputFragment inputFragment = InputFragment.newInstance(activity);
+        InputFragment inputFragment = InputFragment.newInstance(activity, objective);
         inputFragment.show(fragmentManager, "tagz");
     }
 }

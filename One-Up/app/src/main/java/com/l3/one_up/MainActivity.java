@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onCategoryInteraction(String categoryName) {
         Toast.makeText(getApplicationContext(), categoryName + " button was clicked!", Toast.LENGTH_SHORT).show();
-        ActivitySelectionFragment activitySelectionFragment = ActivitySelectionFragment.newInstance(categoryName);
+        ActivitySelectionFragment activitySelectionFragment = ActivitySelectionFragment.newInstance(categoryName, Objective.EVENT);
         startFragment(activitySelectionFragment);
     }
 
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements
                     selectFragment();
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Hey, there was a problem, you can't go to sleep :c", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "Hey, there was a problem, you can't go to sleep :c", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }

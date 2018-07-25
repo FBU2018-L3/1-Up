@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.l3.one_up.Objective;
 import com.l3.one_up.R;
 import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
+import com.l3.one_up.model.Goal;
 import com.l3.one_up.model.User;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
@@ -53,6 +55,7 @@ public class InputFragment extends DialogFragment {
         Bundle args = new Bundle();
         args.putParcelable(KEY_ACTIVITY, activity);
         args.putInt(KEY_OBJECTIVE, objective.ordinal());
+        Log.d(TAG, "objective is " + objective.ordinal() + ": " + objective.toString());
         frag.setArguments(args);
         return frag;
     }
@@ -107,6 +110,8 @@ public class InputFragment extends DialogFragment {
 
             if (objective == Objective.EVENT) {
                 saveEvent(exp, current);
+            } else if (objective == Objective.GOAL) {
+                saveGoal(current);
             }
 
 
@@ -131,6 +136,27 @@ public class InputFragment extends DialogFragment {
                 }
                 else{
                     Toast.makeText(getContext(), "There was an error, please try again later", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void saveGoal(final User currentUser) throws JSONException {
+        // Event
+        Goal goal = new Goal();
+        goal.setActivity(activity);
+        goal.setUser(currentUser);
+        goal.setInputType(new JSONObject().put((String)spInputType.getSelectedItem(), etValue.getText().toString()));
+        goal.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e==null)
+                {
+                    Toast.makeText(getContext(), "You've created a new goal!", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(getContext(), "There was an error in saving your goal, please try again later", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             }
