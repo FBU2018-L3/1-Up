@@ -198,5 +198,5 @@ public class InputFragment extends DialogFragment {
         }
         return fm;
     }
-    
+
 }
