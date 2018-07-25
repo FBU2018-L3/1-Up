@@ -5,13 +5,19 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.l3.one_up.R;
 
-public class StatsFragment extends Fragment {
+public class StatsFragment extends Fragment
+        implements GoalSummaryFragment.OnFragmentInteractionListener{
+
+    private Button btnNewGoal;
 
     public StatsFragment() {
         // Required empty public constructor
@@ -38,7 +44,8 @@ public class StatsFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        GoalSummaryFragment goalSummaryFragment = GoalSummaryFragment.newInstance();
+        startFragment(goalSummaryFragment);
     }
 
     @Override
@@ -51,4 +58,16 @@ public class StatsFragment extends Fragment {
         super.onDetach();
     }
 
+    @Override
+    public void onNewGoalClicked() {
+        Log.d("StatsFragment", "Creating new goal");
+        CategorySelectionFragment goalsCategorySelectionFragment = CategorySelectionFragment.newInstance();
+        startFragment(goalsCategorySelectionFragment);
+    }
+
+    private void startFragment(Fragment fragment) {
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        ft.replace(R.id.goalsContainer, fragment);
+        ft.addToBackStack("main").commit();
+    }
 }
