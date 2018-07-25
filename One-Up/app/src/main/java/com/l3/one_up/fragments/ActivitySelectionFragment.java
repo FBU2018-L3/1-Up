@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ActivitySelectionFragment extends Fragment implements ActivityItemAdapter.Callback {
+public class ActivitySelectionFragment extends Fragment implements ActivityItemAdapter.OnActivityItemListener {
     public String tag = "ActivitySelectionFragment";
     /* set up views and recycler */
     public RecyclerView rvActivityView;
