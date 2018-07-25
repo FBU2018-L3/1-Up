@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.l3.one_up.Objective;
@@ -19,8 +18,6 @@ import com.l3.one_up.R;
 public class StatsFragment extends Fragment
         implements GoalSummaryFragment.OnFragmentInteractionListener,
                     CategorySelectionFragment.OnCategorySelectedListener {
-
-    private Button btnNewGoal;
 
     public StatsFragment() {
         // Required empty public constructor

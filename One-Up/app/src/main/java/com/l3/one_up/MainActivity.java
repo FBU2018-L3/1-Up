@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements
     private void startFragment(Fragment fragment) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragmentHolder, fragment);
-        ft.addToBackStack("main").commit();
+        ft.addToBackStack(fragment.getClass().getSimpleName()).commit();
     }
 
     @Override

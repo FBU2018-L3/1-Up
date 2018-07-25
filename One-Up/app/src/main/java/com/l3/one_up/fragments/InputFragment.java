@@ -89,7 +89,6 @@ public class InputFragment extends DialogFragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spInputType.setAdapter(adapter);
 
-
     }
 
     @Override
@@ -154,6 +153,7 @@ public class InputFragment extends DialogFragment {
                 if(e==null)
                 {
                     Toast.makeText(getContext(), "You've created a new goal!", Toast.LENGTH_SHORT).show();
+                    dismiss();
                 }
                 else{
                     Toast.makeText(getContext(), "There was an error in saving your goal, please try again later", Toast.LENGTH_LONG).show();
@@ -174,13 +174,7 @@ public class InputFragment extends DialogFragment {
                 if(e==null){
                     int i = User.getCurrentUser().getCurrentXpFromLevel();
                     int x = User.getCurrentUser().getExperiencePoints();
-                    Fragment parentFragment = getParentFragment();
-                    FragmentManager fm;
-                    if (parentFragment == null) {
-                        fm = getActivity().getSupportFragmentManager();
-                    } else {
-                        fm = parentFragment.getChildFragmentManager();
-                    }
+                    FragmentManager fm = getParentFragmentManager();
                     InputConfirmationFragment icf = InputConfirmationFragment.newInstance(startXp, startLvl);
                     icf.show(fm, "icf");
 
@@ -193,4 +187,16 @@ public class InputFragment extends DialogFragment {
             }
         });
     }
+
+    private FragmentManager getParentFragmentManager() {
+        Fragment parentFragment = getParentFragment();
+        FragmentManager fm;
+        if (parentFragment == null) {
+            fm = getActivity().getSupportFragmentManager();
+        } else {
+            fm = parentFragment.getChildFragmentManager();
+        }
+        return fm;
+    }
+    
 }
