@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.l3.one_up.Objective;
 import com.l3.one_up.R;
 import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
@@ -34,8 +35,12 @@ import butterknife.Unbinder;
 public class InputFragment extends DialogFragment {
 
     private static final String TAG = "DialogFragment";
+    private static final String KEY_ACTIVITY = "activity";
+    private static final String KEY_OBJECTIVE = "objective";
+
     private Unbinder unbinder;
     private Activity activity;
+    private Objective objective;
 
     @BindView(R.id.spInputType) Spinner spInputType;
     @BindView(R.id.etValue) EditText etValue;
@@ -43,10 +48,11 @@ public class InputFragment extends DialogFragment {
     // Empty constructor required
     public InputFragment(){}
 
-    public static InputFragment newInstance(Activity activity) {
+    public static InputFragment newInstance(Activity activity, Objective objective) {
         InputFragment frag = new InputFragment();
         Bundle args = new Bundle();
-        args.putParcelable("activity", activity);
+        args.putParcelable(KEY_ACTIVITY, activity);
+        args.putInt(KEY_OBJECTIVE, objective.ordinal());
         frag.setArguments(args);
         return frag;
     }
@@ -61,7 +67,10 @@ public class InputFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        activity = getArguments().getParcelable("activity");
+        activity = getArguments().getParcelable(KEY_ACTIVITY);
+
+        int objectiveIndex = getArguments().getInt(KEY_OBJECTIVE);
+        objective = Objective.values()[objectiveIndex];
 
         List<String> spinnerArray =  new ArrayList<String>();
         for(int i =0; i< activity.getInputType().names().length(); i++)
@@ -91,30 +100,14 @@ public class InputFragment extends DialogFragment {
     public void submit(){
         try {
             Integer basePoints = activity.getInputType().getInt((String)spInputType.getSelectedItem());
-            final Integer exp = basePoints * Integer.parseInt(etValue.getText().toString());
+            int exp = basePoints * Integer.parseInt(etValue.getText().toString());
 
             // Obtaining the user
-            final User current = User.getCurrentUser();
+            User current = User.getCurrentUser();
 
-            // Event
-            Event event = new Event();
-            event.setActivity(activity);
-            event.setTotalXP(exp);
-            event.setUser(current);
-            event.setInputType(new JSONObject().put((String)spInputType.getSelectedItem(), etValue.getText().toString()));
-            event.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if(e==null)
-                    {
-                        updateUser(current, exp);
-                    }
-                    else{
-                        Toast.makeText(getContext(), "There was an error, please try again later", Toast.LENGTH_LONG).show();
-                        e.printStackTrace();
-                    }
-                }
-            });
+            if (objective == Objective.EVENT) {
+                saveEvent(exp, current);
+            }
 
 
         } catch (JSONException e) {
@@ -122,6 +115,27 @@ public class InputFragment extends DialogFragment {
         }
     }
 
+    private void saveEvent(final int exp, final User currentUser) throws JSONException{
+        // Event
+        Event event = new Event();
+        event.setActivity(activity);
+        event.setTotalXP(exp);
+        event.setUser(currentUser);
+        event.setInputType(new JSONObject().put((String)spInputType.getSelectedItem(), etValue.getText().toString()));
+        event.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e==null)
+                {
+                    updateUser(currentUser, exp);
+                }
+                else{
+                    Toast.makeText(getContext(), "There was an error, please try again later", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
     private void updateUser(User current, int gainedExp){
         final Integer startXp = current.getCurrentXpFromLevel();
