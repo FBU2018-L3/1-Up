@@ -20,12 +20,18 @@ public class User extends ParseUser {
     private static final String KEY_LEVEL = "level";
     private static final String KEY_IS_ASLEEP = "isAsleep";
     private static final String KEY_AVATAR = "avatar";
+    private static final String KEY_FACEBOOK_ID = "facebookId";
 
 
     public ParseFile getAvatar(){ return getParseFile(KEY_AVATAR); }
     public int getExperiencePoints(){ return getInt(KEY_EXPERIENCE_POINTS); }
     public int getLevel(){ return getInt(KEY_LEVEL); }
     public boolean isAsleep(){ return getBoolean(KEY_IS_ASLEEP); }
+
+    /* Luz: added new setters and getters for facebook id in order to match parse user w/ fb user */
+    public int getFacebookId() { return getInt(KEY_FACEBOOK_ID); }
+
+    public void setFacebookId(int facebookId) { put(KEY_FACEBOOK_ID, facebookId); }
 
     /**
      * This function updates the xp points of the user and automatically submits it to the database
