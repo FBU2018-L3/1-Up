@@ -7,8 +7,13 @@ import com.parse.ParseUser;
 
 import org.json.JSONObject;
 
+import java.util.Date;
+
 @ParseClassName("Goal")
 public class Goal extends ParseObject {
+
+    // Milliseconds in a day.
+    private static final long MILLIS_24HRS = 1000 * 60 * 60 * 24;
 
     private static final String KEY_USER = "user";
     private static final String KEY_ACTIVITY = "activity";
@@ -78,6 +83,11 @@ public class Goal extends ParseObject {
 
         public Query oldestFirst() {
             orderByAscending(KEY_CREATED);
+            return this;
+        }
+
+        public Query onlyThisWeek() {
+            whereGreaterThanOrEqualTo(KEY_CREATED, new Date(System.currentTimeMillis() - MILLIS_24HRS * 7));
             return this;
         }
 

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,12 @@ import android.widget.Button;
 import com.l3.one_up.R;
 import com.l3.one_up.adapters.GoalItemAdapter;
 import com.l3.one_up.model.Goal;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GoalSummaryFragment extends Fragment {
 
@@ -63,11 +68,37 @@ public class GoalSummaryFragment extends Fragment {
                 onButtonPressed();
             }
         });
+
+        goals = new ArrayList<Goal>();
+        goalAdapter = new GoalItemAdapter(goals);
         rvGoals = (RecyclerView) getActivity().findViewById(R.id.rvGoals);
         rvGoals.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        goalAdapter = new GoalItemAdapter(new ArrayList<Goal>());
         rvGoals.setAdapter(goalAdapter);
+
+        getActiveGoals();
+    }
+
+    public void getActiveGoals() {
+        Goal.Query activeGoalQuery = new Goal.Query();
+        activeGoalQuery.byUser(ParseUser.getCurrentUser())
+                .includeActivity()
+                .mostRecentFirst()
+                .onlyThisWeek();
+        activeGoalQuery.findInBackground(new FindCallback<Goal>() {
+            @Override
+            public void done(List<Goal> objects, ParseException e) {
+                if (e == null) {
+                    Log.d("GoalSummaryFragment", objects.toString());
+                    for (int i = 0; i < objects.size(); i++) {
+                        goals.add(objects.get(i));
+                        goalAdapter.notifyItemInserted(goals.size() - 1);
+                    }
+                } else {
+                    Log.d("GoalSummaryFragment", "Failed to retrieve goals");
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public void onButtonPressed() {

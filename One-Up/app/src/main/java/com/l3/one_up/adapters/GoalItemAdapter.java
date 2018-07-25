@@ -29,7 +29,7 @@ public class GoalItemAdapter extends RecyclerView.Adapter<GoalItemAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View activityViewer = inflater.inflate(R.layout.item_activity, parent, false);
+        View activityViewer = inflater.inflate(R.layout.item_goal, parent, false);
         ViewHolder viewHolder = new ViewHolder(activityViewer);
         return viewHolder;
     }
