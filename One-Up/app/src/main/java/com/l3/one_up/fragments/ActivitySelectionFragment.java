@@ -117,6 +117,7 @@ public class ActivitySelectionFragment extends Fragment implements ActivityItemA
                     /* if the user has cleared the search, we want to show all activities */
                     doSearch("");
                 }
+                doSearch(newText);
                 return false;
             }
         });

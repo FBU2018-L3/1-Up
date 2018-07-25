@@ -6,10 +6,12 @@ import android.util.Log;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import bolts.Task;
@@ -76,6 +78,20 @@ public class User extends ParseUser {
         return (User)ParseUser.getCurrentUser();
     }
 
+    public class Query extends ParseQuery<User> {
 
+        public Query() {
+            super(User.class);
+        }
+        /* please be careful with this!!! */
+        public Query returnAllUsers() {
+            return this;
+        }
+
+        public Query returnWithFacebookIds(ArrayList<String>  friendIds){
+            whereContainedIn(KEY_FACEBOOK_ID, friendIds);
+            return this;
+        }
+    }
 
 }

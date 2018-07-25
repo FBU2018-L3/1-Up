@@ -32,6 +32,8 @@ public class FacebookQuery {
     }
 
     public void getFriends(final FacebookCallComplete callback) {
+        final ArrayList<String> friendIds = new ArrayList<>();
+        /* total data set with all info */
         final ArrayList<FacebookUser> userFriends = new ArrayList<>();
         /* our parameter since we are returning the friends */
         final String PARAM = "/friends";
@@ -61,9 +63,10 @@ public class FacebookQuery {
                                 JSONObject picData = aFriend.getJSONObject("picture").getJSONObject("data");
                                 String url = picData.getString("url");
                                 FacebookUser single = new FacebookUser(Username, UserID, url);
+                                friendIds.add(UserID);
                                 userFriends.add(single);
                             }
-                            callback.notifyCompleteList(userFriends);
+                            callback.notifyCompleteList(userFriends, friendIds);
                         } catch (JSONException e) {
                             Log.d(tag, "Something went wrong in our facbeook query :(");
                             e.printStackTrace();

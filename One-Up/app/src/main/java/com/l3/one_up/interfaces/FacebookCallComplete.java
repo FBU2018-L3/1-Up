@@ -9,5 +9,5 @@ import java.util.ArrayList;
  */
 
 public interface FacebookCallComplete {
-    ArrayList<FacebookQuery.FacebookUser> notifyCompleteList(ArrayList<FacebookQuery.FacebookUser> list);
+    ArrayList<FacebookQuery.FacebookUser> notifyCompleteList(ArrayList<FacebookQuery.FacebookUser> list, ArrayList<String> friendIds);
 }

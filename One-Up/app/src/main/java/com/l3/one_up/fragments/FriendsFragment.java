@@ -82,11 +82,9 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
 
     /* NOTE: KEEP ALL DATA PROCESSING WITHIN THE CALLBACKS */
     @Override
-    public ArrayList<FacebookQuery.FacebookUser> notifyCompleteList(ArrayList<FacebookQuery.FacebookUser> list) {
+    public ArrayList<FacebookQuery.FacebookUser> notifyCompleteList(ArrayList<FacebookQuery.FacebookUser> list, ArrayList<String> friendIds) {
         for(int i = 0; i < list.size(); i++){
-            String username = list.get(i).Username;
-            String url = list.get(i).UserProfilePicUrl;
-            Log.d(tag, "User " + username + " with url: " + url);
+            FacebookQuery.FacebookUser user = list.get(i);
         }
         friendsList.clear();
         friendsList.addAll(list);
