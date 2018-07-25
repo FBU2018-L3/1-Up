@@ -19,8 +19,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import cz.msebera.android.httpclient.protocol.HTTP;
-
 /**
  * Created by luzcamacho on 7/23/18.
  */

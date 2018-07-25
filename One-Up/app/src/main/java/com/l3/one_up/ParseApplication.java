@@ -7,6 +7,7 @@ import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
 import com.l3.one_up.model.User;
 import com.parse.Parse;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 
 import okhttp3.OkHttpClient;
@@ -43,5 +44,7 @@ public class ParseApplication extends Application {
                 .server(getString(R.string.server_url))
                 .enableLocalDataStore()
                 .build());
+
+        ParseInstallation.getCurrentInstallation().saveInBackground();
     }
 }

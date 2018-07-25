@@ -72,3 +72,4 @@ local.properties
 # PDT-specific
 
 secrets.xml
+google-services.json

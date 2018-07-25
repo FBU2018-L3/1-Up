@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ public class InputFragment extends DialogFragment {
 
     @BindView(R.id.spInputType) Spinner spInputType;
     @BindView(R.id.etValue) EditText etValue;
+    @BindView(R.id.cbIsPrivate) CheckBox cbIsPrivate;
 
     // Empty constructor required
     public InputFragment(){}
@@ -100,6 +102,7 @@ public class InputFragment extends DialogFragment {
             event.setActivity(activity);
             event.setTotalXP(exp);
             event.setUser(current);
+            event.setIsPrivate(cbIsPrivate.isChecked());
             event.setInputType(new JSONObject().put((String)spInputType.getSelectedItem(), etValue.getText().toString()));
             event.saveInBackground(new SaveCallback() {
                 @Override
