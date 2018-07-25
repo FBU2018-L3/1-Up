@@ -16,14 +16,17 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.l3.one_up.interfaces.FacebookCallComplete;
 import com.l3.one_up.model.FacebookQuery;
+import com.l3.one_up.model.FacebookUser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class DeepLinkingActivity extends AppCompatActivity {
+public class DeepLinkingActivity extends AppCompatActivity implements FacebookCallComplete {
     private String tag = "DeepLinkActivity";
     private LoginButton btFBConnect;
+    private Button testButton;
     public CallbackManager callbackManager;
     final private static String EMAIL = "email";
     final private static String FRIENDS = "user_friends";
@@ -35,6 +38,7 @@ public class DeepLinkingActivity extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create();
         btFBConnect = findViewById(R.id.btFBConnect);
+        testButton = findViewById(R.id.btTestButton);
         btFBConnect.setReadPermissions(Arrays.asList(EMAIL, FRIENDS));
 
         btFBConnect.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -58,6 +62,16 @@ public class DeepLinkingActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         });
+
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Do test things", Toast.LENGTH_LONG).show();
+                FacebookQuery fb = new FacebookQuery();
+                fb.getFriends(DeepLinkingActivity.this);
+
+            }
+        });
     }
 
     @Override
@@ -65,4 +79,10 @@ public class DeepLinkingActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    @Override
+    public void notifyDataChanged(ArrayList<FacebookQuery.FacebookUser> list) {
+        Log.d(tag, "size: " + list.size());
+    }
+
 }
