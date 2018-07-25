@@ -3,6 +3,7 @@ package com.l3.one_up.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -133,7 +134,13 @@ public class InputFragment extends DialogFragment {
                 if(e==null){
                     int i = User.getCurrentUser().getCurrentXpFromLevel();
                     int x = User.getCurrentUser().getExperiencePoints();
-                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    Fragment parentFragment = getParentFragment();
+                    FragmentManager fm;
+                    if (parentFragment == null) {
+                        fm = getActivity().getSupportFragmentManager();
+                    } else {
+                        fm = parentFragment.getChildFragmentManager();
+                    }
                     InputConfirmationFragment icf = InputConfirmationFragment.newInstance(startXp, startLvl);
                     icf.show(fm, "icf");
 
