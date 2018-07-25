@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Created by luzcamacho on 7/24/18.
  */
 
-public class FacebookUser {
+public class FBUserNotUsed {
     private static String tag = "FacebookUser";
     public String Username;
     public String UserID;
@@ -26,7 +26,7 @@ public class FacebookUser {
 
 
 
-    public FacebookUser(String Username, String UserID){
+    public FBUserNotUsed(String Username, String UserID){
         this.Username = Username;
         this.UserID = UserID;
     }
@@ -42,8 +42,8 @@ public class FacebookUser {
             this.USER_QUERY_ID = AccessToken.getCurrentAccessToken().getUserId();
         }
 
-        public ArrayList<FacebookUser> getFacebookFriends(){
-            final ArrayList<FacebookUser> facebookFriends = new ArrayList<>();
+        public ArrayList<FBUserNotUsed> getFacebookFriends(){
+            final ArrayList<FBUserNotUsed> facebookFriends = new ArrayList<>();
             /*set to get friends */
             final String PARAM = "/friends";
             /* combo for the full URL */
@@ -65,11 +65,11 @@ public class FacebookUser {
                                     String Username = aFriend.getString("name");
                                     String UserID = aFriend.getString("id");
                                     Log.d(tag, "Username: " + Username + " UserID: " + UserID);
-                                    FacebookUser single = new FacebookUser(Username, UserID);
+                                    FBUserNotUsed single = new FBUserNotUsed(Username, UserID);
                                     facebookFriends.add(single);
                                 }
                             } catch (JSONException e) {
-                                Log.d(FacebookUser.tag, "Failed to get data array");
+                                Log.d(FBUserNotUsed.tag, "Failed to get data array");
                                 e.printStackTrace();
                             }
                         }

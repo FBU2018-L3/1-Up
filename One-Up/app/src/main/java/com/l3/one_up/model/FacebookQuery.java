@@ -33,12 +33,13 @@ public class FacebookQuery {
         this.USER_ID = AccessToken.getCurrentAccessToken().getUserId();
     }
 
-    public ArrayList<FacebookUser> getFriends(final FacebookCallComplete callback) {
+    public void getFriends(final FacebookCallComplete callback) {
         final ArrayList<FacebookUser> userFriends = new ArrayList<>();
         /* our parameter since we are returning the friends */
         final String PARAM = "/friends";
+        final String TYPE = "?fields=id,name,picture&type=square";
         /* combo for the full URL */
-        String fullURL = USER_ID + PARAM;
+        String fullURL = USER_ID + PARAM + TYPE;
         /* Send our graphrequest */
         GraphRequest request = GraphRequest.newGraphPathRequest(AccessToken.getCurrentAccessToken(),
                 fullURL, new GraphRequest.Callback() {
@@ -58,11 +59,13 @@ public class FacebookQuery {
                                 JSONObject aFriend = friendData.getJSONObject(i);
                                 String Username = aFriend.getString("name");
                                 String UserID = aFriend.getString("id");
-                                Log.d(tag, "Username: " + Username + " UserID: " + UserID);
-                                FacebookUser single = new FacebookUser(Username, UserID);
+                                /* try parsing the profile pic url here */
+                                JSONObject picData = aFriend.getJSONObject("picture").getJSONObject("data");
+                                String url = picData.getString("url");
+                                FacebookUser single = new FacebookUser(Username, UserID, url);
                                 userFriends.add(single);
                             }
-                            callback.notifyDataChanged(userFriends);
+                            callback.notifyCompleteList(userFriends);
                         } catch (JSONException e) {
                             Log.d(tag, "Something went wrong in our facbeook query :(");
                             e.printStackTrace();
@@ -70,12 +73,9 @@ public class FacebookQuery {
                     }
                 });
         request.executeAsync();
-        return userFriends;
     }
 
-    private ArrayList<String> getFacebookPro(String id) {
-        final ArrayList<String> dumDataSet = new ArrayList<>();
-        String profilePicUrl;
+    private void getFacebookProfilPic(String id, final FacebookCallComplete callback, final FacebookQuery.FacebookUser atUser) {
 
         final String PARAM = "/picture";
         final String TYPE = "?type=square";
@@ -94,7 +94,7 @@ public class FacebookQuery {
                             String url = data.getString("url");
                             if(data.has("url")) Log.d(tag, "sus");
                             Log.d(tag, "Our url: " + url);
-                            dumDataSet.add(data.getString("url"));
+                            callback.notifyGotProfilePic(url);
                         } catch (JSONException e) {
                             Log.d(tag, "Failed to get picture data :(");
                             e.printStackTrace();
@@ -104,7 +104,6 @@ public class FacebookQuery {
 
                 });
         graphRequest.executeAsync();
-        return dumDataSet;
     }
 
     /* simple class that holds basic user information. Can expand if we decide to extract more */
@@ -112,17 +111,18 @@ public class FacebookQuery {
         public String Username;
         public String UserID;
         public String UserProfilePicUrl;
+        /* pass this information in later through our parse database things */
+        public String UserLevel;
 
-        public FacebookUser(String Username, String ID){
+        public FacebookUser(String Username, String ID, String profileURL){
             this.Username = Username;
             this.UserID = ID;
-            ArrayList<String> placeholder = getFacebookPro(UserID);
-//            UserProfilePicUrl = placeholder.get(0);
-//            Log.d(tag, "prof: " + UserProfilePicUrl);
+            this.UserProfilePicUrl = profileURL;
+            this.UserLevel = "1";
         }
 
-        public void setProfilePic(String profilePic){
-            UserProfilePicUrl = profilePic;
+        public void setUserLevel(Integer parseUserLevel) {
+            UserLevel = parseUserLevel.toString();
         }
 
     }

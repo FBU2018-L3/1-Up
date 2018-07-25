@@ -6,24 +6,20 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.l3.one_up.interfaces.FacebookCallComplete;
 import com.l3.one_up.model.FacebookQuery;
-import com.l3.one_up.model.FacebookUser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class DeepLinkingActivity extends AppCompatActivity implements FacebookCallComplete {
+public class DeepLinkingActivity extends AppCompatActivity {
     private String tag = "DeepLinkActivity";
     private LoginButton btFBConnect;
     private Button testButton;
@@ -68,21 +64,14 @@ public class DeepLinkingActivity extends AppCompatActivity implements FacebookCa
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Do test things", Toast.LENGTH_LONG).show();
                 FacebookQuery fb = new FacebookQuery();
-                fb.getFriends(DeepLinkingActivity.this);
-
             }
         });
     }
 
+    /* on activity result needed for facebook login */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-    @Override
-    public void notifyDataChanged(ArrayList<FacebookQuery.FacebookUser> list) {
-        Log.d(tag, "size: " + list.size());
-    }
-
 }
