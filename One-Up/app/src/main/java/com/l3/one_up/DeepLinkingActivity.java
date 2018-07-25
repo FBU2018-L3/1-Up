@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -15,6 +16,10 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.l3.one_up.interfaces.FacebookCallComplete;
 import com.l3.one_up.model.FacebookQuery;
+import com.l3.one_up.model.User;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +39,7 @@ public class DeepLinkingActivity extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create();
         btFBConnect = findViewById(R.id.btFBConnect);
-        testButton = findViewById(R.id.btTestButton);
+        testButton = findViewById(R.id.btCheck);
         btFBConnect.setReadPermissions(Arrays.asList(EMAIL, FRIENDS));
 
         btFBConnect.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -44,6 +49,19 @@ public class DeepLinkingActivity extends AppCompatActivity {
                 * get the access token (sets our access token to the current access token ) */
                 Toast.makeText(getApplicationContext(), "Login sucessful", Toast.LENGTH_LONG).show();
                 Log.d(tag, "FB Login Sucessful");
+                /* store the ID within the parse user to develop that connection */
+                /* NOTE: every time a facebook user is logged into our app, their facebook id is updated! */
+                String userId = AccessToken.getCurrentAccessToken().getUserId();
+                User currUser = (User) ParseUser.getCurrentUser();
+                Log.d(tag, "Current user is: " + currUser.getUsername());
+                Log.d(tag, "Facebook id is: " + userId);
+                currUser.setFacebookId(userId);
+                currUser.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        Log.d(tag, "update the thing");
+                    }
+                });
             }
 
             @Override
@@ -63,7 +81,9 @@ public class DeepLinkingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Do test things", Toast.LENGTH_LONG).show();
-                FacebookQuery fb = new FacebookQuery();
+                User curr = User.getCurrentUser();
+                String fbId = curr.getFacebookId();
+                Log.d(tag, "Checking " + curr.getUsername() + " facebook id: " + fbId);
             }
         });
     }

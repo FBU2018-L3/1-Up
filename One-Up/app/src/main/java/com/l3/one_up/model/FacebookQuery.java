@@ -92,7 +92,6 @@ public class FacebookQuery {
                             String url = data.getString("url");
                             if(data.has("url")) Log.d(tag, "sus");
                             Log.d(tag, "Our url: " + url);
-                            callback.notifyGotProfilePic(url);
                         } catch (JSONException e) {
                             Log.d(tag, "Failed to get picture data :(");
                             e.printStackTrace();

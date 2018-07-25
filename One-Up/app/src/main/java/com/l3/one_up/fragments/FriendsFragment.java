@@ -93,10 +93,4 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         friendsAdapter.notifyDataSetChanged();
         return list;
     }
-
-    /*NOTE: might not need this??? */
-    @Override
-    public String notifyGotProfilePic(String completeUrl) {
-        return null;
-    }
 }

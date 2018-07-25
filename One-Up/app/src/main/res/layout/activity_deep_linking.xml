@@ -24,4 +24,13 @@
         android:layout_marginBottom="49dp"
         android:text="Button" />
 
+    <Button
+        android:id="@+id/btCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/btTestButton"
+        android:layout_marginTop="25dp"
+        android:text="check" />
+
 </RelativeLayout>

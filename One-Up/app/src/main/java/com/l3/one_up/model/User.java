@@ -1,6 +1,7 @@
 package com.l3.one_up.model;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -29,9 +30,11 @@ public class User extends ParseUser {
     public boolean isAsleep(){ return getBoolean(KEY_IS_ASLEEP); }
 
     /* Luz: added new setters and getters for facebook id in order to match parse user w/ fb user */
-    public int getFacebookId() { return getInt(KEY_FACEBOOK_ID); }
+    public String getFacebookId() { return getString(KEY_FACEBOOK_ID); }
 
-    public void setFacebookId(int facebookId) { put(KEY_FACEBOOK_ID, facebookId); }
+    public void setFacebookId(String facebookId) {
+        put(KEY_FACEBOOK_ID, facebookId);
+    }
 
     /**
      * This function updates the xp points of the user and automatically submits it to the database
