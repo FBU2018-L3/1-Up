@@ -30,7 +30,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ActivitySelectionFragment extends Fragment implements ActivityItemAdapter.OnActivityItemListener {
+public class ActivitySelectionFragment extends Fragment
+        implements ActivityItemAdapter.OnActivityItemListener {
+
     public String tag = "ActivitySelectionFragment";
     /* set up views and recycler */
     public RecyclerView rvActivityView;
@@ -127,7 +129,7 @@ public class ActivitySelectionFragment extends Fragment implements ActivityItemA
     /* TODO: Check efficiency of this, look for ways to improve it or if it even matter (relatively small data set) */
     /* actual search method for things */
     private void doSearch(String query) {
-        if(query == ""){
+        if(query == null || query.length() == 0){
             /* empty query, nothing to search, show full activities */
             myActivities.addAll(completeActivities);
             itemAdapter.notifyDataSetChanged();
@@ -178,7 +180,7 @@ public class ActivitySelectionFragment extends Fragment implements ActivityItemA
 
     @Override
     public void passActivity(Activity activity) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentManager fragmentManager = getChildFragmentManager();
         InputFragment inputFragment = InputFragment.newInstance(activity);
         inputFragment.show(fragmentManager, "tagz");
     }

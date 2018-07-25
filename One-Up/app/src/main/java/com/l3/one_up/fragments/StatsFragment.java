@@ -76,6 +76,7 @@ public class StatsFragment extends Fragment
     @Override
     public void onCategoryClick(String categoryName) {
         Toast.makeText(this.getContext(), "StatsFragment: category was clicked", Toast.LENGTH_SHORT);
-        // start ActivitySelectionFragment here
+        ActivitySelectionFragment activitySelectionFragment = ActivitySelectionFragment.newInstance(categoryName);
+        startFragment(activitySelectionFragment);
     }
 }
