@@ -1,8 +1,8 @@
 package com.l3.one_up.adapters;
 
-import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,30 +11,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.l3.one_up.R;
-import com.l3.one_up.fragments.HomeFragment;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
     private String[] categories;
     private TypedArray categoryIcons;
 
-    public HomeFragment.OnFragmentInteractionListener categoryClickListener;
+    public OnCategoryItemListener categoryClickListener;
 
-    public CategoryAdapter(String[] categories, TypedArray categoryIcons) {
+    public CategoryAdapter(String[] categories, TypedArray categoryIcons, Fragment parentFragment) {
         this.categories = categories;
         this.categoryIcons = categoryIcons;
+        this.categoryClickListener = (OnCategoryItemListener) parentFragment;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        if (context instanceof HomeFragment.OnFragmentInteractionListener) {
-            categoryClickListener = (HomeFragment.OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnCategoryClickListener");
-        }
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View activityViewer = inflater.inflate(R.layout.item_category, parent, false);
         ViewHolder viewHolder = new ViewHolder(activityViewer);
@@ -71,8 +64,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         public void onClick(View v) {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION){
-                categoryClickListener.onCategoryClick(categories[position]);
+                categoryClickListener.onItemClicked(categories[position]);
             }
         }
+    }
+
+    public interface OnCategoryItemListener {
+        void onItemClicked(String itemName);
     }
 }

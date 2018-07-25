@@ -1,7 +1,5 @@
 package com.l3.one_up.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,12 +15,10 @@ import android.widget.Toast;
 
 import com.l3.one_up.R;
 import com.l3.one_up.adapters.FeedItemAdapter;
-import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
 import com.l3.one_up.model.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;

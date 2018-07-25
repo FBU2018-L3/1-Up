@@ -15,7 +15,8 @@ import com.parse.SaveCallback;
 import com.l3.one_up.fragments.ActivitySelectionFragment;
 import com.l3.one_up.fragments.HomeFragment;
 
-public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, OnUserTogglesSleepListener {
+public class MainActivity extends AppCompatActivity implements
+        HomeFragment.OnFragmentInteractionListener, OnUserTogglesSleepListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     }
 
     @Override
-    public void onCategoryClick(String categoryName) {
+    public void onCategoryInteraction(String categoryName) {
         Toast.makeText(getApplicationContext(), categoryName + " button was clicked!", Toast.LENGTH_SHORT).show();
         ActivitySelectionFragment activitySelectionFragment = ActivitySelectionFragment.newInstance(categoryName);
         startFragment(activitySelectionFragment);

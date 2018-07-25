@@ -11,11 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.l3.one_up.R;
 
 public class StatsFragment extends Fragment
-        implements GoalSummaryFragment.OnFragmentInteractionListener{
+        implements GoalSummaryFragment.OnFragmentInteractionListener,
+                    CategorySelectionFragment.OnCategorySelectedListener {
 
     private Button btnNewGoal;
 
@@ -68,6 +70,12 @@ public class StatsFragment extends Fragment
     private void startFragment(Fragment fragment) {
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         ft.replace(R.id.goalsContainer, fragment);
-        ft.addToBackStack("main").commit();
+        ft.addToBackStack(fragment.getClass().getSimpleName()).commit();
+    }
+
+    @Override
+    public void onCategoryClick(String categoryName) {
+        Toast.makeText(this.getContext(), "StatsFragment: category was clicked", Toast.LENGTH_SHORT);
+        // start ActivitySelectionFragment here
     }
 }

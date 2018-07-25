@@ -11,14 +11,12 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.l3.one_up.fragments.FeedFragment;
-import com.l3.one_up.fragments.HomeFragment;
 import com.l3.one_up.fragments.ProfileFragment;
 import com.l3.one_up.fragments.StatsFragment;
 import com.parse.ParseUser;
 
 public class ProfileActivity extends AppCompatActivity implements
-        ProfileFragment.OnFragmentInteractionListener,
-        HomeFragment.OnFragmentInteractionListener {
+        ProfileFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +68,4 @@ public class ProfileActivity extends AppCompatActivity implements
         startActivity(returnToLogin);
     }
 
-    @Override
-    public void onProfilePictureClick() {
-
-    }
-
-    @Override
-    public void onCategoryClick(String categoryName) {
-
-    }
 }

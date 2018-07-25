@@ -24,7 +24,7 @@ import butterknife.OnCheckedChanged;
 import butterknife.Unbinder;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements CategorySelectionFragment.OnCategorySelectedListener {
 
     private ImageView ivProfile;
     private TextView tvWelcome;
@@ -94,7 +94,7 @@ public class HomeFragment extends Fragment {
         });
 
         CategorySelectionFragment categorySelectionFragment = CategorySelectionFragment.newInstance();
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         ft.replace(R.id.categoryContainer, categorySelectionFragment);
         ft.addToBackStack("category").commit();
 
@@ -119,9 +119,17 @@ public class HomeFragment extends Fragment {
         unbinder.unbind();
     }
 
+    @Override
+    public void onCategoryClick(String categoryName) {
+        if (mListener != null) {
+            // pass action to parent
+            mListener.onCategoryInteraction(categoryName);
+        }
+    }
+
     public interface OnFragmentInteractionListener {
         void onProfilePictureClick();
-        void onCategoryClick(String categoryName);
+        void onCategoryInteraction(String categoryName);
     }
 
     @OnCheckedChanged(R.id.tbSleepSwitch)

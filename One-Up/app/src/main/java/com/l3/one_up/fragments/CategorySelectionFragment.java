@@ -16,17 +16,19 @@ import com.l3.one_up.R;
 import com.l3.one_up.adapters.CategoryAdapter;
 
 
-public class CategorySelectionFragment extends Fragment {
+public class CategorySelectionFragment extends Fragment
+        implements CategoryAdapter.OnCategoryItemListener {
 
     private RecyclerView rvCategories;
     private CategoryAdapter categoriesAdapter;
     private TypedArray categoryIcons;
     private String[] categories;
 
+    private OnCategorySelectedListener mListener;
+
     public CategorySelectionFragment() {
         // Required empty public constructor
     }
-
 
     public static CategorySelectionFragment newInstance() {
         CategorySelectionFragment fragment = new CategorySelectionFragment();
@@ -56,7 +58,7 @@ public class CategorySelectionFragment extends Fragment {
         categories = getResources().getStringArray(R.array.categories);
         categoryIcons = getResources().obtainTypedArray(R.array.your_array_name);
 
-        categoriesAdapter = new CategoryAdapter(categories, categoryIcons);
+        categoriesAdapter = new CategoryAdapter(categories, categoryIcons, this);
 
         rvCategories = (RecyclerView) getActivity().findViewById(R.id.rvCategories);
         rvCategories.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -66,11 +68,29 @@ public class CategorySelectionFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Fragment parent = getParentFragment();
+        if (parent instanceof OnCategorySelectedListener) {
+            mListener = (OnCategorySelectedListener) parent;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnCategorySelectedListener");
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    @Override
+    public void onItemClicked(String itemName) {
+        if (mListener != null) {
+            mListener.onCategoryClick(itemName);
+        }
+    }
+
+    public interface OnCategorySelectedListener {
+        void onCategoryClick(String categoryName);
     }
 
 }
