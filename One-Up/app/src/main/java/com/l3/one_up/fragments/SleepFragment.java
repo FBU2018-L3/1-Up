@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.l3.one_up.R;
+import com.l3.one_up.interfaces.BackIsClickable;
 import com.l3.one_up.listeners.OnUserTogglesSleepListener;
 import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
@@ -31,7 +33,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class SleepFragment extends Fragment {
+public class SleepFragment extends Fragment implements BackIsClickable {
 
     private OnUserTogglesSleepListener sleepListener;
 
@@ -160,4 +162,10 @@ public class SleepFragment extends Fragment {
         });
 
     }
+
+    public boolean allowBackPressed(){
+        return !User.getCurrentUser().isAsleep();
+    }
+
+
 }

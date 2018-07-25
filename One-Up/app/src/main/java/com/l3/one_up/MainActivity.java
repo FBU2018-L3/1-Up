@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.l3.one_up.fragments.SleepFragment;
+import com.l3.one_up.interfaces.BackIsClickable;
 import com.l3.one_up.listeners.OnUserTogglesSleepListener;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -15,20 +16,28 @@ import com.parse.SaveCallback;
 import com.l3.one_up.fragments.ActivitySelectionFragment;
 import com.l3.one_up.fragments.HomeFragment;
 
+import java.util.Stack;
+
 public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, OnUserTogglesSleepListener {
+
+    private static final String TAG_SLEEP_FRAGMENT = "sleepFragment";
+    private static final String TAG_HOME_FRAGMENT = "homeFragment";
+    private static final String TAG_ACTIVITY_SELECTION_FRAGMENT = "activitySelectionFragment";
+    private Stack<String> tags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        selectFragment();
+        tags = new Stack<>();
+        selectDefaultFragment();
     }
 
     @Override
     public void onCategoryClick(String categoryName) {
         Toast.makeText(getApplicationContext(), categoryName + " button was clicked!", Toast.LENGTH_SHORT).show();
         ActivitySelectionFragment activitySelectionFragment = ActivitySelectionFragment.newInstance(categoryName);
-        startFragment(activitySelectionFragment);
+        startFragment(activitySelectionFragment, TAG_ACTIVITY_SELECTION_FRAGMENT);
     }
 
     @Override
@@ -41,10 +50,11 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         startActivity(i);
     }
 
-    private void startFragment(Fragment fragment) {
+    private void startFragment(Fragment fragment, String tag) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragmentHolder, fragment);
+        ft.replace(R.id.fragmentHolder, fragment, tag);
         ft.addToBackStack("main").commit();
+        tags.push(tag);
     }
 
     @Override
@@ -55,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
             @Override
             public void done(ParseException e) {
                 if(e==null){
-                    selectFragment();
+                    selectDefaultFragment();
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "Hey, there was a problem, you can't go to sleep :c", Toast.LENGTH_SHORT);
@@ -65,12 +75,22 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         });
     }
 
-    private void selectFragment(){
+    private void selectDefaultFragment(){
+        tags.clear();
         if(ParseUser.getCurrentUser().getBoolean("isAsleep")){
-            startFragment(SleepFragment.newInstance(this));
+            startFragment(SleepFragment.newInstance(this), TAG_SLEEP_FRAGMENT);
         }
         else{
-            startFragment(HomeFragment.newInstance(this));
+            startFragment(HomeFragment.newInstance(this), TAG_HOME_FRAGMENT);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        final BackIsClickable backIsClickable = (BackIsClickable) getSupportFragmentManager().findFragmentByTag(tags.peek());
+        if (backIsClickable.allowBackPressed()) {
+            super.onBackPressed();
+            tags.pop();
         }
     }
 }
