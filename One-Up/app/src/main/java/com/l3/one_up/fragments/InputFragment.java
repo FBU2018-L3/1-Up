@@ -3,7 +3,9 @@ package com.l3.one_up.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +15,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.l3.one_up.Objective;
 import com.l3.one_up.R;
 import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
+import com.l3.one_up.model.Goal;
 import com.l3.one_up.model.User;
+import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.json.JSONException;
@@ -34,8 +40,12 @@ import butterknife.Unbinder;
 public class InputFragment extends DialogFragment {
 
     private static final String TAG = "DialogFragment";
+    private static final String KEY_ACTIVITY = "activity";
+    private static final String KEY_OBJECTIVE = "objective";
+
     private Unbinder unbinder;
     private Activity activity;
+    private Objective objective;
 
     @BindView(R.id.spInputType) Spinner spInputType;
     @BindView(R.id.etValue) EditText etValue;
@@ -44,10 +54,12 @@ public class InputFragment extends DialogFragment {
     // Empty constructor required
     public InputFragment(){}
 
-    public static InputFragment newInstance(Activity activity) {
+    public static InputFragment newInstance(Activity activity, Objective objective) {
         InputFragment frag = new InputFragment();
         Bundle args = new Bundle();
-        args.putParcelable("activity", activity);
+        args.putParcelable(KEY_ACTIVITY, activity);
+        args.putInt(KEY_OBJECTIVE, objective.ordinal());
+        Log.d(TAG, "objective is " + objective.ordinal() + ": " + objective.toString());
         frag.setArguments(args);
         return frag;
     }
@@ -62,7 +74,10 @@ public class InputFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        activity = getArguments().getParcelable("activity");
+        activity = getArguments().getParcelable(KEY_ACTIVITY);
+
+        int objectiveIndex = getArguments().getInt(KEY_OBJECTIVE);
+        objective = Objective.values()[objectiveIndex];
 
         List<String> spinnerArray =  new ArrayList<String>();
         for(int i =0; i< activity.getInputType().names().length(); i++)
@@ -78,7 +93,30 @@ public class InputFragment extends DialogFragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spInputType.setAdapter(adapter);
 
+        if (objective == Objective.GOAL) {
+            getExistingGoals();
+        }
 
+    }
+
+    private void getExistingGoals() {
+        Goal.Query existingGoalQuery = new Goal.Query();
+        existingGoalQuery.onlyThisWeek()
+                        .mostRecentFirst()
+                        .byUser(ParseUser.getCurrentUser())
+                        .ofActivity(activity);
+        existingGoalQuery.findInBackground(new FindCallback<Goal>() {
+            @Override
+            public void done(List<Goal> objects, ParseException e) {
+                if (objects.size() == 0) {
+                    // user does not have any active goals for this activity type
+                    Toast.makeText(getContext(), "No existing goals this activity", Toast.LENGTH_LONG).show();
+                } else {
+                    // warn user that they already have a goal for this
+                    Toast.makeText(getContext(), "Activity already has a goal in progress", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -92,38 +130,65 @@ public class InputFragment extends DialogFragment {
     public void submit(){
         try {
             Integer basePoints = activity.getInputType().getInt((String)spInputType.getSelectedItem());
-            final Integer exp = basePoints * Integer.parseInt(etValue.getText().toString());
+            int exp = basePoints * Integer.parseInt(etValue.getText().toString());
 
             // Obtaining the user
-            final User current = User.getCurrentUser();
+            User current = User.getCurrentUser();
 
-            // Event
-            Event event = new Event();
-            event.setActivity(activity);
-            event.setTotalXP(exp);
-            event.setUser(current);
-            event.setIsPrivate(cbIsPrivate.isChecked());
-            event.setInputType(new JSONObject().put((String)spInputType.getSelectedItem(), etValue.getText().toString()));
-            event.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if(e==null)
-                    {
-                        updateUser(current, exp);
-                    }
-                    else{
-                        Toast.makeText(getContext(), "There was an error, please try again later", Toast.LENGTH_LONG).show();
-                        e.printStackTrace();
-                    }
-                }
-            });
-
+            if (objective == Objective.EVENT) {
+                saveEvent(exp, current);
+            } else if (objective == Objective.GOAL) {
+                saveGoal(current);
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
+    private void saveEvent(final int exp, final User currentUser) throws JSONException{
+        // Event
+        Event event = new Event();
+        event.setActivity(activity);
+        event.setTotalXP(exp);
+        event.setUser(currentUser);
+        event.setInputType(new JSONObject().put((String)spInputType.getSelectedItem(), etValue.getText().toString()));
+        event.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e==null)
+                {
+                    updateUser(currentUser, exp);
+                }
+                else{
+                    Toast.makeText(getContext(), "There was an error, please try again later", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void saveGoal(final User currentUser) throws JSONException {
+        // Event
+        Goal goal = new Goal();
+        goal.setActivity(activity);
+        goal.setUser(currentUser);
+        goal.setInputType(new JSONObject().put((String)spInputType.getSelectedItem(), etValue.getText().toString()));
+        goal.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e==null)
+                {
+                    Toast.makeText(getContext(), "You've created a new goal!", Toast.LENGTH_SHORT).show();
+                    dismiss();
+                }
+                else{
+                    Toast.makeText(getContext(), "There was an error in saving your goal, please try again later", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
     private void updateUser(User current, int gainedExp){
         final Integer startXp = current.getCurrentXpFromLevel();
@@ -136,7 +201,7 @@ public class InputFragment extends DialogFragment {
                 if(e==null){
                     int i = User.getCurrentUser().getCurrentXpFromLevel();
                     int x = User.getCurrentUser().getExperiencePoints();
-                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    FragmentManager fm = getParentFragmentManager();
                     InputConfirmationFragment icf = InputConfirmationFragment.newInstance(startXp, startLvl);
                     icf.show(fm, "icf");
 
@@ -149,4 +214,16 @@ public class InputFragment extends DialogFragment {
             }
         });
     }
+
+    private FragmentManager getParentFragmentManager() {
+        Fragment parentFragment = getParentFragment();
+        FragmentManager fm;
+        if (parentFragment == null) {
+            fm = getActivity().getSupportFragmentManager();
+        } else {
+            fm = parentFragment.getChildFragmentManager();
+        }
+        return fm;
+    }
+
 }

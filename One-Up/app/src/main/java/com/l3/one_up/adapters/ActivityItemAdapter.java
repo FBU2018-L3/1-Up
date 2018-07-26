@@ -22,12 +22,12 @@ public class  ActivityItemAdapter extends RecyclerView.Adapter<ActivityItemAdapt
     private String tag = "ActivityItemAdapter";
     private static ArrayList<Activity> categoryActivities;
     static Context context;
-    private Callback callback;
+    private OnActivityItemListener activityItemListener;
 
     /* contructor that takes in our data set */
-    public ActivityItemAdapter(ArrayList<Activity> categoryActivities, Callback callback) {
+    public ActivityItemAdapter(ArrayList<Activity> categoryActivities, OnActivityItemListener callback) {
         this.categoryActivities = categoryActivities;
-        this.callback = callback;
+        this.activityItemListener = callback;
     }
 
 
@@ -77,12 +77,12 @@ public class  ActivityItemAdapter extends RecyclerView.Adapter<ActivityItemAdapt
             int position = getAdapterPosition();
             if(position != RecyclerView.NO_POSITION){
                 Activity myActivity = categoryActivities.get(position);
-                callback.passActivity(myActivity);
+                activityItemListener.passActivity(myActivity);
             }
         }
     }
 
-    public interface Callback {
+    public interface OnActivityItemListener {
         void passActivity(Activity activity);
     }
 }

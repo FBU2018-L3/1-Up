@@ -17,7 +17,6 @@ import com.l3.one_up.R;
 import com.l3.one_up.animations.ProgressBarAnimation;
 import com.l3.one_up.model.User;
 
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -59,16 +58,21 @@ public class InputConfirmationFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         User user = User.getCurrentUser();
 
-        int startXp = getArguments().getInt("startXp");
-        int endXp = user.getCurrentXpFromLevel();
-        int startLvl = getArguments().getInt("startLvl");
-
         tvUserName.setText(user.getUsername());
         //pbExperiencePoints.setProgress(user.getInt("experiencePoints")%100);
         tvUserLvl.setText(String.valueOf(user.getLevel()));
 
         pbExperiencePoints.setMax(User.getCurrentUser().getNeededXpToLevelUp());
 
+        setAnimation(view, user);
+
+    }
+
+    private void setAnimation(View view, User user) {
+
+        int startXp = getArguments().getInt("startXp");
+        int endXp = user.getCurrentXpFromLevel();
+        int startLvl = getArguments().getInt("startLvl");
 
         // Animation:
         ProgressBarAnimation anim;
@@ -101,7 +105,6 @@ public class InputConfirmationFragment extends DialogFragment {
             }
 
         }
-
     }
 
     @Override
