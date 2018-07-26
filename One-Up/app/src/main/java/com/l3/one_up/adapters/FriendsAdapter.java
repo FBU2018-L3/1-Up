@@ -13,9 +13,6 @@ import android.widget.TextView;
 import com.l3.one_up.R;
 import com.l3.one_up.model.FacebookQuery;
 import com.l3.one_up.model.GlideApp;
-import com.l3.one_up.model.GlideAppModule;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -45,15 +42,13 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         FacebookQuery.FacebookUser oneFriend = facebookFriends.get(position);
-        String friendName = oneFriend.Username;
-        String friendLevel = oneFriend.UserLevel;
-        Log.d(tag , friendName + " has level " + friendLevel);
-        String friendProfUrl = oneFriend.UserProfilePicUrl;
+        String friendName = oneFriend.username;
+        String friendLevel = oneFriend.userLevel;
+        String friendProfUrl = oneFriend.userProfilePicUrl;
 
         holder.tvFriendName.setText(friendName);
         holder.tvFriendLevel.setText(friendLevel);
 
-        // TODO: Use glide to upload the profile picture
         GlideApp.with(context)
                 .load(friendProfUrl)
                 .into(holder.ivFriendProfilePic);

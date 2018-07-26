@@ -1,6 +1,5 @@
 package com.l3.one_up.model;
 
-import java.math.BigInteger;
 import java.util.Comparator;
 
 /**
@@ -10,6 +9,6 @@ import java.util.Comparator;
 public class OrderFacebookUsersById implements Comparator<FacebookQuery.FacebookUser> {
     @Override
     public int compare(FacebookQuery.FacebookUser t1, FacebookQuery.FacebookUser t2) {
-        return Long.valueOf(t1.UserID).compareTo(Long.valueOf(t2.UserID));
+        return Long.valueOf(t1.userID).compareTo(Long.valueOf(t2.userID));
     }
 }

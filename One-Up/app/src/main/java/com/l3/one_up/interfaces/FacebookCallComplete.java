@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 /**
  * Created by luzcamacho on 7/24/18.
+ *
+ * Interface to deal with the fact that most of our calls are async. 
  */
 
 public interface FacebookCallComplete {

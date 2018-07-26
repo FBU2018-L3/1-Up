@@ -27,7 +27,6 @@ import java.util.Arrays;
 public class DeepLinkingActivity extends AppCompatActivity {
     private String tag = "DeepLinkActivity";
     private LoginButton btFBConnect;
-    private Button testButton;
     public CallbackManager callbackManager;
     final private static String EMAIL = "email";
     final private static String FRIENDS = "user_friends";
@@ -39,7 +38,6 @@ public class DeepLinkingActivity extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create();
         btFBConnect = findViewById(R.id.btFBConnect);
-        testButton = findViewById(R.id.btCheck);
         btFBConnect.setReadPermissions(Arrays.asList(EMAIL, FRIENDS));
 
         btFBConnect.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -59,7 +57,7 @@ public class DeepLinkingActivity extends AppCompatActivity {
                 currUser.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        Log.d(tag, "update the thing");
+                        Log.d(tag, "Updated parse user with facebook id");
                     }
                 });
             }
@@ -74,16 +72,6 @@ public class DeepLinkingActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Failed to login to FB :(", Toast.LENGTH_LONG).show();
                 Log.d(tag, "Failed to login to FB");
                 error.printStackTrace();
-            }
-        });
-
-        testButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Do test things", Toast.LENGTH_LONG).show();
-                User curr = User.getCurrentUser();
-                String fbId = curr.getFacebookId();
-                Log.d(tag, "Checking " + curr.getUsername() + " facebook id: " + fbId);
             }
         });
     }
