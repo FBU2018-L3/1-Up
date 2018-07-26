@@ -22,7 +22,10 @@ import android.widget.TextView;
 
 import com.l3.one_up.Objective;
 import com.l3.one_up.R;
+
 import com.l3.one_up.adapters.ActivityItemAdapter;
+import com.l3.one_up.interfaces.BackIsClickable;
+
 import com.l3.one_up.model.Activity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -30,9 +33,8 @@ import com.parse.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ActivitySelectionFragment extends Fragment
-        implements ActivityItemAdapter.OnActivityItemListener {
+        implements ActivityItemAdapter.OnActivityItemListener, BackIsClickable{
 
     public String tag = "ActivitySelectionFragment";
     /* set up views and recycler */
@@ -190,5 +192,10 @@ public class ActivitySelectionFragment extends Fragment
         FragmentManager fragmentManager = getChildFragmentManager();
         InputFragment inputFragment = InputFragment.newInstance(activity, objective);
         inputFragment.show(fragmentManager, "tagz");
+    }
+
+    @Override
+    public boolean allowBackPressed() {
+        return true;
     }
 }
