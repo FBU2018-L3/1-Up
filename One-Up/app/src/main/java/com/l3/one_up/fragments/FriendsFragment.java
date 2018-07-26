@@ -15,14 +15,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.l3.one_up.R;
 import com.l3.one_up.adapters.FeedItemAdapter;
 import com.l3.one_up.adapters.FriendsAdapter;
 import com.l3.one_up.interfaces.FacebookCallComplete;
 import com.l3.one_up.model.FacebookQuery;
+import com.l3.one_up.model.User;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FriendsFragment extends Fragment implements FacebookCallComplete {
     final static String tag = "FriendsFragment";
@@ -83,9 +88,27 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
     /* NOTE: KEEP ALL DATA PROCESSING WITHIN THE CALLBACKS */
     @Override
     public ArrayList<FacebookQuery.FacebookUser> notifyCompleteList(ArrayList<FacebookQuery.FacebookUser> list, ArrayList<String> friendIds) {
-        for(int i = 0; i < list.size(); i++){
-            FacebookQuery.FacebookUser user = list.get(i);
-        }
+        final ArrayList<User> parseUsers = new ArrayList<>();
+        /* Time to make some queries */
+        User.Query userQuery = new User.Query();
+        userQuery.returnWithFacebookIds(friendIds);
+        userQuery.findInBackground(new FindCallback<User>() {
+            @Override
+            public void done(List<User> objects, ParseException e) {
+                if(e == null){
+                    Log.d(tag, "Found users!");
+                    for(int i = 0; i < objects.size(); i++){
+                        parseUsers.add(objects.get(i));
+                    }
+                }
+                else{
+                    Toast.makeText(fragAct, "something went wrong fetching users :(", Toast.LENGTH_LONG);
+                    e.printStackTrace();
+                }
+            }
+        });
+        Log.d(tag, "Parse suer array has size of: " + parseUsers.size());
+        /* this needs be added to the end after we have gotten info from the parse user */
         friendsList.clear();
         friendsList.addAll(list);
         friendsAdapter.notifyDataSetChanged();
