@@ -89,6 +89,9 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
     @Override
     public ArrayList<FacebookQuery.FacebookUser> notifyCompleteList(ArrayList<FacebookQuery.FacebookUser> list, ArrayList<String> friendIds) {
         final ArrayList<User> parseUsers = new ArrayList<>();
+        for(int i = 0; i < friendIds.size(); i++){
+            Log.d(tag , "A id: " + friendIds.get(i));
+        }
         /* Time to make some queries */
         User.Query userQuery = new User.Query();
         userQuery.returnWithFacebookIds(friendIds);
@@ -100,6 +103,8 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
                     for(int i = 0; i < objects.size(); i++){
                         parseUsers.add(objects.get(i));
                     }
+                    Log.d(tag, "Parse suer array has size of: " + objects.size());
+                    /*do following work in here for the call to finish :) */
                 }
                 else{
                     Toast.makeText(fragAct, "something went wrong fetching users :(", Toast.LENGTH_LONG);
@@ -107,7 +112,6 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
                 }
             }
         });
-        Log.d(tag, "Parse suer array has size of: " + parseUsers.size());
         /* this needs be added to the end after we have gotten info from the parse user */
         friendsList.clear();
         friendsList.addAll(list);
