@@ -51,6 +51,7 @@ public class ProfileActivity extends AppCompatActivity implements
                     case R.id.action_friends:
                         FriendsFragment friendsFragment = FriendsFragment.newInstance();
                         startFragment(friendsFragment);
+                        return true;
                 }
                 return false;
             }
