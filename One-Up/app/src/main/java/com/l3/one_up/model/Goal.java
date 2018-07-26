@@ -61,6 +61,11 @@ public class Goal extends ParseObject {
             return this;
         }
 
+        public Query ofActivity(Activity activity) {
+            whereEqualTo(KEY_ACTIVITY, activity);
+            return this;
+        }
+
         public Query ofCategory(String category) {
             whereEqualTo(KEY_CATEGORY, category);
             return this;

@@ -20,7 +20,9 @@ import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
 import com.l3.one_up.model.Goal;
 import com.l3.one_up.model.User;
+import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.json.JSONException;
@@ -89,6 +91,30 @@ public class InputFragment extends DialogFragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spInputType.setAdapter(adapter);
 
+        if (objective == Objective.GOAL) {
+            getExistingGoals();
+        }
+
+    }
+
+    private void getExistingGoals() {
+        Goal.Query existingGoalQuery = new Goal.Query();
+        existingGoalQuery.onlyThisWeek()
+                        .mostRecentFirst()
+                        .byUser(ParseUser.getCurrentUser())
+                        .ofActivity(activity);
+        existingGoalQuery.findInBackground(new FindCallback<Goal>() {
+            @Override
+            public void done(List<Goal> objects, ParseException e) {
+                if (objects.size() == 0) {
+                    // user does not have any active goals for this activity type
+                    Toast.makeText(getContext(), "No existing goals this activity", Toast.LENGTH_LONG).show();
+                } else {
+                    // warn user that they already have a goal for this
+                    Toast.makeText(getContext(), "Activity already has a goal in progress", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
