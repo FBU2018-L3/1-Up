@@ -18,6 +18,7 @@ import android.widget.ToggleButton;
 
 import com.l3.one_up.R;
 import com.l3.one_up.adapters.CategoryAdapter;
+import com.l3.one_up.interfaces.BackIsClickable;
 import com.l3.one_up.listeners.OnUserTogglesSleepListener;
 import com.parse.ParseUser;
 
@@ -27,7 +28,7 @@ import butterknife.OnCheckedChanged;
 import butterknife.Unbinder;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements BackIsClickable {
 
     private ImageView ivProfile;
     private TextView tvWelcome;
@@ -131,13 +132,18 @@ public class HomeFragment extends Fragment {
         unbinder.unbind();
     }
 
+    @Override
+    public boolean allowBackPressed() {
+        return false;
+    }
+
     public interface OnFragmentInteractionListener {
         void onProfilePictureClick();
         void onCategoryClick(String categoryName);
     }
 
     @OnCheckedChanged(R.id.tbSleepSwitch)
-    public void onToggleButtonClicked(){
+    public void onToggleButtonClicked() {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
 
@@ -148,6 +154,5 @@ public class HomeFragment extends Fragment {
         editor.putLong("sleepTime", time).apply();
         sleepListener.toggleSleep(true);
     }
-
 
 }

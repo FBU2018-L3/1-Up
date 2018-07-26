@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.l3.one_up.model.User;
 import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -75,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
     public void signUp(){
         final String userName = etUsername.getText().toString();
         final String pass = etUsername.getText().toString();
-        ParseUser user = new ParseUser();
+        User user = new User();
         user.setUsername(userName);
         user.setPassword(pass);
         user.put("isAsleep", false);
