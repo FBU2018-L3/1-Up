@@ -88,7 +88,6 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         friendsAdapter = new FriendsAdapter(friendsList);
         rvFriendList.setAdapter(friendsAdapter);
         /* Time to do our query and then update the adapter in the callbacks */
-        // TODO: put the check here
         if(isLoggedIn()){
             tvNoFriends.setVisibility(TextView.GONE);
             FacebookQuery query = new FacebookQuery();
@@ -104,7 +103,6 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
 
 
     /* NOTE: KEEP ALL DATA PROCESSING WITHIN THE CALLBACKS */
-    // TODO: Test what have when we have no facebook friends and what to do then (perhaps encourage friends to get on app?)
     @Override
     public void notifyCompleteList(final ArrayList<FacebookQuery.FacebookUser> FacebookList, ArrayList<String> friendIds) {
         final ArrayList<User> parseUsers = new ArrayList<>();
