@@ -19,4 +19,11 @@
         android:icon="@android:drawable/btn_plus"
         android:title="Timeline"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_friends"
+        android:enabled="true"
+        android:icon="@android:drawable/btn_plus"
+        android:title="Friends"
+        app:showAsAction="ifRoom" />
 </menu>

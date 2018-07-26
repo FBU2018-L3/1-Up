@@ -9,12 +9,18 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.l3.one_up.fragments.FeedFragment;
+import com.l3.one_up.fragments.FriendsFragment;
 import com.l3.one_up.fragments.ProfileFragment;
+import com.l3.one_up.fragments.StatsFragment;
 import com.parse.ParseUser;
 
-public class ProfileActivity extends AppCompatActivity implements ProfileFragment.OnFragmentInteractionListener {
+public class ProfileActivity extends AppCompatActivity implements
+        ProfileFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +36,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileFragmen
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_stats:
-                        // do something here
+                        StatsFragment statsFragment = StatsFragment.newInstance();
+                        startFragment(statsFragment);
                         return true;
                     case R.id.action_profile:
                         startFragment(profileFragment);
@@ -40,6 +47,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileFragmen
                         boolean isTimeline = true; // for clarity's sake
                         FeedFragment timelineFragment = FeedFragment.newInstance(isTimeline);
                         startFragment(timelineFragment);
+                        return true;
+                    case R.id.action_friends:
+                        FriendsFragment friendsFragment = FriendsFragment.newInstance();
+                        startFragment(friendsFragment);
                         return true;
                 }
                 return false;
@@ -56,12 +67,28 @@ public class ProfileActivity extends AppCompatActivity implements ProfileFragmen
         ft.commit();
     }
 
+    public boolean isFacebookLoggedIn(){
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if(accessToken == null) return false;
+        else return true;
+    }
+
+    public void FacebookLogout(){
+        LoginManager loginManager = LoginManager.getInstance();
+        loginManager.logOut();
+    }
+
     @Override
     public void onLogoutClicked() {
         ParseUser.logOut();
+        if(isFacebookLoggedIn()){
+            Log.d("HomeActivity", "Logging out the Facebook user");
+            FacebookLogout();
+        }
         Log.d("HomeActivity", "User logged out");
         Intent returnToLogin = new Intent(ProfileActivity.this, LoginActivity.class);
         returnToLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(returnToLogin);
     }
+
 }

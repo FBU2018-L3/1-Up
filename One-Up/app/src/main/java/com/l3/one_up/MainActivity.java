@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.l3.one_up.fragments.ActivitySelectionFragment;
+import com.l3.one_up.fragments.HomeFragment;
 import com.l3.one_up.fragments.SleepFragment;
 import com.l3.one_up.interfaces.BackIsClickable;
 import com.l3.one_up.listeners.OnUserTogglesSleepListener;
@@ -17,13 +19,14 @@ import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-import com.l3.one_up.fragments.ActivitySelectionFragment;
-import com.l3.one_up.fragments.HomeFragment;
 
 import java.util.HashMap;
 import java.util.Stack;
 
-public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, OnUserTogglesSleepListener {
+
+
+public class MainActivity extends AppCompatActivity implements
+        HomeFragment.OnFragmentInteractionListener, OnUserTogglesSleepListener {
 
     private static final String TAG_SLEEP_FRAGMENT = "sleepFragment";
     private static final String TAG_HOME_FRAGMENT = "homeFragment";
@@ -39,9 +42,9 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     }
 
     @Override
-    public void onCategoryClick(String categoryName) {
+    public void onCategoryInteraction(String categoryName) {
         Toast.makeText(getApplicationContext(), categoryName + " button was clicked!", Toast.LENGTH_SHORT).show();
-        ActivitySelectionFragment activitySelectionFragment = ActivitySelectionFragment.newInstance(categoryName);
+        ActivitySelectionFragment activitySelectionFragment = ActivitySelectionFragment.newInstance(categoryName, Objective.EVENT);
         startFragment(activitySelectionFragment, TAG_ACTIVITY_SELECTION_FRAGMENT);
     }
 
@@ -57,9 +60,11 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
     private void startFragment(Fragment fragment, String tag) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
         ft.replace(R.id.fragmentHolder, fragment, tag);
         ft.addToBackStack("main").commit();
         tags.push(tag);
+
     }
 
     @Override
@@ -87,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                     selectDefaultFragment();
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Hey, there was a problem, you can't go to sleep :c", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "Hey, there was a problem, you can't go to sleep :c", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }

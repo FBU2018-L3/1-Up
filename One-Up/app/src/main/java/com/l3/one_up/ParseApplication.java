@@ -4,8 +4,10 @@ import android.app.Application;
 import android.content.Intent;
 import android.util.Log;
 
+import com.facebook.login.LoginManager;
 import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
+import com.l3.one_up.model.Goal;
 import com.l3.one_up.model.User;
 import com.parse.Parse;
 import com.parse.ParseAnalytics;
@@ -38,6 +40,7 @@ public class ParseApplication extends Application {
         ParseObject.registerSubclass(Event.class);
         ParseObject.registerSubclass(Activity.class);
         ParseObject.registerSubclass(User.class);
+        ParseObject.registerSubclass(Goal.class);
 
         // set applicationId, and server server based on the values in the Heroku settings.
         // clientKey is not needed unless explicitly configured
