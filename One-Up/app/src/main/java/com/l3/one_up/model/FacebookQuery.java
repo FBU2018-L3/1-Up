@@ -118,11 +118,11 @@ public class FacebookQuery {
             this.Username = Username;
             this.UserID = ID;
             this.UserProfilePicUrl = profileURL;
-            this.UserLevel = "1";
+            this.UserLevel = "-1";
         }
 
-        public void setUserLevel(Integer parseUserLevel) {
-            UserLevel = parseUserLevel.toString();
+        public void setUserLevel(int parseUserLevel) {
+            UserLevel = String.valueOf(parseUserLevel);
         }
 
     }

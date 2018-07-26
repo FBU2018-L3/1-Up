@@ -22,6 +22,8 @@ import com.l3.one_up.adapters.FeedItemAdapter;
 import com.l3.one_up.adapters.FriendsAdapter;
 import com.l3.one_up.interfaces.FacebookCallComplete;
 import com.l3.one_up.model.FacebookQuery;
+import com.l3.one_up.model.OrderFacebookUsersById;
+import com.l3.one_up.model.OrderParseUsersByFbId;
 import com.l3.one_up.model.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -86,11 +88,14 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
     }
 
     /* NOTE: KEEP ALL DATA PROCESSING WITHIN THE CALLBACKS */
+    // TODO: Test what have when we have no facebook friends and what to do then (perhaps encourage friends to get on app?)
     @Override
-    public ArrayList<FacebookQuery.FacebookUser> notifyCompleteList(ArrayList<FacebookQuery.FacebookUser> list, ArrayList<String> friendIds) {
+    public ArrayList<FacebookQuery.FacebookUser> notifyCompleteList(final ArrayList<FacebookQuery.FacebookUser> FacebookList, ArrayList<String> friendIds) {
         final ArrayList<User> parseUsers = new ArrayList<>();
-        for(int i = 0; i < friendIds.size(); i++){
-            Log.d(tag , "A id: " + friendIds.get(i));
+        Log.d(tag, "Double check facebook list: ");
+        for(int i = 0; i < FacebookList.size(); i++){
+            FacebookQuery.FacebookUser fb = FacebookList.get(i);
+            Log.d(tag, "Name: " + fb.Username + " " + fb.UserID);
         }
         /* Time to make some queries */
         User.Query userQuery = new User.Query();
@@ -103,8 +108,32 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
                     for(int i = 0; i < objects.size(); i++){
                         parseUsers.add(objects.get(i));
                     }
-                    Log.d(tag, "Parse suer array has size of: " + objects.size());
+                    Log.d(tag, "Parse user array has size of: " + objects.size());
                     /*do following work in here for the call to finish :) */
+                    /* time to sort both data sets to match parse user and facebook user */
+                    OrderFacebookUsersById fbCompare = new OrderFacebookUsersById();
+                    OrderParseUsersByFbId parseCompare = new OrderParseUsersByFbId();
+                    // sort!!!
+                    FacebookList.sort(fbCompare);
+                    parseUsers.sort(parseCompare);
+                    Log.d(tag, "Verifying our facebook list sorting");
+                    for(int i = 0; i < FacebookList.size(); i++){
+                        Log.d(tag, "Name: " + FacebookList.get(i).Username + " Id: " + FacebookList.get(i).UserID);
+                    }
+                    Log.d(tag, "Verifying our Parse User list sorting");
+                    for(int i = 0; i < parseUsers.size(); i++){
+                        Log.d(tag, "Id: " + parseUsers.get(i).getFacebookId());
+                    }
+                    if(parseUsers.size() == FacebookList.size()){
+                        setLevels(FacebookList, parseUsers);
+                    } else {
+                        Log.e(tag ,"UM NUMBER OF USERS DO NOT MATCH DO NOT TRY LINKING THE INFO TOGETHER");
+                    }
+                    /* once the levels are set we should be able to just display to the adapter */
+                            /* this needs be added to the end after we have gotten info from the parse user */
+                    friendsList.clear();
+                    friendsList.addAll(FacebookList);
+                    friendsAdapter.notifyDataSetChanged();
                 }
                 else{
                     Toast.makeText(fragAct, "something went wrong fetching users :(", Toast.LENGTH_LONG);
@@ -112,10 +141,15 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
                 }
             }
         });
-        /* this needs be added to the end after we have gotten info from the parse user */
-        friendsList.clear();
-        friendsList.addAll(list);
-        friendsAdapter.notifyDataSetChanged();
-        return list;
+        return FacebookList;
+    }
+
+    public void setLevels(ArrayList<FacebookQuery.FacebookUser> FacebookList, ArrayList<User> ParseUsers)
+    {
+        for(int i = 0; i < ParseUsers.size(); i++){
+            int parseUserLevel = ParseUsers.get(i).getLevel();
+            Log.d(tag, "User level for " + ParseUsers.get(i).getUsername() + " is " + parseUserLevel);
+            FacebookList.get(i).setUserLevel(parseUserLevel);
+        }
     }
 }

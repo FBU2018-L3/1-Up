@@ -1,6 +1,7 @@
 package com.l3.one_up.model;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.parse.ParseClassName;

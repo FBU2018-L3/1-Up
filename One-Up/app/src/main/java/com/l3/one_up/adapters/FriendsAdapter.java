@@ -3,6 +3,7 @@ package com.l3.one_up.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         FacebookQuery.FacebookUser oneFriend = facebookFriends.get(position);
         String friendName = oneFriend.Username;
         String friendLevel = oneFriend.UserLevel;
+        Log.d(tag , friendName + " has level " + friendLevel);
         String friendProfUrl = oneFriend.UserProfilePicUrl;
 
         holder.tvFriendName.setText(friendName);
