@@ -38,7 +38,7 @@ public class FeedFragment extends Fragment {
     /* key for retrieving our flag */
     String KEY_FLAG = "isTimeline";
     /* boolean flag for telling us whether we are displaying to feed or timeline */
-    boolean isTimline;
+    boolean isTimeline;
 
     public FeedFragment() {
         // Required empty public constructor
@@ -59,7 +59,7 @@ public class FeedFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Log.d(tag, "In our feed fragment");
         /* get pur flag which will dictate how we initialize */
-        isTimline = getArguments().getBoolean(KEY_FLAG);
+        isTimeline = getArguments().getBoolean(KEY_FLAG);
         /* set up our context */
         fragAct = (FragmentActivity) getActivity();
         /* set up recycler view */
@@ -86,7 +86,7 @@ public class FeedFragment extends Fragment {
         final Event.Query eventQuery = new Event.Query();
         /* if else statements to check which screen we are populating */
         eventQuery.includeActivity().byUser(User.getCurrentUser()).mostRecentFirst();
-        if (!this.isTimline){
+        if (!this.isTimeline){
             eventQuery.onlyThisWeek();
         } else if (date != null) {
             // restrict event query to a single day
