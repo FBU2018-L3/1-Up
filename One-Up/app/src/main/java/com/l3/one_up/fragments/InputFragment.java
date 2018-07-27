@@ -130,7 +130,8 @@ public class InputFragment extends DialogFragment {
     @OnClick(R.id.btnSubmit)
     public void submit(){
         try {
-            Integer basePoints = activity.getInputType().getInt((String)spInputType.getSelectedItem());
+            inputType = (String)spInputType.getSelectedItem();
+            Integer basePoints = activity.getInputType().getInt(inputType);
             int exp = basePoints * Integer.parseInt(etValue.getText().toString());
 
             // Obtaining the user
@@ -179,6 +180,7 @@ public class InputFragment extends DialogFragment {
         int inputValue = Integer.parseInt(etValue.getText().toString());
         goal.setInputType(new JSONObject().put(inputKey, inputValue));
         goal.setProgress(new JSONObject().put(inputKey, 0));
+        goal.setIsCompleted(false);
         goal.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -224,12 +226,17 @@ public class InputFragment extends DialogFragment {
         for (Goal goal : activeGoals) {
             // increment goal progress
             try {
-                int oldProgress = Integer.parseInt(goal.getProgress().get(inputType).toString());
+                Log.d("InputFragment", goal.getProgress().toString());
+                Log.d("InputFragment", inputType);
+                int oldProgress = goal.getProgress().getInt(inputType);
                 int newProgress = oldProgress + Integer.parseInt(etValue.getText().toString());
                 goal.setProgress(new JSONObject().put(inputType, newProgress));
 
                 int numericalGoal = goal.getInputType().getInt(inputType);
                 // TODO - check if goal was completed
+                if (newProgress >= numericalGoal) {
+                    goal.setIsCompleted(true);
+                }
 
                 goal.saveInBackground(new SaveCallback() {
                     @Override

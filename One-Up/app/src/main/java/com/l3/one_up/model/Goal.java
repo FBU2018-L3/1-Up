@@ -20,6 +20,7 @@ public class Goal extends ParseObject {
     private static final String KEY_CATEGORY = KEY_ACTIVITY + ".category";
     private static final String KEY_INPUT = "inputType";
     private static final String KEY_PROGRESS = "progress";
+    private static final String KEY_IS_COMPLETED = "isCompleted";
     private static final String KEY_CREATED = "createdAt";
 
     public ParseUser getUser() {
@@ -52,6 +53,14 @@ public class Goal extends ParseObject {
 
     public void setProgress(JSONObject inputType) {
         put(KEY_PROGRESS, inputType);
+    }
+
+    public boolean getIsCompleted() {
+        return getBoolean(KEY_IS_COMPLETED);
+    }
+
+    public void setIsCompleted(boolean isCompleted) {
+        put(KEY_IS_COMPLETED, isCompleted);
     }
 
     public static class Query extends ParseQuery<Goal> {
@@ -102,6 +111,11 @@ public class Goal extends ParseObject {
 
         public Query onlyThisWeek() {
             whereGreaterThanOrEqualTo(KEY_CREATED, new Date(System.currentTimeMillis() - MILLIS_24HRS * 7));
+            return this;
+        }
+
+        public Query incomplete() {
+            whereEqualTo(KEY_IS_COMPLETED, false);
             return this;
         }
 
