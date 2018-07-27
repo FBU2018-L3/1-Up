@@ -46,6 +46,8 @@ public class InputFragment extends DialogFragment {
     private Unbinder unbinder;
     private Activity activity;
     private Objective objective;
+    private String inputType;
+    private List<Goal> activeGoals;
 
     @BindView(R.id.spInputType) Spinner spInputType;
     @BindView(R.id.etValue) EditText etValue;
@@ -93,9 +95,7 @@ public class InputFragment extends DialogFragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spInputType.setAdapter(adapter);
 
-        if (objective == Objective.GOAL) {
-            getExistingGoals();
-        }
+        getExistingGoals();
 
     }
 
@@ -113,7 +113,8 @@ public class InputFragment extends DialogFragment {
                     Toast.makeText(getContext(), "No existing goals this activity", Toast.LENGTH_LONG).show();
                 } else {
                     // warn user that they already have a goal for this
-                    Toast.makeText(getContext(), "Activity already has a goal in progress", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Activity has a goal in progress", Toast.LENGTH_LONG).show();
+                    activeGoals = objects;
                 }
             }
         });
@@ -159,6 +160,7 @@ public class InputFragment extends DialogFragment {
                 if(e==null)
                 {
                     updateUser(currentUser, exp);
+                    updateActiveGoals(activeGoals);
                 }
                 else{
                     Toast.makeText(getContext(), "There was an error, please try again later", Toast.LENGTH_LONG).show();
@@ -173,7 +175,10 @@ public class InputFragment extends DialogFragment {
         Goal goal = new Goal();
         goal.setActivity(activity);
         goal.setUser(currentUser);
-        goal.setInputType(new JSONObject().put((String)spInputType.getSelectedItem(), etValue.getText().toString()));
+        String inputKey = (String)spInputType.getSelectedItem();
+        int inputValue = Integer.parseInt(etValue.getText().toString());
+        goal.setInputType(new JSONObject().put(inputKey, inputValue));
+        goal.setProgress(new JSONObject().put(inputKey, 0));
         goal.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -213,6 +218,31 @@ public class InputFragment extends DialogFragment {
                 }
             }
         });
+    }
+
+    private void updateActiveGoals(List<Goal> activeGoals) {
+        for (Goal goal : activeGoals) {
+            // increment goal progress
+            try {
+                int oldProgress = Integer.parseInt(goal.getProgress().get(inputType).toString());
+                int newProgress = oldProgress + Integer.parseInt(etValue.getText().toString());
+                goal.setProgress(new JSONObject().put(inputType, newProgress));
+
+                int numericalGoal = goal.getInputType().getInt(inputType);
+                // TODO - check if goal was completed
+
+                goal.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        Log.d("InputFragment","Goal was updated!");
+                    }
+                });
+
+            } catch (JSONException e) {
+                Log.d("InputFragment", "Unable to update goal");
+                e.printStackTrace();
+            }
+        }
     }
 
     private FragmentManager getParentFragmentManager() {

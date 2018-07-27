@@ -19,6 +19,7 @@ public class Goal extends ParseObject {
     private static final String KEY_ACTIVITY = "activity";
     private static final String KEY_CATEGORY = KEY_ACTIVITY + ".category";
     private static final String KEY_INPUT = "inputType";
+    private static final String KEY_PROGRESS = "progress";
     private static final String KEY_CREATED = "createdAt";
 
     public ParseUser getUser() {
@@ -43,6 +44,14 @@ public class Goal extends ParseObject {
 
     public void setInputType(JSONObject inputType) {
         put(KEY_INPUT, inputType);
+    }
+
+    public JSONObject getProgress() {
+        return getJSONObject(KEY_PROGRESS);
+    }
+
+    public void setProgress(JSONObject inputType) {
+        put(KEY_PROGRESS, inputType);
     }
 
     public static class Query extends ParseQuery<Goal> {
