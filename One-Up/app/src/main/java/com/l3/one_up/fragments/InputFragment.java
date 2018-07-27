@@ -1,5 +1,6 @@
 package com.l3.one_up.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -104,7 +105,8 @@ public class InputFragment extends DialogFragment {
         existingGoalQuery.onlyThisWeek()
                         .mostRecentFirst()
                         .byUser(ParseUser.getCurrentUser())
-                        .ofActivity(activity);
+                        .ofActivity(activity)
+                        .incomplete();
         existingGoalQuery.findInBackground(new FindCallback<Goal>() {
             @Override
             public void done(List<Goal> objects, ParseException e) {
@@ -118,6 +120,11 @@ public class InputFragment extends DialogFragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Override
@@ -223,31 +230,33 @@ public class InputFragment extends DialogFragment {
     }
 
     private void updateActiveGoals(List<Goal> activeGoals) {
-        for (Goal goal : activeGoals) {
-            // increment goal progress
-            try {
-                Log.d("InputFragment", goal.getProgress().toString());
-                Log.d("InputFragment", inputType);
-                int oldProgress = goal.getProgress().getInt(inputType);
-                int newProgress = oldProgress + Integer.parseInt(etValue.getText().toString());
-                goal.setProgress(new JSONObject().put(inputType, newProgress));
+        if (activeGoals != null && activeGoals.size() > 0) {
+            for (Goal goal : activeGoals) {
+                // increment goal progress
+                try {
+                    Log.d("InputFragment", goal.getProgress().toString());
+                    Log.d("InputFragment", inputType);
+                    int oldProgress = goal.getProgress().getInt(inputType);
+                    int newProgress = oldProgress + Integer.parseInt(etValue.getText().toString());
+                    goal.setProgress(new JSONObject().put(inputType, newProgress));
 
-                int numericalGoal = goal.getInputType().getInt(inputType);
-                // TODO - check if goal was completed
-                if (newProgress >= numericalGoal) {
-                    goal.setIsCompleted(true);
-                }
-
-                goal.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Log.d("InputFragment","Goal was updated!");
+                    int numericalGoal = goal.getInputType().getInt(inputType);
+                    if (newProgress >= numericalGoal) {
+                        goal.setIsCompleted(true);
                     }
-                });
 
-            } catch (JSONException e) {
-                Log.d("InputFragment", "Unable to update goal");
-                e.printStackTrace();
+                    goal.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            Log.d("InputFragment", "Goal was updated!");
+                            getParentFragmentManager();
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    Log.d("InputFragment", "Unable to update goal");
+                    e.printStackTrace();
+                }
             }
         }
     }
