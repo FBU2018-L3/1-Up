@@ -12,7 +12,9 @@ import com.l3.one_up.model.User;
 import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import butterknife.BindView;
@@ -60,6 +62,19 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if(e==null){
+                    ParseInstallation.getCurrentInstallation().put("user", User.getCurrentUser());
+                    ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e==null){
+                                Log.d("PARSE_INSTALLATION", "OK");
+                            }
+                            else{
+                                Log.d("PARSE_INSTALLATION", "ERROR");
+                                e.printStackTrace();
+                            }
+                        }
+                    });
                     toast("Logged in");
                     startHomeActivity();
                 }

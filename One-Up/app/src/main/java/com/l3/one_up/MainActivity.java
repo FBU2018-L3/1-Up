@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.l3.one_up.fragments.ActivitySelectionFragment;
@@ -12,10 +13,14 @@ import com.l3.one_up.fragments.HomeFragment;
 import com.l3.one_up.fragments.SleepFragment;
 import com.l3.one_up.interfaces.BackIsClickable;
 import com.l3.one_up.listeners.OnUserTogglesSleepListener;
+import com.l3.one_up.model.User;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.HashMap;
 import java.util.Stack;
 
 
@@ -64,7 +69,21 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void toggleSleep(boolean asleep) {
-        ParseUser user = ParseUser.getCurrentUser();
+        User user = User.getCurrentUser();
+        if(asleep){
+            HashMap<String, String> params = new HashMap();
+            params.put("userId", user.getObjectId());
+            ParseCloud.callFunctionInBackground("setSleepReminder", params, new FunctionCallback<String>() {
+                @Override
+                public void done(String value, ParseException e) {
+                    if (e != null) {
+                        e.printStackTrace();
+                    }
+                    Log.d("ParseCloud", "ok");
+                }
+            });
+
+        }
         user.put("isAsleep", asleep);
         user.saveInBackground(new SaveCallback() {
             @Override
