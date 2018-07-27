@@ -1,6 +1,8 @@
 package com.l3.one_up;
 
 import android.app.Application;
+import android.content.Intent;
+import android.util.Log;
 
 import com.facebook.login.LoginManager;
 import com.l3.one_up.model.Activity;
@@ -8,8 +10,12 @@ import com.l3.one_up.model.Event;
 import com.l3.one_up.model.Goal;
 import com.l3.one_up.model.User;
 import com.parse.Parse;
+import com.parse.ParseAnalytics;
+import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
+import com.parse.SaveCallback;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -46,6 +52,20 @@ public class ParseApplication extends Application {
                 .server(getString(R.string.server_url))
                 .enableLocalDataStore()
                 .build());
+
+        ParsePush.subscribeInBackground("", new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+
+                // callback to confirm subscription
+
+                if (e == null) {
+                    Log.d("com.parse.push", "successfully subscribed to the broadcast channel.");
+                } else {
+                    Log.e("com.parse.push", "failed to subscribe for push", e);
+                }
+            }
+        });
 
         ParseInstallation.getCurrentInstallation().saveInBackground();
     }

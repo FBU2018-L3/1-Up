@@ -2,8 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.l3.one_up">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <permission android:name="com.l3.one_up.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="com.l3.one_up.permission.C2D_MESSAGE" />
+  
     <application
         android:name=".ParseApplication"
         android:allowBackup="true"
@@ -40,7 +45,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".ProfileActivity" />
         <activity android:name=".DeepLinkingActivity"></activity>
 
@@ -51,6 +55,7 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
         <service
             android:name="com.parse.fcm.ParseFirebaseMessagingService">
             <intent-filter>
