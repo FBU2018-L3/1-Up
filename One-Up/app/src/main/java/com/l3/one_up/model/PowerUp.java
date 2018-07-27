@@ -12,7 +12,7 @@ import com.parse.ParseUser;
 @ParseClassName("PowerUp")
 public class PowerUp extends ParseObject {
     private final static String KEY_SENTBY_USER = "sentBy";
-    private final static String KEY_SENTTO_USER = "SentTo";
+    private final static String KEY_SENTTO_USER = "sentTo";
     private final static String KEY_MESSAGE = "message";
     private final static String KEY_XP = "bonusXP";
     private final static String KEY_REDEEM = "isRedeemed";

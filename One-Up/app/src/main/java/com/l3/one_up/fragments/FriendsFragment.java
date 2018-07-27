@@ -25,9 +25,12 @@ import com.l3.one_up.model.Event;
 import com.l3.one_up.model.FacebookQuery;
 import com.l3.one_up.model.OrderFacebookUsersById;
 import com.l3.one_up.model.OrderParseUsersByFbId;
+import com.l3.one_up.model.PowerUp;
 import com.l3.one_up.model.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -243,6 +246,28 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
             Toast.makeText(fragAct, "Valid position!", Toast.LENGTH_LONG).show();
             User atUser = parseUsers.get(positionAtUser);
             Log.d(tag, "At user: " + atUser.getFacebookId());
+            PowerUp newPowerUp = new PowerUp();
+            newPowerUp.setIsRedeemed(false);
+            newPowerUp.setMessage(test);
+            newPowerUp.setXP(10);
+            /* set our pointers */
+            User sentByUser = User.getCurrentUser();
+            Log.d(tag, "Sent by: " + sentByUser.getUsername());
+            User sentToUser = parseUsers.get(positionAtUser);
+            Log.d(tag, "Sent to: " + sentToUser.getUsername());
+            newPowerUp.setSentByUser(sentByUser);
+            newPowerUp.setSentToUser(sentToUser);
+            /* save time */
+            newPowerUp.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if(e == null){
+                        Toast.makeText(fragAct, "You sent a power up!", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(fragAct, "Failed to send a power up :(", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
         }
         else{
             Toast.makeText(fragAct, "Please move to a valid position", Toast.LENGTH_LONG).show();
