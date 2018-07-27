@@ -15,8 +15,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.l3.one_up.R;
 import com.l3.one_up.adapters.FeedItemAdapter;
 import com.l3.one_up.adapters.FriendsAdapter;
@@ -41,6 +43,8 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
     private RecyclerView rvFriendList;
     /* our adapter */
     private FriendsAdapter friendsAdapter;
+    /* our text view used for notifying user of any friend updates kinda */
+    private TextView tvNoFriends;
 
     public FriendsFragment() {
         // Required empty public constructor
@@ -72,6 +76,7 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         Log.d(tag, "In our friends fragment");
         /* set up our context */
         fragAct = (FragmentActivity) getActivity();
+        tvNoFriends = fragAct.findViewById(R.id.tvNofriends);
         /* set up recycler view */
         rvFriendList = fragAct.findViewById(R.id.rvFriendList);
         /* Set up our layout Manager to be cool */
@@ -83,16 +88,32 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         friendsAdapter = new FriendsAdapter(friendsList);
         rvFriendList.setAdapter(friendsAdapter);
         /* Time to do our query and then update the adapter in the callbacks */
-        FacebookQuery query = new FacebookQuery();
-        query.getFriends(this);
+        if(isLoggedIn()){
+            tvNoFriends.setVisibility(TextView.GONE);
+            FacebookQuery query = new FacebookQuery();
+            query.getFriends(this);
+        }
+        else{
+            Log.d(tag, "User is not logged in! Please connect to facebook!");
+            tvNoFriends.setVisibility(TextView.VISIBLE);
+            tvNoFriends.setText("You are not connected to Facebook! Please connect to Facebook to use this feature!");
+        }
     }
 
+
+
     /* NOTE: KEEP ALL DATA PROCESSING WITHIN THE CALLBACKS */
-    // TODO: Test what have when we have no facebook friends and what to do then (perhaps encourage friends to get on app?)
     @Override
-    public ArrayList<FacebookQuery.FacebookUser> notifyCompleteList(final ArrayList<FacebookQuery.FacebookUser> FacebookList, ArrayList<String> friendIds) {
+    public void notifyCompleteList(final ArrayList<FacebookQuery.FacebookUser> FacebookList, ArrayList<String> friendIds) {
         final ArrayList<User> parseUsers = new ArrayList<>();
         /* Time to make some queries */
+        if(FacebookList.size() == 0){
+            Log.d(tag, "Logged user has no facebook friends. Break the news :(");
+            tvNoFriends.setVisibility(TextView.VISIBLE);
+            tvNoFriends.setText("None of your facebook friends on the app :( Invite them to the app to use this feature!");
+            return;
+        }
+
         User.Query userQuery = new User.Query();
         userQuery.returnWithFacebookIds(friendIds);
         userQuery.findInBackground(new FindCallback<User>() {
@@ -123,7 +144,7 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
                 }
             }
         });
-        return FacebookList;
+        return;
     }
 
 
@@ -140,5 +161,10 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         friendsList.clear();
         friendsList.addAll(facebookList);
         friendsAdapter.notifyDataSetChanged();
+    }
+
+    public boolean isLoggedIn(){
+        if(AccessToken.getCurrentAccessToken() != null) return true;
+        else return false;
     }
 }

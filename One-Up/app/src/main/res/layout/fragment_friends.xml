@@ -4,9 +4,25 @@
     android:layout_height="match_parent"
     tools:context="com.l3.one_up.fragments.FriendsFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvFriendList"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvNofriends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:text="testingggg" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvFriendList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
+
 
 </FrameLayout>
