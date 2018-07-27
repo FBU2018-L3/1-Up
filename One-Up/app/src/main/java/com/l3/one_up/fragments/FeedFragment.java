@@ -90,6 +90,7 @@ public class FeedFragment extends Fragment {
             eventQuery.onlyThisWeek();
         } else if (date != null) {
             // restrict event query to a single day
+            // eventQuery.onlyOnDay(date);
         } else{
             Log.d(tag, "Is timeline variable is never initialized");
             return;
