@@ -13,5 +13,4 @@ import java.util.ArrayList;
 
 public interface FacebookCallComplete {
     void notifyCompleteList(ArrayList<FacebookQuery.FacebookUser> list, ArrayList<String> friendIds);
-    void notifyParseCallComplete(ArrayList<Event> eventsByUser);
 }

@@ -147,6 +147,7 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
                         Log.e(tag ,"UM NUMBER OF USERS DO NOT MATCH DO NOT TRY LINKING THE INFO TOGETHER");
                     }
                     updateAdapterDataSet(FacebookList);
+                    loadFriendEvents(parseUsers.get(0));
                     // TODO: launch this on the first element since ya know it doesn't actually do the thing till it scrolls
                     rvFriendList.addOnScrollListener(new RecyclerView.OnScrollListener() {
                         @Override
@@ -155,7 +156,8 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
                             if(newState == recyclerView.SCROLL_STATE_IDLE){
                                 int position = ((GridLayoutManager) recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
                                 User atUser = parseUsers.get(position);
-//                                loadFriendEvents(atUser);
+                                Log.d(tag, "At user: " + atUser.getFacebookId());
+                                loadFriendEvents(atUser);
                             }
                         }
                     });
@@ -193,28 +195,22 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
     public void loadFriendEvents(User user){
         /* do the query based on the position, use callback to ensure we are working with complete data */
         Event.Query eventQuery = new Event.Query();
-        eventQuery.byUser(user).onlyThisWeek().mostRecentFirst().getPublicEvents();
+        eventQuery.includeActivity().byUser(user).onlyThisWeek().mostRecentFirst().getPublicEvents();
         eventQuery.findInBackground(new FindCallback<Event>() {
             @Override
             public void done(List<Event> objects, ParseException e) {
                 /* use call backs here to ensure that we are only working with complete data*/
                 if(e == null){
+                    friendEvents.clear();
                     for(int i = 0; i < objects.size(); i++){
                         friendEvents.add(objects.get(i));
                     }
-                    notifyParseCallComplete(friendEvents);
+                    friendsAdapter.notifyDataSetChanged();
                 }
                 else {
                     Log.d(tag, "Failed to get events by user :(");
                 }
             }
         });
-    }
-
-    @Override
-    public void notifyParseCallComplete(ArrayList<Event> eventsByUser) {
-        Log.d(tag, "Time to display all the things");
-        for(int i = 0; i < eventsByUser.size(); i++){
-        }
     }
 }
