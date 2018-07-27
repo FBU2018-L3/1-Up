@@ -153,9 +153,11 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
                                 super.onScrollStateChanged(recyclerView, newState);
                                 if(newState == recyclerView.SCROLL_STATE_IDLE){
                                     int position = ((GridLayoutManager) recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-                                    User atUser = parseUsers.get(position);
-                                    Log.d(tag, "At user: " + atUser.getFacebookId());
-                                    loadFriendEvents(atUser);
+                                    if(position>0) {
+                                        User atUser = parseUsers.get(position);
+                                        Log.d(tag, "At user: " + atUser.getFacebookId());
+                                        loadFriendEvents(atUser);
+                                    }
                                 }
                             }
                         });
