@@ -70,5 +70,6 @@ public class CalendarFragment extends Fragment {
         Log.d("CalendarFragment", ("Selected day is " + m + "/" + d + "/" + y));
         Log.d("CalendarFragment", "");
         Date date = new GregorianCalendar(y, m, d).getTime();
+        timelineFeed.setDate(date);
     }
 }

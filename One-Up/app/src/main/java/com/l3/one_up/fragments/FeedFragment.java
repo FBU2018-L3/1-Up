@@ -23,6 +23,8 @@ import com.parse.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Date;
+
 public class FeedFragment extends Fragment {
     public String tag = "FeedFragment";
     /* oiur recycler view */
@@ -70,11 +72,8 @@ public class FeedFragment extends Fragment {
         /* set as adapter and more! */
         rvFeed.setAdapter(feedItemAdapter);
         /* call functions to populate  our feed/timeline */
-        loadEvents();
+        loadEvents(null);
     }
-
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,17 +82,16 @@ public class FeedFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_feed, container, false);
     }
 
-    public void loadEvents(){
+    public void loadEvents(Date date){
         final Event.Query eventQuery = new Event.Query();
         /* if else statements to check which screen we are populating */
-        if(this.isTimline){
-            eventQuery.includeActivity().byUser(User.getCurrentUser()).mostRecentFirst();
-        }
-        else if(this.isTimline == false){
-            eventQuery.includeActivity().byUser(User.getCurrentUser()).mostRecentFirst().onlyThisWeek();
-        }
-        else{
-            Log.d(tag, "Is timeline variable is ever initialized");
+        eventQuery.includeActivity().byUser(User.getCurrentUser()).mostRecentFirst();
+        if (!this.isTimline){
+            eventQuery.onlyThisWeek();
+        } else if (date != null) {
+            // restrict event query to a single day
+        } else{
+            Log.d(tag, "Is timeline variable is never initialized");
             return;
         }
 
@@ -102,6 +100,7 @@ public class FeedFragment extends Fragment {
             public void done(List<Event> objects, ParseException e) {
                 if(e == null){
                     Log.d(tag, "This is the size: " + objects.size());
+                    feedItemAdapter.clear();
                     Toast.makeText(fragAct, "Got events :)", Toast.LENGTH_LONG).show();
                     for(int i = 0; i < objects.size(); i++){
                         Event myEvent = objects.get(i);
@@ -117,4 +116,9 @@ public class FeedFragment extends Fragment {
             }
         });
     }
+
+    public void setDate(Date date) {
+        loadEvents(date);
+    }
+
 }
