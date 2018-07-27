@@ -86,6 +86,13 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.ViewHo
         return recentEvents.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
+
+
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvEventName;
         public TextView tvEventEXP;

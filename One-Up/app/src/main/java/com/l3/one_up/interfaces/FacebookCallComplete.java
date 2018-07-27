@@ -1,5 +1,6 @@
 package com.l3.one_up.interfaces;
 
+import com.l3.one_up.model.Event;
 import com.l3.one_up.model.FacebookQuery;
 
 import java.util.ArrayList;
