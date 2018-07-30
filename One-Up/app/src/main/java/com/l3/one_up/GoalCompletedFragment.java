@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.l3.one_up.model.Goal;
 import com.l3.one_up.model.User;
 
+import org.json.JSONException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -21,7 +23,7 @@ import butterknife.Unbinder;
 public class GoalCompletedFragment extends DialogFragment {
 
     private static final String ARG_GOAL = "goal";
-    private String goal;
+    private Goal goal;
 
     private Unbinder unbinder;
 
@@ -46,7 +48,7 @@ public class GoalCompletedFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            goal = getArguments().getString(ARG_GOAL);
+            goal = getArguments().getParcelable(ARG_GOAL);
         }
     }
 
@@ -67,6 +69,26 @@ public class GoalCompletedFragment extends DialogFragment {
         tvUserName.setText(user.getUsername());
         //pbExperiencePoints.setProgress(user.getInt("experiencePoints")%100);
         tvUserLvl.setText(String.valueOf(user.getLevel()));
+
+        tvCongrats.setText(makeCongratsMessage(goal));
+    }
+
+    private String makeCongratsMessage(Goal goal) {
+        StringBuilder sb = new StringBuilder("Congrats!");
+        sb.append("You completed ");
+        try {
+            if (goal.getInputType().keys().hasNext()) {
+                String inputType = goal.getInputType().keys().next();
+                sb.append(goal.getInputType().getInt(inputType));
+                sb.append(" ");
+                sb.append(inputType);
+                sb.append(" of ");
+            }
+        } catch (JSONException jsone) {
+            jsone.printStackTrace();
+        }
+        sb.append(goal.getActivity().getName());
+        return sb.toString();
     }
 
     @Override
