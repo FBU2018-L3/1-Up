@@ -76,7 +76,7 @@ public class Event extends ParseObject {
             return this;
         }
 
-        public Query byUser(ParseUser user) {
+        public Query byUser(User user) {
             whereEqualTo(KEY_USER, user);
             return this;
         }
@@ -86,11 +86,15 @@ public class Event extends ParseObject {
             return this;
         }
 
-        public Query ofActivity(String activityId) {
-            whereEqualTo(KEY_ACTIVITY, activityId);
+//        public Query ofActivity(String activityId) {
+//            whereEqualTo(KEY_ACTIVITY, activityId);
+//            return this;
+//        }
+
+        public Query ofActivity(Activity activity){
+            whereEqualTo(KEY_ACTIVITY, activity);
             return this;
         }
-
         public Query ofCategory(String category) {
             whereEqualTo(KEY_CATEGORY, category);
             return this;
