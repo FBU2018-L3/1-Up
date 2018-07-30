@@ -92,12 +92,12 @@
     <include layout="@layout/sleep_toggle" android:id="@+id/sleepToggle"/>
 
     <Button
-        android:text="See Power Ups"
         android:id="@+id/btSeePowerUps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/sleepToggle"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:text="See Power Ups" />
 
 
 </RelativeLayout>

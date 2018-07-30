@@ -9,19 +9,21 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.l3.one_up.fragments.FeedFragment;
 import com.l3.one_up.fragments.FriendsFragment;
+import com.l3.one_up.fragments.PowerUpFragment;
 import com.l3.one_up.fragments.ProfileFragment;
 import com.l3.one_up.fragments.StatsFragment;
+import com.l3.one_up.model.PowerUp;
 import com.parse.ParseUser;
 
 public class ProfileActivity extends AppCompatActivity implements
         ProfileFragment.OnFragmentInteractionListener {
 
+    private static String tag = "Profile Activity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

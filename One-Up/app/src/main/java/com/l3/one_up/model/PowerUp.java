@@ -57,7 +57,7 @@ public class PowerUp extends ParseObject {
         put(KEY_REDEEM, isRedeemed);
     }
 
-    public class Query extends ParseQuery<PowerUp>
+    public static class Query extends ParseQuery<PowerUp>
     {
 
         public Query() { super(PowerUp.class); }

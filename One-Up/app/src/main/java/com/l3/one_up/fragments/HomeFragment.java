@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -31,6 +32,8 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
     private TextView tvWelcome;
     private TextView tvLevelNum;
     private TextView tvXPNum;
+    /* Button for toggling */
+    private Button btSeePowerUps;
 
     private OnFragmentInteractionListener mListener;
 
@@ -73,6 +76,7 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
         tvWelcome = (TextView) getActivity().findViewById(R.id.tvWelcome);
         tvLevelNum = (TextView) getActivity().findViewById(R.id.tvLevelNum);
         tvXPNum = (TextView) getActivity().findViewById(R.id.tvXPNum);
+        btSeePowerUps = (Button) getActivity().findViewById(R.id.btSeePowerUps);
 
         user = ParseUser.getCurrentUser();
 
@@ -100,6 +104,16 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
         ft.addToBackStack("category").commit();
 
         tbSleepSwitch.setChecked(user.getBoolean("isAsleep"));
+
+        btSeePowerUps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                 PowerUpFragment powerUpFragment = new PowerUpFragment();
+                 FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+                 ft.replace(R.id.categoryContainer, powerUpFragment);
+                 ft.addToBackStack("category").commit();
+            }
+        });
     }
 
     @Override
@@ -149,5 +163,7 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
         editor.putLong("sleepTime", time).apply();
         sleepListener.toggleSleep(true);
     }
+
+
 
 }
