@@ -9,12 +9,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.l3.one_up.fragments.ChartFragment;
 import com.l3.one_up.fragments.FeedFragment;
+import com.l3.one_up.fragments.CalendarFragment;
 import com.l3.one_up.fragments.FriendsFragment;
 import com.l3.one_up.fragments.ProfileFragment;
 import com.l3.one_up.fragments.StatsFragment;
@@ -48,9 +48,8 @@ public class ProfileActivity extends AppCompatActivity implements
                         return true;
                     case R.id.action_timeline:
                         /* creating a new Instance of our feed fragment */
-                        boolean isTimeline = true; // for clarity's sake
-                        FeedFragment timelineFragment = FeedFragment.newInstance(isTimeline);
-                        startFragment(timelineFragment);
+                        CalendarFragment calendarFragment = CalendarFragment.newInstance();
+                        startFragment(calendarFragment);
                         return true;
                     case R.id.action_friends:
                         FriendsFragment friendsFragment = FriendsFragment.newInstance();

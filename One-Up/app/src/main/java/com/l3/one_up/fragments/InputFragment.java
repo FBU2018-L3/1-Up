@@ -1,5 +1,6 @@
 package com.l3.one_up.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.l3.one_up.Objective;
@@ -52,6 +54,7 @@ public class InputFragment extends DialogFragment {
     @BindView(R.id.spInputType) Spinner spInputType;
     @BindView(R.id.etValue) EditText etValue;
     @BindView(R.id.cbIsPrivate) CheckBox cbIsPrivate;
+    @BindView(R.id.tvGoalWarning) TextView tvGoalWarning;
 
     // Empty constructor required
     public InputFragment(){}
@@ -81,6 +84,8 @@ public class InputFragment extends DialogFragment {
         int objectiveIndex = getArguments().getInt(KEY_OBJECTIVE);
         objective = Objective.values()[objectiveIndex];
 
+        tvGoalWarning.setVisibility(View.GONE);
+
         List<String> spinnerArray =  new ArrayList<String>();
         for(int i =0; i< activity.getInputType().names().length(); i++)
         {
@@ -104,7 +109,8 @@ public class InputFragment extends DialogFragment {
         existingGoalQuery.onlyThisWeek()
                         .mostRecentFirst()
                         .byUser(ParseUser.getCurrentUser())
-                        .ofActivity(activity);
+                        .ofActivity(activity)
+                        .incomplete();
         existingGoalQuery.findInBackground(new FindCallback<Goal>() {
             @Override
             public void done(List<Goal> objects, ParseException e) {
@@ -114,10 +120,17 @@ public class InputFragment extends DialogFragment {
                 } else {
                     // warn user that they already have a goal for this
                     Toast.makeText(getContext(), "Activity has a goal in progress", Toast.LENGTH_LONG).show();
+                    tvGoalWarning.setVisibility(View.VISIBLE);
+                    tvGoalWarning.setText(R.string.goal_already_exists_warning);
                     activeGoals = objects;
                 }
             }
         });
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Override
@@ -223,31 +236,33 @@ public class InputFragment extends DialogFragment {
     }
 
     private void updateActiveGoals(List<Goal> activeGoals) {
-        for (Goal goal : activeGoals) {
-            // increment goal progress
-            try {
-                Log.d("InputFragment", goal.getProgress().toString());
-                Log.d("InputFragment", inputType);
-                int oldProgress = goal.getProgress().getInt(inputType);
-                int newProgress = oldProgress + Integer.parseInt(etValue.getText().toString());
-                goal.setProgress(new JSONObject().put(inputType, newProgress));
+        if (activeGoals != null && activeGoals.size() > 0) {
+            for (Goal goal : activeGoals) {
+                // increment goal progress
+                try {
+                    Log.d("InputFragment", goal.getProgress().toString());
+                    Log.d("InputFragment", inputType);
+                    int oldProgress = goal.getProgress().getInt(inputType);
+                    int newProgress = oldProgress + Integer.parseInt(etValue.getText().toString());
+                    goal.setProgress(new JSONObject().put(inputType, newProgress));
 
-                int numericalGoal = goal.getInputType().getInt(inputType);
-                // TODO - check if goal was completed
-                if (newProgress >= numericalGoal) {
-                    goal.setIsCompleted(true);
-                }
-
-                goal.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Log.d("InputFragment","Goal was updated!");
+                    int numericalGoal = goal.getInputType().getInt(inputType);
+                    if (newProgress >= numericalGoal) {
+                        goal.setIsCompleted(true);
                     }
-                });
 
-            } catch (JSONException e) {
-                Log.d("InputFragment", "Unable to update goal");
-                e.printStackTrace();
+                    goal.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            Log.d("InputFragment", "Goal was updated!");
+                            getParentFragmentManager();
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    Log.d("InputFragment", "Unable to update goal");
+                    e.printStackTrace();
+                }
             }
         }
     }
