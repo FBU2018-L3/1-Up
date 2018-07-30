@@ -35,4 +35,8 @@ public class PowerUpFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_power_up, container, false);
     }
+
+    public void loadPowerUps() {
+
+    }
 }

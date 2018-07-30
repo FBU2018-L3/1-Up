@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btRedeemPowerUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:text="Redeem" />
+
+    <TextView
+        android:id="@+id/tvHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/tvSentBy"
+        android:layout_alignParentStart="true"
+        android:text="Sent By: "
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/tvSentBy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvPowerUpMessage"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvHeader"
+        android:text="PlaceHolder" />
+
+    <TextView
+        android:id="@+id/tvPowerUpMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btRedeemPowerUp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/tvHeader"
+        android:layout_toStartOf="@+id/btRedeemPowerUp"
+        android:text="More PlaceHolder" />
+
+</RelativeLayout>
