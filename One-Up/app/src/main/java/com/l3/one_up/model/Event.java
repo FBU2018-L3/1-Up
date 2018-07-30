@@ -114,7 +114,7 @@ public class Event extends ParseObject {
         public Query onlyOnDay(int year, int month, int day) {
             GregorianCalendar condensedDate = new GregorianCalendar(year, month, day);
             whereGreaterThanOrEqualTo(KEY_CREATED, condensedDate.getTime());
-            whereLessThan(KEY_CREATED, condensedDate.getTimeInMillis() + MILLIS_24HRS);
+            whereLessThan(KEY_CREATED, new Date(condensedDate.getTimeInMillis() + MILLIS_24HRS));
             return this;
         }
 

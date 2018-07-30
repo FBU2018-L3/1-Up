@@ -23,8 +23,6 @@ import com.parse.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.util.Date;
-
 public class FeedFragment extends Fragment {
     public String tag = "FeedFragment";
     /* oiur recycler view */
@@ -72,7 +70,7 @@ public class FeedFragment extends Fragment {
         /* set as adapter and more! */
         rvFeed.setAdapter(feedItemAdapter);
         /* call functions to populate  our feed/timeline */
-        loadEvents(null);
+        loadEvents(-1, -1, -1);
     }
 
     @Override
@@ -82,15 +80,14 @@ public class FeedFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_feed, container, false);
     }
 
-    public void loadEvents(Date date){
+    public void loadEvents(int year, int month, int day){
         final Event.Query eventQuery = new Event.Query();
         /* if else statements to check which screen we are populating */
         eventQuery.includeActivity().byUser(User.getCurrentUser()).mostRecentFirst();
         if (!this.isTimeline){
             eventQuery.onlyThisWeek();
-        } else if (date != null) {
-            // restrict event query to a single day
-            // eventQuery.onlyOnDay(date);
+        } else if (month != -1) {
+            eventQuery.onlyOnDay(year, month, day);
         } else{
             Log.d(tag, "Is timeline variable is never initialized");
             return;
@@ -118,8 +115,8 @@ public class FeedFragment extends Fragment {
         });
     }
 
-    public void setDate(Date date) {
-        loadEvents(date);
+    public void setDate(int year, int month, int day) {
+        loadEvents(year, month, day);
     }
 
 }

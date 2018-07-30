@@ -13,7 +13,6 @@ import android.widget.CalendarView;
 
 import com.l3.one_up.R;
 
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class CalendarFragment extends Fragment {
@@ -68,8 +67,7 @@ public class CalendarFragment extends Fragment {
 
     private void onDayChange(CalendarView v, int y, int m, int d) {
         Log.d("CalendarFragment", ("Selected day is " + m + "/" + d + "/" + y));
-        Log.d("CalendarFragment", "");
-        Date date = new GregorianCalendar(y, m, d).getTime();
-        timelineFeed.setDate(date);
+        v.setDate(new GregorianCalendar(y, m, d).getTimeInMillis());
+        timelineFeed.setDate(y, m, d);
     }
 }
