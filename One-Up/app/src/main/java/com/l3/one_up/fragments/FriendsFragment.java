@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.l3.one_up.R;
 import com.l3.one_up.adapters.FeedItemAdapter;
 import com.l3.one_up.adapters.FriendsAdapter;
 import com.l3.one_up.interfaces.FacebookCallComplete;
+import com.l3.one_up.interfaces.PowerUpCallback;
 import com.l3.one_up.model.Event;
 import com.l3.one_up.model.FacebookQuery;
 import com.l3.one_up.model.OrderFacebookUsersById;
@@ -248,7 +250,6 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
             Log.d(tag, "At user: " + atUser.getFacebookId());
             PowerUp newPowerUp = new PowerUp();
             newPowerUp.setIsRedeemed(false);
-            newPowerUp.setMessage(test);
             newPowerUp.setXP(10);
             /* set our pointers */
             User sentByUser = User.getCurrentUser();
@@ -258,16 +259,10 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
             newPowerUp.setSentByUser(sentByUser);
             newPowerUp.setSentToUser(sentToUser);
             /* save time */
-            newPowerUp.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if(e == null){
-                        Toast.makeText(fragAct, "You sent a power up!", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(fragAct, "Failed to send a power up :(", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
+            FragmentManager fragmentManager = getFragmentManager();
+            SendPowerUpFragment sendPowerUpFragment = SendPowerUpFragment.newInstance(newPowerUp);
+            sendPowerUpFragment.show(fragmentManager, "tagz");
+
         }
         else{
             Toast.makeText(fragAct, "Please move to a valid position", Toast.LENGTH_LONG).show();

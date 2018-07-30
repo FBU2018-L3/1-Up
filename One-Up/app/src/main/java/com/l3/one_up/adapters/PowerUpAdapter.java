@@ -2,6 +2,7 @@ package com.l3.one_up.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.l3.one_up.R;
+import com.l3.one_up.interfaces.PowerUpCallback;
 import com.l3.one_up.model.PowerUp;
+import com.l3.one_up.model.User;
+import com.parse.ParseException;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 
@@ -24,9 +29,12 @@ public class PowerUpAdapter extends RecyclerView.Adapter<PowerUpAdapter.ViewHold
     ArrayList<PowerUp> userPowerUps;
     /* our context */
     Context context;
+    /* our callback */
+    PowerUpCallback powerUpCallback;
 
-    public PowerUpAdapter(ArrayList<PowerUp> userPowerUps) {
+    public PowerUpAdapter(ArrayList<PowerUp> userPowerUps, PowerUpCallback powerUpCallback) {
         this.userPowerUps = userPowerUps;
+        this.powerUpCallback = powerUpCallback;
     }
 
     @NonNull
@@ -66,6 +74,30 @@ public class PowerUpAdapter extends RecyclerView.Adapter<PowerUpAdapter.ViewHold
             tvSentBy = itemView.findViewById(R.id.tvSentBy);
             tvPowerUpMessage = itemView.findViewById(R.id.tvPowerUpMessage);
             btPowerUpClick = itemView.findViewById(R.id.btRedeemPowerUp);
+
+            btPowerUpClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION){
+                        PowerUp atPowerUp = userPowerUps.get(position);
+                        powerUpCallback.applyBonusExp(atPowerUp);
+                        atPowerUp.setIsRedeemed(true);
+                        atPowerUp.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if(e == null){
+                                    userPowerUps.remove(position);
+                                    notifyDataSetChanged();
+                                }
+                                else {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                }
+            });
         }
     }
 }

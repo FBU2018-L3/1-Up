@@ -8,9 +8,8 @@
         android:id="@+id/btSendPowerUp"
         android:layout_width="125dp"
         android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/etSendMessage"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="59dp"
         android:text="Send Power Up" />
 
     <TextView
@@ -37,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/To"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="19dp"
         android:ems="10"
         android:hint="Write a message here!"
         android:inputType="textMultiLine" />

@@ -76,5 +76,10 @@ public class PowerUp extends ParseObject {
             whereEqualTo(KEY_SENTBY_USER, user);
             return this;
         }
+
+        public Query includeUser() {
+            include(KEY_SENTBY_USER);
+            return this;
+        }
     }
 }
