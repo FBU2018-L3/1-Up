@@ -36,7 +36,7 @@ public class FeedFragment extends Fragment {
     /* key for retrieving our flag */
     String KEY_FLAG = "isTimeline";
     /* boolean flag for telling us whether we are displaying to feed or timeline */
-    boolean isTimline;
+    boolean isTimeline;
 
     public FeedFragment() {
         // Required empty public constructor
@@ -57,7 +57,7 @@ public class FeedFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Log.d(tag, "In our feed fragment");
         /* get pur flag which will dictate how we initialize */
-        isTimline = getArguments().getBoolean(KEY_FLAG);
+        isTimeline = getArguments().getBoolean(KEY_FLAG);
         /* set up our context */
         fragAct = (FragmentActivity) getActivity();
         /* set up recycler view */
@@ -70,11 +70,8 @@ public class FeedFragment extends Fragment {
         /* set as adapter and more! */
         rvFeed.setAdapter(feedItemAdapter);
         /* call functions to populate  our feed/timeline */
-        loadEvents();
+        loadEvents(-1, -1, -1);
     }
-
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,17 +80,16 @@ public class FeedFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_feed, container, false);
     }
 
-    public void loadEvents(){
+    public void loadEvents(int year, int month, int day){
         final Event.Query eventQuery = new Event.Query();
         /* if else statements to check which screen we are populating */
-        if(this.isTimline){
-            eventQuery.includeActivity().byUser(User.getCurrentUser()).mostRecentFirst();
-        }
-        else if(this.isTimline == false){
-            eventQuery.includeActivity().byUser(User.getCurrentUser()).mostRecentFirst().onlyThisWeek();
-        }
-        else{
-            Log.d(tag, "Is timeline variable is ever initialized");
+        eventQuery.includeActivity().byUser(User.getCurrentUser()).mostRecentFirst();
+        if (!this.isTimeline){
+            eventQuery.onlyThisWeek();
+        } else if (month != -1) {
+            eventQuery.onlyOnDay(year, month, day);
+        } else{
+            Log.d(tag, "Is timeline variable is never initialized");
             return;
         }
 
@@ -102,6 +98,7 @@ public class FeedFragment extends Fragment {
             public void done(List<Event> objects, ParseException e) {
                 if(e == null){
                     Log.d(tag, "This is the size: " + objects.size());
+                    feedItemAdapter.clear();
                     Toast.makeText(fragAct, "Got events :)", Toast.LENGTH_LONG).show();
                     for(int i = 0; i < objects.size(); i++){
                         Event myEvent = objects.get(i);
@@ -117,4 +114,9 @@ public class FeedFragment extends Fragment {
             }
         });
     }
+
+    public void setDate(int year, int month, int day) {
+        loadEvents(year, month, day);
+    }
+
 }
