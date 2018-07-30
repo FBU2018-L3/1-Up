@@ -84,6 +84,8 @@ public class InputFragment extends DialogFragment {
         int objectiveIndex = getArguments().getInt(KEY_OBJECTIVE);
         objective = Objective.values()[objectiveIndex];
 
+        tvGoalWarning.setVisibility(View.GONE);
+
         List<String> spinnerArray =  new ArrayList<String>();
         for(int i =0; i< activity.getInputType().names().length(); i++)
         {
