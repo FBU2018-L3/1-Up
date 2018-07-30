@@ -249,6 +249,9 @@ public class InputFragment extends DialogFragment {
                     int numericalGoal = goal.getInputType().getInt(inputType);
                     if (newProgress >= numericalGoal) {
                         goal.setIsCompleted(true);
+
+                        // TODO - show goal confirmation modal/dialog fragment
+
                     }
 
                     goal.saveInBackground(new SaveCallback() {
