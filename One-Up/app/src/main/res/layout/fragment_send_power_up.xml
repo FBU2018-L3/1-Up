@@ -1,0 +1,45 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.l3.one_up.fragments.SendPowerUpFragment">
+
+    <Button
+        android:id="@+id/btSendPowerUp"
+        android:layout_width="125dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="59dp"
+        android:text="Send Power Up" />
+
+    <TextView
+        android:id="@+id/To"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/btSendPowerUp"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="112dp"
+        android:layout_marginTop="100dp"
+        android:text="To: " />
+
+    <TextView
+        android:id="@+id/tvSendToName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/etSendMessage"
+        android:layout_centerHorizontal="true"
+        android:text="Placeholder" />
+
+    <EditText
+        android:id="@+id/etSendMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/To"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        android:ems="10"
+        android:hint="Write a message here!"
+        android:inputType="textMultiLine" />
+
+</RelativeLayout>
