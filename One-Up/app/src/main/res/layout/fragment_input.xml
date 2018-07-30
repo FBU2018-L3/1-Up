@@ -55,6 +55,22 @@
         android:ems="10"
         android:inputType="numberDecimal" />
 
+    <TextView
+        android:id="@+id/tvGoalWarning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etValue"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="#f0c8c8"
+        android:padding="10dp"
+        android:text="Warning"
+        android:textColor="@android:color/holo_red_dark" />
+    <!-- android:visibility="gone" -->
+
     <Button
         android:id="@+id/btnSubmit"
         android:layout_marginTop="20dp"
@@ -68,8 +84,9 @@
         android:id="@+id/cbIsPrivate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etValue"
+        android:layout_below="@+id/tvGoalWarning"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="@string/save_as_private" />
+
 </RelativeLayout>

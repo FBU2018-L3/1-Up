@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.l3.one_up.Objective;
@@ -53,6 +54,7 @@ public class InputFragment extends DialogFragment {
     @BindView(R.id.spInputType) Spinner spInputType;
     @BindView(R.id.etValue) EditText etValue;
     @BindView(R.id.cbIsPrivate) CheckBox cbIsPrivate;
+    @BindView(R.id.tvGoalWarning) TextView tvGoalWarning;
 
     // Empty constructor required
     public InputFragment(){}
@@ -116,6 +118,8 @@ public class InputFragment extends DialogFragment {
                 } else {
                     // warn user that they already have a goal for this
                     Toast.makeText(getContext(), "Activity has a goal in progress", Toast.LENGTH_LONG).show();
+                    tvGoalWarning.setVisibility(View.VISIBLE);
+                    tvGoalWarning.setText(R.string.goal_already_exists_warning);
                     activeGoals = objects;
                 }
             }
