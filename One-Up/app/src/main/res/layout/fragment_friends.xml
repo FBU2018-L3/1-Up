@@ -25,8 +25,17 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvFriendFeed"
             android:layout_below="@+id/rvFriendList"
+            android:layout_above="@+id/btPowerUp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <Button
+            android:text="Send Power Up"
+            android:id="@+id/btPowerUp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
 
     </RelativeLayout>
 

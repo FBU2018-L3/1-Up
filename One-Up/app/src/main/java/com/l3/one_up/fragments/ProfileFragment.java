@@ -31,6 +31,8 @@ public class ProfileFragment extends Fragment {
     private Button btnLogOut;
     /* NEW: FB login button */
     private Button btfbLogin;
+    /* view power up button */
+    private Button btPowerUps;
     private static final int REQUEST_CODE = 1;
 
     private OnFragmentInteractionListener mListener;
