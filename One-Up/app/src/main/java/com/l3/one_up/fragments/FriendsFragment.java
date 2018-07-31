@@ -61,8 +61,6 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
     private Button btPowerUp;
     /* int to show us which user we are looking at at any given time */
     private int positionAtUser;
-    // reeeeemoooovveee
-    private String test = "STATIC STRING TIME";
 
     public FriendsFragment() {
         // Required empty public constructor
