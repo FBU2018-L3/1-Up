@@ -1,7 +1,6 @@
 package com.l3.one_up.adapters;
 
 import android.content.Context;
-import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,7 +13,6 @@ import com.l3.one_up.R;
 import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
 import com.l3.one_up.model.ParseRelativeDate;
-import com.parse.ParseObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -91,7 +89,10 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.ViewHo
         return super.getItemId(position);
     }
 
-
+    public void clear() {
+        recentEvents.clear();
+        notifyDataSetChanged();
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvEventName;

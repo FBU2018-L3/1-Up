@@ -3,6 +3,7 @@
     <string name="submit">Submit</string>
     <string name="you_did">you did?</string>
     <string name="how_many">How many</string>
+    <string name="goal_already_exists_warning">Warning: you\'ve already set a goal for this activity!</string>
     <string name="activitySearch">Search activities</string>
     <string name="save_as_private">Save as Private</string>
     <string-array name="categories">
@@ -14,7 +15,4 @@
     <string name="facebook_app_id">270659470186168</string>
     <string name="fb_login_protocol_scheme">fb270659470186168</string>
     <string name="message">Sent a thing</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

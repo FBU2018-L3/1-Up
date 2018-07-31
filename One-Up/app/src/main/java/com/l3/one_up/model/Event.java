@@ -8,6 +8,7 @@ import com.parse.ParseUser;
 import org.json.JSONObject;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 @ParseClassName("Event")
 public class Event extends ParseObject {
@@ -75,7 +76,7 @@ public class Event extends ParseObject {
             return this;
         }
 
-        public Query byUser(ParseUser user) {
+        public Query byUser(User user) {
             whereEqualTo(KEY_USER, user);
             return this;
         }
@@ -85,11 +86,15 @@ public class Event extends ParseObject {
             return this;
         }
 
-        public Query ofActivity(String activityId) {
-            whereEqualTo(KEY_ACTIVITY, activityId);
+//        public Query ofActivity(String activityId) {
+//            whereEqualTo(KEY_ACTIVITY, activityId);
+//            return this;
+//        }
+
+        public Query ofActivity(Activity activity){
+            whereEqualTo(KEY_ACTIVITY, activity);
             return this;
         }
-
         public Query ofCategory(String category) {
             whereEqualTo(KEY_CATEGORY, category);
             return this;
@@ -107,6 +112,13 @@ public class Event extends ParseObject {
 
         public Query onlyThisWeek() {
             whereGreaterThanOrEqualTo(KEY_CREATED, new Date(System.currentTimeMillis() - MILLIS_24HRS * 7));
+            return this;
+        }
+
+        public Query onlyOnDay(int year, int month, int day) {
+            GregorianCalendar condensedDate = new GregorianCalendar(year, month, day);
+            whereGreaterThanOrEqualTo(KEY_CREATED, condensedDate.getTime());
+            whereLessThan(KEY_CREATED, new Date(condensedDate.getTimeInMillis() + MILLIS_24HRS));
             return this;
         }
 
