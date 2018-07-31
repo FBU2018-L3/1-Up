@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.l3.one_up.GoalCompletedFragment;
 import com.l3.one_up.Objective;
 import com.l3.one_up.R;
 import com.l3.one_up.model.Activity;
@@ -237,16 +238,16 @@ public class InputFragment extends DialogFragment {
 
     private void updateActiveGoals(List<Goal> activeGoals) {
         if (activeGoals != null && activeGoals.size() > 0) {
-            for (Goal goal : activeGoals) {
+            for (final Goal goal : activeGoals) {
                 // increment goal progress
                 try {
                     Log.d("InputFragment", goal.getProgress().toString());
                     Log.d("InputFragment", inputType);
                     int oldProgress = goal.getProgress().getInt(inputType);
-                    int newProgress = oldProgress + Integer.parseInt(etValue.getText().toString());
+                    final int newProgress = oldProgress + Integer.parseInt(etValue.getText().toString());
                     goal.setProgress(new JSONObject().put(inputType, newProgress));
 
-                    int numericalGoal = goal.getInputType().getInt(inputType);
+                    final int numericalGoal = goal.getInputType().getInt(inputType);
                     if (newProgress >= numericalGoal) {
                         goal.setIsCompleted(true);
                     }
@@ -255,7 +256,11 @@ public class InputFragment extends DialogFragment {
                         @Override
                         public void done(ParseException e) {
                             Log.d("InputFragment", "Goal was updated!");
-                            getParentFragmentManager();
+                            if (newProgress >= numericalGoal) {
+                                FragmentManager fm = getParentFragmentManager();
+                                GoalCompletedFragment gcf = GoalCompletedFragment.newInstance(goal);
+                                gcf.show(fm, "icf");
+                            }
                         }
                     });
 
