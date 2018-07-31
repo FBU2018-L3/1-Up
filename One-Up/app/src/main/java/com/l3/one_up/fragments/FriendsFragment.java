@@ -6,9 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,6 +90,11 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(tag, "In our friends fragment");
+        // Setting toolbar
+        Toolbar searchBar = getActivity().findViewById(R.id.tbSearchBar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(searchBar);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         /* set up our context */
         fragAct = (FragmentActivity) getActivity();
         tvNoFriends = fragAct.findViewById(R.id.tvNofriends);
