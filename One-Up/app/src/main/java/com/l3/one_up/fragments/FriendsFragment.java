@@ -9,11 +9,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +39,8 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +73,7 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
     private boolean isComplete;
     /* array list of complete data so we don't continually check it */
     private ArrayList<FacebookQuery.FacebookUser> completeFriendsList;
+    private ArrayList<User> completeParseUser;
 
     public FriendsFragment() {
         // Required empty public constructor
@@ -106,6 +115,8 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         /* init data set */
         friendsList = new ArrayList<>();
         parseUsers = new ArrayList<>();
+        completeFriendsList = new ArrayList<>();
+        completeParseUser = new ArrayList<>();
         /* set as adapter */
         friendsAdapter = new FriendsAdapter(friendsList);
         rvFriendList.setAdapter(friendsAdapter);
@@ -118,6 +129,7 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         /* init to an impossible number */
         positionAtUser = -1;
         /* boolean flag that let us know whether data set is complete */
+        setHasOptionsMenu(true);
 
 
         /* Time to do our query and then update the adapter in the callbacks */
@@ -133,7 +145,6 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
                 }
             });
             /* init all the search bar stuff */
-            initSearchBar();
         }
         else{
             Log.d(tag, "User is not logged in! Please connect to facebook!");
@@ -142,9 +153,6 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         }
     }
 
-    private void initSearchBar() {
-
-    }
 
     /* NOTE: KEEP ALL DATA PROCESSING WITHIN THE CALLBACKS */
     @Override
@@ -173,6 +181,10 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
                     // sort!!!
                     FacebookList.sort(fbCompare);
                     parseUsers.sort(parseCompare);
+                    /* store a final copy */
+                    completeParseUser.addAll(parseUsers);
+                    completeFriendsList.addAll(FacebookList);
+
 
                     if(parseUsers.size() == FacebookList.size()){
                         setLevels(FacebookList, parseUsers);
@@ -226,6 +238,7 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
     public void updateFBAdapterDataSet(ArrayList<FacebookQuery.FacebookUser> facebookList) {
         friendsList.clear();
         friendsList.addAll(facebookList);
+        /* init a final complete data set which we should not amend */
         friendsAdapter.notifyDataSetChanged();
     }
 
@@ -282,5 +295,71 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         else{
             Toast.makeText(fragAct, "Please move to a valid position", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        /* mplementing ActionBar Search inside a fragment */
+        MenuItem item = menu.add("Search");
+        item.setIcon(R.drawable.search_icon);
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        android.support.v7.widget.SearchView searchView = new android.support.v7.widget.SearchView(getActivity());
+
+        /* Fetch our text view and set appropriate fields */
+        TextView textView = (AutoCompleteTextView) searchView.findViewById(R.id.search_src_text);
+        textView.setHint("Search by Facebook Name ");
+        textView.setHintTextColor(getResources().getColor(R.color.hintColor));
+        textView.setTextColor(getResources().getColor(R.color.writeColor));
+        /* implement the listener */
+        searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                /* once the user hits the submit bar */
+                Log.d(tag, "User hit submit");
+                doSearch(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                /* every time the user changes their search */
+                if(TextUtils.isEmpty(newText)){
+                    /* if the user has cleared the search, we want to show all activities */
+                    doSearch("");
+                    return false;
+                }
+                return false;
+            }
+        });
+        item.setActionView(searchView);
+    }
+
+    private void doSearch(String query) {
+        /* time to user our complete set to create a searched set */
+        friendsList.clear();
+        parseUsers.clear();
+
+        if(query == ""){
+            Log.d(tag, "Empty query so return all results");
+            friendsList.addAll(completeFriendsList);
+            parseUsers.addAll(completeParseUser);
+        }
+        else{
+            query.toLowerCase();
+            Log.d(tag, "Query is: " + query);
+            for(int i = 0; i < completeFriendsList.size(); i++){
+                String facebookUsername = completeFriendsList.get(i).username;
+                facebookUsername.toLowerCase();
+                /* if the facebook username contains the query, we add it back to our data */
+                if(facebookUsername.contains(query)){
+                    Log.d(tag, "Found one. Name: " + facebookUsername);
+                    friendsList.add(completeFriendsList.get(i));
+                    parseUsers.add(completeParseUser.get(i));
+                }
+            }
+        }
+        friendsAdapter.notifyDataSetChanged();
+        if(parseUsers.size() != 0) loadFriendEvents(parseUsers.get(0));
+
     }
 }
