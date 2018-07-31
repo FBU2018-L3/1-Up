@@ -61,6 +61,10 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
     private Button btPowerUp;
     /* int to show us which user we are looking at at any given time */
     private int positionAtUser;
+    /* flag to tell us whether our data set is complete */
+    private boolean isComplete;
+    /* array list of complete data so we don't continually check it */
+    private ArrayList<FacebookQuery.FacebookUser> completeFriendsList;
 
     public FriendsFragment() {
         // Required empty public constructor
@@ -90,6 +94,7 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         Log.d(tag, "In our friends fragment");
         /* set up our context */
         fragAct = (FragmentActivity) getActivity();
+        isComplete = false;
         tvNoFriends = fragAct.findViewById(R.id.tvNofriends);
         /* hook up power up button */
         btPowerUp = fragAct.findViewById(R.id.btPowerUp);
@@ -112,6 +117,7 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         rvFriendFeed.setAdapter(feedItemAdapter);
         /* init to an impossible number */
         positionAtUser = -1;
+        /* boolean flag that let us know whether data set is complete */
 
 
         /* Time to do our query and then update the adapter in the callbacks */
@@ -126,12 +132,18 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
                     sendPowerUp();
                 }
             });
+            /* init all the search bar stuff */
+            initSearchBar();
         }
         else{
             Log.d(tag, "User is not logged in! Please connect to facebook!");
             tvNoFriends.setVisibility(TextView.VISIBLE);
             tvNoFriends.setText("You are not connected to Facebook! Please connect to Facebook to use this feature!");
         }
+    }
+
+    private void initSearchBar() {
+
     }
 
     /* NOTE: KEEP ALL DATA PROCESSING WITHIN THE CALLBACKS */
@@ -166,6 +178,8 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
                         setLevels(FacebookList, parseUsers);
                         /* Note: might want to move all this stuff into the above conditional if I think it'll be a problem */
                         updateFBAdapterDataSet(FacebookList);
+                        /* data set is complete set flag */
+                        isComplete = true;
                         /* load in events for the first user in the data set */
                         loadFriendEvents(parseUsers.get(0));
                         positionAtUser = 0;
@@ -183,6 +197,7 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
                                 }
                             }
                         });
+
                     } else {
                         Log.e(tag ,"UM NUMBER OF USERS DO NOT MATCH DO NOT TRY LINKING THE INFO TOGETHER");
                     }
@@ -202,7 +217,9 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
     {
         for(int i = 0; i < ParseUsers.size(); i++){
             int parseUserLevel = ParseUsers.get(i).getLevel();
+            String parseUsername = ParseUsers.get(i).getUsername();
             FacebookList.get(i).setUserLevel(parseUserLevel);
+            FacebookList.get(i).setParseUsername(parseUsername);
         }
     }
 

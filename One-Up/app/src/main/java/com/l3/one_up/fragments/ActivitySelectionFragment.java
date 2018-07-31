@@ -136,7 +136,6 @@ public class ActivitySelectionFragment extends Fragment
     }
 
 
-    /* TODO: Check efficiency of this, look for ways to improve it or if it even matter (relatively small data set) */
     /* actual search method for things */
     private void doSearch(String query) {
         if(query == null || query.length() == 0){
