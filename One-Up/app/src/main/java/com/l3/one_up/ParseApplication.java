@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.facebook.login.LoginManager;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
 import com.l3.one_up.model.Goal;
@@ -52,6 +53,8 @@ public class ParseApplication extends Application {
                 .server(getString(R.string.server_url))
                 .enableLocalDataStore()
                 .build());
+        //PushService.setDefaultPushCallback(this, MainActivity.class);
+
 
         ParsePush.subscribeInBackground("", new SaveCallback() {
             @Override
@@ -67,6 +70,11 @@ public class ParseApplication extends Application {
             }
         });
 
-        ParseInstallation.getCurrentInstallation().saveInBackground();
+
+        final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        if(installation.getDeviceToken()==null) {
+            installation.setDeviceToken(FirebaseInstanceId.getInstance().getToken());
+        }
+        installation.saveInBackground();
     }
 }
