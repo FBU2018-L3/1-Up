@@ -17,7 +17,6 @@
         android:id="@+id/tvFriendName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/ivFriendProfilePic"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_toStartOf="@+id/ivFriendProfilePic"
@@ -32,4 +31,14 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/ivFriendProfilePic"
         android:text="Friend Level" />
+
+    <TextView
+        android:id="@+id/tvFriendParseName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ivFriendProfilePic"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvFriendName"
+        android:layout_toStartOf="@+id/ivFriendProfilePic"
+        android:text="Parse Username" />
 </RelativeLayout>

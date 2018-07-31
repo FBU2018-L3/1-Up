@@ -45,9 +45,12 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         String friendName = oneFriend.username;
         String friendLevel = oneFriend.userLevel;
         String friendProfUrl = oneFriend.userProfilePicUrl;
+        String friendParseName = oneFriend.parseUsername;
+        friendParseName = "AKA " + friendParseName;
 
         holder.tvFriendName.setText(friendName);
         holder.tvFriendLevel.setText(friendLevel);
+        holder.tvFriendParseName.setText(friendParseName);
 
         GlideApp.with(context)
                 .load(friendProfUrl)
@@ -64,12 +67,14 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         public TextView tvFriendName;
         public TextView tvFriendLevel;
         public ImageView ivFriendProfilePic;
+        public TextView tvFriendParseName;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvFriendName = itemView.findViewById(R.id.tvFriendName);
             tvFriendLevel = itemView.findViewById(R.id.tvFriendLevel);
             ivFriendProfilePic = itemView.findViewById(R.id.ivFriendProfilePic);
+            tvFriendParseName = itemView.findViewById(R.id.tvFriendParseName);
         }
     }
 }
