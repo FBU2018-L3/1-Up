@@ -115,12 +115,13 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         /* init data set */
         friendsList = new ArrayList<>();
         parseUsers = new ArrayList<>();
+        /* complete copy of the entire data set */
         completeFriendsList = new ArrayList<>();
         completeParseUser = new ArrayList<>();
         /* set as adapter */
         friendsAdapter = new FriendsAdapter(friendsList);
         rvFriendList.setAdapter(friendsAdapter);
-        /* set up the the friend feed thingz */
+        /* set up the the friend feed things */
         friendEvents = new ArrayList<>();
         feedItemAdapter = new FeedItemAdapter(friendEvents);
         rvFriendFeed = fragAct.findViewById(R.id.rvFriendFeed);
@@ -299,7 +300,7 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        /* mplementing ActionBar Search inside a fragment */
+        /* implementing ActionBar Search inside a fragment */
         MenuItem item = menu.add("Search");
         item.setIcon(R.drawable.search_icon);
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -316,7 +317,7 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
             public boolean onQueryTextSubmit(String query) {
                 /* once the user hits the submit bar */
                 Log.d(tag, "User hit submit");
-                doSearch(query);
+                if(isComplete) doSearch(query);
                 return false;
             }
 
@@ -325,9 +326,12 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
                 /* every time the user changes their search */
                 if(TextUtils.isEmpty(newText)){
                     /* if the user has cleared the search, we want to show all activities */
-                    doSearch("");
+                    if(isComplete) doSearch("");
                     return false;
                 }
+                // Note: do search should no be called on text change. The function makes a query, so
+                // we don't want to overload ourselves or the serve on queries because one is typing
+                // too fast
                 return false;
             }
         });
@@ -350,17 +354,20 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
             for(int i = 0; i < completeFriendsList.size(); i++){
                 String facebookUsername = completeFriendsList.get(i).username;
                 facebookUsername = facebookUsername.toLowerCase();
-                Log.d(tag, "Facebook user name: " + facebookUsername);
                 /* if the facebook username contains the query, we add it back to our data */
                 if(facebookUsername.contains(query)){
-                    Log.d(tag, "Found one. Name: " + facebookUsername);
                     friendsList.add(completeFriendsList.get(i));
                     parseUsers.add(completeParseUser.get(i));
                 }
             }
         }
         friendsAdapter.notifyDataSetChanged();
+        /* careful not to make a query call on an empty data set */
         if(parseUsers.size() != 0) loadFriendEvents(parseUsers.get(0));
-
+        else{
+            Log.d(tag, "search results were empty. Show nothing.");
+            friendEvents.clear();
+            feedItemAdapter.notifyDataSetChanged();
+        }
     }
 }
