@@ -2,6 +2,7 @@ package com.l3.one_up.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareButton;
 import com.l3.one_up.R;
 import com.l3.one_up.interfaces.BackIsClickable;
 import com.l3.one_up.listeners.OnUserTogglesSleepListener;
@@ -31,6 +34,8 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
     private TextView tvWelcome;
     private TextView tvLevelNum;
     private TextView tvXPNum;
+
+    private ShareButton btnFacebookShare;
 
     private OnFragmentInteractionListener mListener;
 
@@ -73,6 +78,13 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
         tvWelcome = (TextView) getActivity().findViewById(R.id.tvWelcome);
         tvLevelNum = (TextView) getActivity().findViewById(R.id.tvLevelNum);
         tvXPNum = (TextView) getActivity().findViewById(R.id.tvXPNum);
+
+        ShareButton btnFacebookShare = (ShareButton) getActivity().findViewById(R.id.fb_share_button);
+        ShareLinkContent content = new ShareLinkContent.Builder()
+                .setContentUrl(Uri.parse("https://developers.facebook.com/"))
+                .setQuote("Move fast.")
+                .build();
+        btnFacebookShare.setShareContent(content);
 
         user = ParseUser.getCurrentUser();
 
