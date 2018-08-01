@@ -21,6 +21,13 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/action_sleep_stats"
+        android:enabled="true"
+        android:icon="@android:drawable/btn_plus"
+        android:title="Sleep Stats"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_friends"
         android:enabled="true"
         android:icon="@android:drawable/btn_plus"

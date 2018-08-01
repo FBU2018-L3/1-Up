@@ -24,6 +24,11 @@ public class Event extends ParseObject {
     private static final String KEY_CREATED = "createdAt";
     private static final String KEY_IS_PRIVATE = "isPrivate";
 
+    public Event(){
+        super();
+        setIsPrivate(false);
+    }
+
     public ParseUser getUser() {
         return getParseUser(KEY_USER);
     }
@@ -76,7 +81,7 @@ public class Event extends ParseObject {
             return this;
         }
 
-        public Query byUser(ParseUser user) {
+        public Query byUser(User user) {
             whereEqualTo(KEY_USER, user);
             return this;
         }
@@ -86,11 +91,15 @@ public class Event extends ParseObject {
             return this;
         }
 
-        public Query ofActivity(String activityId) {
-            whereEqualTo(KEY_ACTIVITY, activityId);
+//        public Query ofActivity(String activityId) {
+//            whereEqualTo(KEY_ACTIVITY, activityId);
+//            return this;
+//        }
+
+        public Query ofActivity(Activity activity){
+            whereEqualTo(KEY_ACTIVITY, activity);
             return this;
         }
-
         public Query ofCategory(String category) {
             whereEqualTo(KEY_CATEGORY, category);
             return this;

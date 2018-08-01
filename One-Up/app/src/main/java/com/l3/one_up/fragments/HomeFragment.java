@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -32,6 +33,10 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
     private TextView tvWelcome;
     private TextView tvLevelNum;
     private TextView tvXPNum;
+    /* Button for toggling */
+    private Button btSeePowerUps;
+    /* fragment flag */
+    private boolean fragmentFlag;
 
     private ShareButton btnFacebookShare;
 
@@ -71,11 +76,13 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        fragmentFlag = true;
 
         ivProfile = (ImageView) getActivity().findViewById(R.id.ivProfile);
         tvWelcome = (TextView) getActivity().findViewById(R.id.tvWelcome);
         tvLevelNum = (TextView) getActivity().findViewById(R.id.tvLevelNum);
         tvXPNum = (TextView) getActivity().findViewById(R.id.tvXPNum);
+        btSeePowerUps = (Button) getActivity().findViewById(R.id.btSeePowerUps);
 
         user = ParseUser.getCurrentUser();
 
@@ -103,6 +110,30 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
         ft.addToBackStack("category").commit();
 
         tbSleepSwitch.setChecked(user.getBoolean("isAsleep"));
+
+        btSeePowerUps.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if(fragmentFlag){
+                    btSeePowerUps.setText("Go back to categories");
+                    fragmentFlag = false;
+                    PowerUpFragment powerUpFragment = PowerUpFragment.newInstance();
+                    FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+                    ft.replace(R.id.categoryContainer, powerUpFragment);
+                    ft.addToBackStack("category").commit();
+
+                }
+                else {
+                    btSeePowerUps.setText("See Power Ups");
+                    fragmentFlag = true;
+                    CategorySelectionFragment categorySelectionFragment = CategorySelectionFragment.newInstance();
+                    FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+                    ft.replace(R.id.categoryContainer, categorySelectionFragment);
+                    ft.addToBackStack("category").commit();
+                }
+            }
+        });
     }
 
 
@@ -154,5 +185,7 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
         editor.putLong("sleepTime", time).apply();
         sleepListener.toggleSleep(true);
     }
+
+
 
 }

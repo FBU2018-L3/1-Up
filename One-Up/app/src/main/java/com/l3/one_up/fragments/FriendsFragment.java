@@ -5,13 +5,17 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,13 +24,17 @@ import com.l3.one_up.R;
 import com.l3.one_up.adapters.FeedItemAdapter;
 import com.l3.one_up.adapters.FriendsAdapter;
 import com.l3.one_up.interfaces.FacebookCallComplete;
+import com.l3.one_up.interfaces.PowerUpCallback;
 import com.l3.one_up.model.Event;
 import com.l3.one_up.model.FacebookQuery;
 import com.l3.one_up.model.OrderFacebookUsersById;
 import com.l3.one_up.model.OrderParseUsersByFbId;
+import com.l3.one_up.model.PowerUp;
 import com.l3.one_up.model.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +45,8 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
     FragmentActivity fragAct;
     /* our data set */
     ArrayList<FacebookQuery.FacebookUser> friendsList;
+    /* Array list to mirror facebook users on the parse side */
+    ArrayList<User> parseUsers;
     /* our recycler view */
     private RecyclerView rvFriendList;
     /* our adapter */
@@ -49,6 +59,10 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
     private ArrayList<Event> friendEvents;
     /* adapter for  our friend feed */
     private FeedItemAdapter feedItemAdapter;
+    /* power up button */
+    private Button btPowerUp;
+    /* int to show us which user we are looking at at any given time */
+    private int positionAtUser;
 
     public FriendsFragment() {
         // Required empty public constructor
@@ -76,9 +90,16 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(tag, "In our friends fragment");
+        // Setting toolbar
+        Toolbar searchBar = getActivity().findViewById(R.id.tbSearchBar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(searchBar);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         /* set up our context */
         fragAct = (FragmentActivity) getActivity();
         tvNoFriends = fragAct.findViewById(R.id.tvNofriends);
+        /* hook up power up button */
+        btPowerUp = fragAct.findViewById(R.id.btPowerUp);
         /* set up recycler view */
         rvFriendList = fragAct.findViewById(R.id.rvFriendList);
         /* Set up our layout Manager to be cool */
@@ -86,6 +107,7 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         rvFriendList.setLayoutManager(coolLayout);
         /* init data set */
         friendsList = new ArrayList<>();
+        parseUsers = new ArrayList<>();
         /* set as adapter */
         friendsAdapter = new FriendsAdapter(friendsList);
         rvFriendList.setAdapter(friendsAdapter);
@@ -95,6 +117,8 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         rvFriendFeed = fragAct.findViewById(R.id.rvFriendFeed);
         rvFriendFeed.setLayoutManager(new LinearLayoutManager(fragAct));
         rvFriendFeed.setAdapter(feedItemAdapter);
+        /* init to an impossible number */
+        positionAtUser = -1;
 
 
         /* Time to do our query and then update the adapter in the callbacks */
@@ -102,6 +126,13 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
             tvNoFriends.setVisibility(TextView.GONE);
             FacebookQuery query = new FacebookQuery();
             query.getFriends(this);
+            /* set on click listeners for power up */
+            btPowerUp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    sendPowerUp();
+                }
+            });
         }
         else{
             Log.d(tag, "User is not logged in! Please connect to facebook!");
@@ -110,12 +141,9 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         }
     }
 
-
-
     /* NOTE: KEEP ALL DATA PROCESSING WITHIN THE CALLBACKS */
     @Override
     public void notifyCompleteList(final ArrayList<FacebookQuery.FacebookUser> FacebookList, ArrayList<String> friendIds) {
-        final ArrayList<User> parseUsers = new ArrayList<>();
         /* Time to make some queries */
         if(FacebookList.size() == 0){
             Log.d(tag, "Logged user has no facebook friends. Break the news :(");
@@ -147,15 +175,16 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
                         updateFBAdapterDataSet(FacebookList);
                         /* load in events for the first user in the data set */
                         loadFriendEvents(parseUsers.get(0));
+                        positionAtUser = 0;
                         rvFriendList.addOnScrollListener(new RecyclerView.OnScrollListener() {
                             @Override
                             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                                 super.onScrollStateChanged(recyclerView, newState);
                                 if(newState == recyclerView.SCROLL_STATE_IDLE){
                                     int position = ((GridLayoutManager) recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+                                    positionAtUser = position;
                                     if(position>=0) {
                                         User atUser = parseUsers.get(position);
-                                        Log.d(tag, "At user: " + atUser.getFacebookId());
                                         loadFriendEvents(atUser);
                                     }
                                 }
@@ -215,5 +244,33 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
                 }
             }
         });
+    }
+
+    /* take care of all the power up things */
+    private void sendPowerUp() {
+        /* condition to check whether we are a valid position */
+        if(positionAtUser >= 0) {
+            Toast.makeText(fragAct, "Valid position!", Toast.LENGTH_LONG).show();
+            User atUser = parseUsers.get(positionAtUser);
+            Log.d(tag, "At user: " + atUser.getFacebookId());
+            PowerUp newPowerUp = new PowerUp();
+            newPowerUp.setIsRedeemed(false);
+            newPowerUp.setXP(10);
+            /* set our pointers */
+            User sentByUser = User.getCurrentUser();
+            Log.d(tag, "Sent by: " + sentByUser.getUsername());
+            User sentToUser = parseUsers.get(positionAtUser);
+            Log.d(tag, "Sent to: " + sentToUser.getUsername());
+            newPowerUp.setSentByUser(sentByUser);
+            newPowerUp.setSentToUser(sentToUser);
+            /* save time */
+            FragmentManager fragmentManager = getFragmentManager();
+            SendPowerUpFragment sendPowerUpFragment = SendPowerUpFragment.newInstance(newPowerUp);
+            sendPowerUpFragment.show(fragmentManager, "tagz");
+
+        }
+        else{
+            Toast.makeText(fragAct, "Please move to a valid position", Toast.LENGTH_LONG).show();
+        }
     }
 }

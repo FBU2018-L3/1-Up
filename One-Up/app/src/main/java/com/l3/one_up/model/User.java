@@ -26,7 +26,6 @@ public class User extends ParseUser {
     private static final String KEY_AVATAR = "avatar";
     private static final String KEY_FACEBOOK_ID = "facebookId";
 
-
     public ParseFile getAvatar(){ return getParseFile(KEY_AVATAR); }
     public int getExperiencePoints(){ return getInt(KEY_EXPERIENCE_POINTS); }
     public int getLevel(){ return getInt(KEY_LEVEL); }

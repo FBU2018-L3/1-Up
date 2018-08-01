@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.facebook.login.LoginManager;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
 import com.l3.one_up.model.Goal;
+import com.l3.one_up.model.PowerUp;
 import com.l3.one_up.model.User;
 import com.parse.Parse;
 import com.parse.ParseAnalytics;
@@ -41,6 +43,7 @@ public class ParseApplication extends Application {
         ParseObject.registerSubclass(Activity.class);
         ParseObject.registerSubclass(User.class);
         ParseObject.registerSubclass(Goal.class);
+        ParseObject.registerSubclass(PowerUp.class);
 
         // set applicationId, and server server based on the values in the Heroku settings.
         // clientKey is not needed unless explicitly configured
@@ -52,6 +55,8 @@ public class ParseApplication extends Application {
                 .server(getString(R.string.server_url))
                 .enableLocalDataStore()
                 .build());
+        //PushService.setDefaultPushCallback(this, MainActivity.class);
+
 
         ParsePush.subscribeInBackground("", new SaveCallback() {
             @Override
@@ -67,6 +72,11 @@ public class ParseApplication extends Application {
             }
         });
 
-        ParseInstallation.getCurrentInstallation().saveInBackground();
+
+        final ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        if(installation.getDeviceToken()==null) {
+            installation.setDeviceToken(FirebaseInstanceId.getInstance().getToken());
+        }
+        installation.saveInBackground();
     }
 }

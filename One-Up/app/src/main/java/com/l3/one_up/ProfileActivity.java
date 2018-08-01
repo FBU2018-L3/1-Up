@@ -12,15 +12,22 @@ import android.view.MenuItem;
 
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
+import com.l3.one_up.fragments.ChartFragment;
+import com.l3.one_up.fragments.FeedFragment;
 import com.l3.one_up.fragments.CalendarFragment;
 import com.l3.one_up.fragments.FriendsFragment;
+import com.l3.one_up.fragments.PowerUpFragment;
 import com.l3.one_up.fragments.ProfileFragment;
 import com.l3.one_up.fragments.StatsFragment;
+import com.l3.one_up.model.Activity;
+import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 public class ProfileActivity extends AppCompatActivity implements
         ProfileFragment.OnFragmentInteractionListener {
 
+    private static String tag = "Profile Activity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +56,14 @@ public class ProfileActivity extends AppCompatActivity implements
                     case R.id.action_friends:
                         FriendsFragment friendsFragment = FriendsFragment.newInstance();
                         startFragment(friendsFragment);
+                        return true;
+                    case R.id.action_sleep_stats:
+                        new Activity.Query().getInBackground("v3IoWcJGy9", new GetCallback<Activity>() {
+                            @Override
+                            public void done(Activity object, ParseException e) {
+                                startFragment(ChartFragment.newInstance(object, ChartFragment.BAR_CHART));
+                            }
+                        });
                         return true;
                 }
                 return false;
