@@ -24,10 +24,7 @@ public class Event extends ParseObject {
     private static final String KEY_CREATED = "createdAt";
     private static final String KEY_IS_PRIVATE = "isPrivate";
 
-    public Event(){
-        super();
-        setIsPrivate(false);
-    }
+    public Event(){}
 
     public ParseUser getUser() {
         return getParseUser(KEY_USER);
