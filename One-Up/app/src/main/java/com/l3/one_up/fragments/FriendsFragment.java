@@ -10,12 +10,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +41,8 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +71,11 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
     private Button btPowerUp;
     /* int to show us which user we are looking at at any given time */
     private int positionAtUser;
+    /* flag to tell us whether our data set is complete */
+    private boolean isComplete;
+    /* array list of complete data so we don't continually check it */
+    private ArrayList<FacebookQuery.FacebookUser> completeFriendsList;
+    private ArrayList<User> completeParseUser;
 
     public FriendsFragment() {
         // Required empty public constructor
@@ -97,6 +110,7 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
 
         /* set up our context */
         fragAct = (FragmentActivity) getActivity();
+        isComplete = false;
         tvNoFriends = fragAct.findViewById(R.id.tvNofriends);
         /* hook up power up button */
         btPowerUp = fragAct.findViewById(R.id.btPowerUp);
@@ -108,10 +122,13 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         /* init data set */
         friendsList = new ArrayList<>();
         parseUsers = new ArrayList<>();
+        /* complete copy of the entire data set */
+        completeFriendsList = new ArrayList<>();
+        completeParseUser = new ArrayList<>();
         /* set as adapter */
         friendsAdapter = new FriendsAdapter(friendsList);
         rvFriendList.setAdapter(friendsAdapter);
-        /* set up the the friend feed thingz */
+        /* set up the the friend feed things */
         friendEvents = new ArrayList<>();
         feedItemAdapter = new FeedItemAdapter(friendEvents);
         rvFriendFeed = fragAct.findViewById(R.id.rvFriendFeed);
@@ -119,6 +136,8 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         rvFriendFeed.setAdapter(feedItemAdapter);
         /* init to an impossible number */
         positionAtUser = -1;
+        /* boolean flag that let us know whether data set is complete */
+        setHasOptionsMenu(true);
 
 
         /* Time to do our query and then update the adapter in the callbacks */
@@ -133,6 +152,7 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
                     sendPowerUp();
                 }
             });
+            /* init all the search bar stuff */
         }
         else{
             Log.d(tag, "User is not logged in! Please connect to facebook!");
@@ -140,6 +160,7 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
             tvNoFriends.setText("You are not connected to Facebook! Please connect to Facebook to use this feature!");
         }
     }
+
 
     /* NOTE: KEEP ALL DATA PROCESSING WITHIN THE CALLBACKS */
     @Override
@@ -168,11 +189,17 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
                     // sort!!!
                     FacebookList.sort(fbCompare);
                     parseUsers.sort(parseCompare);
+                    /* store a final copy */
+                    completeParseUser.addAll(parseUsers);
+                    completeFriendsList.addAll(FacebookList);
+
 
                     if(parseUsers.size() == FacebookList.size()){
                         setLevels(FacebookList, parseUsers);
                         /* Note: might want to move all this stuff into the above conditional if I think it'll be a problem */
                         updateFBAdapterDataSet(FacebookList);
+                        /* data set is complete set flag */
+                        isComplete = true;
                         /* load in events for the first user in the data set */
                         loadFriendEvents(parseUsers.get(0));
                         positionAtUser = 0;
@@ -190,6 +217,7 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
                                 }
                             }
                         });
+
                     } else {
                         Log.e(tag ,"UM NUMBER OF USERS DO NOT MATCH DO NOT TRY LINKING THE INFO TOGETHER");
                     }
@@ -209,13 +237,16 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
     {
         for(int i = 0; i < ParseUsers.size(); i++){
             int parseUserLevel = ParseUsers.get(i).getLevel();
+            String parseUsername = ParseUsers.get(i).getUsername();
             FacebookList.get(i).setUserLevel(parseUserLevel);
+            FacebookList.get(i).setParseUsername(parseUsername);
         }
     }
 
     public void updateFBAdapterDataSet(ArrayList<FacebookQuery.FacebookUser> facebookList) {
         friendsList.clear();
         friendsList.addAll(facebookList);
+        /* init a final complete data set which we should not amend */
         friendsAdapter.notifyDataSetChanged();
     }
 
@@ -271,6 +302,79 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         }
         else{
             Toast.makeText(fragAct, "Please move to a valid position", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        /* implementing ActionBar Search inside a fragment */
+        MenuItem item = menu.add("Search");
+        item.setIcon(R.drawable.search_icon);
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        android.support.v7.widget.SearchView searchView = new android.support.v7.widget.SearchView(getActivity());
+
+        /* Fetch our text view and set appropriate fields */
+        TextView textView = (AutoCompleteTextView) searchView.findViewById(R.id.search_src_text);
+        textView.setHint("Search by Facebook Name ");
+        textView.setHintTextColor(getResources().getColor(R.color.hintColor));
+        textView.setTextColor(getResources().getColor(R.color.writeColor));
+        /* implement the listener */
+        searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                /* once the user hits the submit bar */
+                Log.d(tag, "User hit submit");
+                if(isComplete) doSearch(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                /* every time the user changes their search */
+                if(TextUtils.isEmpty(newText)){
+                    /* if the user has cleared the search, we want to show all activities */
+                    if(isComplete) doSearch("");
+                    return false;
+                }
+                // Note: do search should no be called on text change. The function makes a query, so
+                // we don't want to overload ourselves or the serve on queries because one is typing
+                // too fast
+                return false;
+            }
+        });
+        item.setActionView(searchView);
+    }
+
+    private void doSearch(String query) {
+        /* time to user our complete set to create a searched set */
+        friendsList.clear();
+        parseUsers.clear();
+
+        if(query == ""){
+            Log.d(tag, "Empty query so return all results");
+            friendsList.addAll(completeFriendsList);
+            parseUsers.addAll(completeParseUser);
+        }
+        else{
+            query = query.toLowerCase();
+            Log.d(tag, "Query is: " + query);
+            for(int i = 0; i < completeFriendsList.size(); i++){
+                String facebookUsername = completeFriendsList.get(i).username;
+                facebookUsername = facebookUsername.toLowerCase();
+                /* if the facebook username contains the query, we add it back to our data */
+                if(facebookUsername.contains(query)){
+                    friendsList.add(completeFriendsList.get(i));
+                    parseUsers.add(completeParseUser.get(i));
+                }
+            }
+        }
+        friendsAdapter.notifyDataSetChanged();
+        /* careful not to make a query call on an empty data set */
+        if(parseUsers.size() != 0) loadFriendEvents(parseUsers.get(0));
+        else{
+            Log.d(tag, "search results were empty. Show nothing.");
+            friendEvents.clear();
+            feedItemAdapter.notifyDataSetChanged();
         }
     }
 }

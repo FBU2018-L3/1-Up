@@ -78,6 +78,7 @@ public class FacebookQuery {
         public String userID;
         public String userProfilePicUrl;
         public String userLevel;
+        public String parseUsername;
 
         public FacebookUser(String Username, String ID, String profileURL){
             this.username = Username;
@@ -85,12 +86,15 @@ public class FacebookQuery {
             this.userProfilePicUrl = profileURL;
             /* placeholder value so we know that something is wrong without crashing the thing */
             this.userLevel = "-1";
+            this.parseUsername = "";
         }
 
         /* passed in later vias connectivity to the parse user */
         public void setUserLevel(int parseUserLevel) {
             userLevel = String.valueOf(parseUserLevel);
         }
+
+        public void setParseUsername(String parseUsername) { this.parseUsername = parseUsername; }
 
     }
 }
