@@ -12,7 +12,11 @@
         <item>indoor</item>
         <item>outdoor</item>
     </string-array>
+
+    <!-- Facebook sharing info -->
     <string name="facebook_app_id">270659470186168</string>
     <string name="fb_login_protocol_scheme">fb270659470186168</string>
+    <string name="open_graph_action_type">games.achieves</string>
+
     <string name="message">Sent a thing</string>
 </resources>

@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,13 +13,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.facebook.share.widget.ShareButton;
 import com.l3.one_up.R;
 import com.l3.one_up.interfaces.BackIsClickable;
 import com.l3.one_up.listeners.OnUserTogglesSleepListener;
-import com.l3.one_up.model.PowerUp;
 import com.parse.ParseUser;
 
 import butterknife.BindView;
@@ -40,6 +37,8 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
     private Button btSeePowerUps;
     /* fragment flag */
     private boolean fragmentFlag;
+
+    private ShareButton btnFacebookShare;
 
     private OnFragmentInteractionListener mListener;
 
@@ -136,6 +135,8 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
             }
         });
     }
+
+
 
     @Override
     public void onAttach(Context context) {

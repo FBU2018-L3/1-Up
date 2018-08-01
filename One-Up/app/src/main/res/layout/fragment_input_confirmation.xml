@@ -69,11 +69,24 @@
         android:textAlignment="center"
         android:textStyle="italic" />
 
+    <com.facebook.share.widget.ShareButton
+        android:id="@+id/fb_share_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rlImgLvl"
+        android:layout_centerInParent="true"
+        android:background="@color/colorPrimary"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="Share" />
+
     <Button
         android:id="@+id/btnOk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rlImgLvl"
+        android:layout_below="@id/fb_share_button"
         android:layout_centerHorizontal="true"
         android:text="Ok" />
 </RelativeLayout>
