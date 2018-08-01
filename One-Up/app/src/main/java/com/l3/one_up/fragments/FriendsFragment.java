@@ -345,11 +345,12 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
             parseUsers.addAll(completeParseUser);
         }
         else{
-            query.toLowerCase();
+            query = query.toLowerCase();
             Log.d(tag, "Query is: " + query);
             for(int i = 0; i < completeFriendsList.size(); i++){
                 String facebookUsername = completeFriendsList.get(i).username;
-                facebookUsername.toLowerCase();
+                facebookUsername = facebookUsername.toLowerCase();
+                Log.d(tag, "Facebook user name: " + facebookUsername);
                 /* if the facebook username contains the query, we add it back to our data */
                 if(facebookUsername.contains(query)){
                     Log.d(tag, "Found one. Name: " + facebookUsername);
