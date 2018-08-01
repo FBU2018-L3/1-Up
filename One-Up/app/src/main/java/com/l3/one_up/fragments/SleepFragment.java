@@ -122,13 +122,13 @@ public class SleepFragment extends Fragment implements BackIsClickable {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+        //((AppCompatActivity)getActivity()).getSupportActionBar().hide();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        //((AppCompatActivity)getActivity()).getSupportActionBar().show();
     }
 
     private void displayErrorMsg(String msg, Exception e){
