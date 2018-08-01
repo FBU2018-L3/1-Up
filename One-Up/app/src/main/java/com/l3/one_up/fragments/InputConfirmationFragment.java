@@ -1,6 +1,7 @@
 package com.l3.one_up.fragments;
 
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -12,6 +13,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareButton;
 import com.github.jinatonic.confetti.CommonConfetti;
 import com.l3.one_up.R;
 import com.l3.one_up.animations.ProgressBarAnimation;
@@ -33,6 +36,7 @@ public class InputConfirmationFragment extends DialogFragment {
     @BindView(R.id.tvUserLvl) TextView tvUserLvl;
     @BindView(R.id.rlImgLvl) RelativeLayout rlImgLvl;
     @BindView(R.id.tvCongrats) TextView tvCongrats;
+    @BindView(R.id.fb_share_button) ShareButton btnFacebookShare;
 
     // Empty constructor required
     public InputConfirmationFragment(){}
@@ -65,6 +69,8 @@ public class InputConfirmationFragment extends DialogFragment {
         pbExperiencePoints.setMax(User.getCurrentUser().getNeededXpToLevelUp());
 
         setAnimation(view, user);
+
+        setBtnFacebookShare();
 
     }
 
@@ -105,6 +111,14 @@ public class InputConfirmationFragment extends DialogFragment {
             }
 
         }
+    }
+
+    public void setBtnFacebookShare() {
+        ShareLinkContent content = new ShareLinkContent.Builder()
+                .setContentUrl(Uri.parse("https://developers.facebook.com/"))
+                .setQuote("Move fast.")
+                .build();
+        btnFacebookShare.setShareContent(content);
     }
 
     @Override

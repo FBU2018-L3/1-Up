@@ -2,7 +2,6 @@ package com.l3.one_up.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareButton;
 import com.l3.one_up.R;
 import com.l3.one_up.interfaces.BackIsClickable;
@@ -99,8 +97,6 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
             }
         });
 
-        setBtnFacebookShare();
-
         CategorySelectionFragment categorySelectionFragment = CategorySelectionFragment.newInstance();
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         ft.replace(R.id.categoryContainer, categorySelectionFragment);
@@ -109,14 +105,7 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
         tbSleepSwitch.setChecked(user.getBoolean("isAsleep"));
     }
 
-    public void setBtnFacebookShare() {
-        ShareButton btnFacebookShare = (ShareButton) getActivity().findViewById(R.id.fb_share_button);
-        ShareLinkContent content = new ShareLinkContent.Builder()
-                .setContentUrl(Uri.parse("https://developers.facebook.com/"))
-                .setQuote("Move fast.")
-                .build();
-        btnFacebookShare.setShareContent(content);
-    }
+
 
     @Override
     public void onAttach(Context context) {
