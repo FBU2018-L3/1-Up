@@ -79,13 +79,6 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
         tvLevelNum = (TextView) getActivity().findViewById(R.id.tvLevelNum);
         tvXPNum = (TextView) getActivity().findViewById(R.id.tvXPNum);
 
-        ShareButton btnFacebookShare = (ShareButton) getActivity().findViewById(R.id.fb_share_button);
-        ShareLinkContent content = new ShareLinkContent.Builder()
-                .setContentUrl(Uri.parse("https://developers.facebook.com/"))
-                .setQuote("Move fast.")
-                .build();
-        btnFacebookShare.setShareContent(content);
-
         user = ParseUser.getCurrentUser();
 
         // populate text fields w user info
@@ -106,12 +99,23 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
             }
         });
 
+        setBtnFacebookShare();
+
         CategorySelectionFragment categorySelectionFragment = CategorySelectionFragment.newInstance();
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         ft.replace(R.id.categoryContainer, categorySelectionFragment);
         ft.addToBackStack("category").commit();
 
         tbSleepSwitch.setChecked(user.getBoolean("isAsleep"));
+    }
+
+    public void setBtnFacebookShare() {
+        ShareButton btnFacebookShare = (ShareButton) getActivity().findViewById(R.id.fb_share_button);
+        ShareLinkContent content = new ShareLinkContent.Builder()
+                .setContentUrl(Uri.parse("https://developers.facebook.com/"))
+                .setQuote("Move fast.")
+                .build();
+        btnFacebookShare.setShareContent(content);
     }
 
     @Override
