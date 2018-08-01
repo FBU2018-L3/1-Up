@@ -6,9 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -72,6 +74,11 @@ public class ActivitySelectionFragment extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(tag, "In our activity selection fragment");
+
+        // Setting toolbar
+        Toolbar searchBar = getActivity().findViewById(R.id.tbSearchBar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(searchBar);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         Bundle args = getArguments();
         category = args.getString(KEY_CATEGORY);
