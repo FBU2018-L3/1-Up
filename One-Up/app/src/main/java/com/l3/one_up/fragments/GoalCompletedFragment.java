@@ -1,5 +1,6 @@
-package com.l3.one_up;
+package com.l3.one_up.fragments;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareButton;
+import com.l3.one_up.R;
 import com.l3.one_up.model.Goal;
 import com.l3.one_up.model.User;
 
@@ -31,6 +35,7 @@ public class GoalCompletedFragment extends DialogFragment {
     @BindView(R.id.tvUserLvl) TextView tvUserLvl;
     @BindView(R.id.rlImgLvl) RelativeLayout rlImgLvl;
     @BindView(R.id.tvCongrats) TextView tvCongrats;
+    @BindView(R.id.fb_share_button) ShareButton btnFacebookShare;
 
     public GoalCompletedFragment() {
         // Required empty public constructor
@@ -71,6 +76,8 @@ public class GoalCompletedFragment extends DialogFragment {
         tvUserLvl.setText(String.valueOf(user.getLevel()));
 
         tvCongrats.setText(makeCongratsMessage(goal));
+
+        setBtnFacebookShare();
     }
 
     private String makeCongratsMessage(Goal goal) {
@@ -89,6 +96,14 @@ public class GoalCompletedFragment extends DialogFragment {
         }
         sb.append(goal.getActivity().getName());
         return sb.toString();
+    }
+
+    public void setBtnFacebookShare() {
+        ShareLinkContent content = new ShareLinkContent.Builder()
+                .setContentUrl(Uri.parse("https://developers.facebook.com/"))
+                .setQuote("Move fast.")
+                .build();
+        btnFacebookShare.setShareContent(content);
     }
 
     @Override
