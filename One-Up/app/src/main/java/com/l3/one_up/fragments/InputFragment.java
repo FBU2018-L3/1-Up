@@ -171,6 +171,7 @@ public class InputFragment extends DialogFragment {
         event.setTotalXP(exp);
         event.setUser(currentUser);
         event.setInputType(new JSONObject().put((String)spInputType.getSelectedItem(), etValue.getText().toString()));
+        event.setIsPrivate(cbIsPrivate.isChecked());
         event.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
