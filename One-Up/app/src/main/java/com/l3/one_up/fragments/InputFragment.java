@@ -114,15 +114,14 @@ public class InputFragment extends DialogFragment {
         existingGoalQuery.findInBackground(new FindCallback<Goal>() {
             @Override
             public void done(List<Goal> objects, ParseException e) {
-                if (objects.size() == 0) {
-                    // user does not have any active goals for this activity type
-                    Toast.makeText(getContext(), "No existing goals this activity", Toast.LENGTH_LONG).show();
-                } else {
-                    // warn user that they already have a goal for this
-                    Toast.makeText(getContext(), "Activity has a goal in progress", Toast.LENGTH_LONG).show();
-                    tvGoalWarning.setVisibility(View.VISIBLE);
-                    tvGoalWarning.setText(R.string.goal_already_exists_warning);
+                if (objects.size() > 0) {
                     activeGoals = objects;
+                    if (objective == Objective.GOAL) {
+                        // warn user that they already have a goal for this
+                        Toast.makeText(getContext(), "Activity has a goal in progress", Toast.LENGTH_LONG).show();
+                        tvGoalWarning.setVisibility(View.VISIBLE);
+                        tvGoalWarning.setText(R.string.goal_already_exists_warning);
+                    }
                 }
             }
         });
