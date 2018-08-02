@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.l3.one_up.R;
 import com.l3.one_up.adapters.FeedItemAdapter;
+import com.l3.one_up.interfaces.CalendarCallback;
 import com.l3.one_up.model.Event;
 import com.l3.one_up.model.User;
 import com.parse.FindCallback;
@@ -25,7 +26,7 @@ import com.parse.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeedFragment extends Fragment {
+public class FeedFragment extends Fragment implements CalendarCallback {
     public String tag = "FeedFragment";
     /* oiur recycler view */
     RecyclerView rvFeed;
@@ -83,7 +84,7 @@ public class FeedFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     FragmentManager fm = getFragmentManager();
-                    CalendarFragment calendarFragment = CalendarFragment.newInstance();
+                    CalendarFragment calendarFragment = CalendarFragment.newInstance(FeedFragment.this);
                     calendarFragment.show(fm, "calendarFragment");
                 }
             });
@@ -144,8 +145,17 @@ public class FeedFragment extends Fragment {
 
     }
 
-    public void setDate(int year, int month, int day) {
+    private void setDate(int year, int month, int day) {
         loadEvents(year, month, day);
     }
 
+    @Override
+    public void onDateClicked(int year, int month, int day) {
+        setDate(year, month, day);
+    }
+
+    @Override
+    public void onDateCancelled() {
+        setDate(-1,-1,-1);
+    }
 }

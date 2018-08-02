@@ -8,14 +8,17 @@
     <CalendarView
         android:id="@+id/cvTimeline"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"/>
 
-    <FrameLayout
-        android:id="@+id/timelineHolder"
+    <Button
+        android:id="@+id/btnRemoveFilter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/cvTimeline">
-
-    </FrameLayout>
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/cvTimeline"
+        android:text="Remove Filter"
+        android:layout_margin="5dp"
+        />
 
 </RelativeLayout>
