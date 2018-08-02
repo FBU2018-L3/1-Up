@@ -3,8 +3,10 @@ package com.l3.one_up.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -71,6 +73,21 @@ public class FeedFragment extends Fragment {
         rvFeed.setAdapter(feedItemAdapter);
         /* call functions to populate  our feed/timeline */
         loadEvents(-1, -1, -1);
+
+        // configuring fab
+        if(isTimeline)
+        {
+            FloatingActionButton fabCalendar = fragAct.findViewById(R.id.fabCalendar);
+            fabCalendar.setVisibility(View.VISIBLE);
+            fabCalendar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager fm = getFragmentManager();
+                    CalendarFragment calendarFragment = CalendarFragment.newInstance();
+                    calendarFragment.show(fm, "calendarFragment");
+                }
+            });
+        }
     }
 
     @Override
@@ -90,10 +107,21 @@ public class FeedFragment extends Fragment {
             eventQuery.onlyOnDay(year, month, day);
         } else{
             Log.d(tag, "Is timeline variable is never initialized");
+            loadAllTimeline();
             return;
         }
 
-        eventQuery.findInBackground(new FindCallback<Event>() {
+        loadTimeline(eventQuery);
+    }
+
+    public void loadAllTimeline(){
+        final Event.Query eventQuery = new Event.Query();
+        eventQuery.includeActivity().byUser(User.getCurrentUser()).mostRecentFirst();
+        loadTimeline(eventQuery);
+    }
+
+    private void loadTimeline(Event.Query query){
+        query.findInBackground(new FindCallback<Event>() {
             @Override
             public void done(List<Event> objects, ParseException e) {
                 if(e == null){
@@ -113,6 +141,7 @@ public class FeedFragment extends Fragment {
                 }
             }
         });
+
     }
 
     public void setDate(int year, int month, int day) {
