@@ -36,7 +36,7 @@ dependencies {
     implementation "com.android.support:customtabs:${supportLibVersion}"
     // Parse
     implementation 'com.parse.bolts:bolts-android:1.4.0'
-    implementation 'com.parse:parse-android:1.17.3'
+//    implementation 'com.parse:parse-android:1.17.3'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     // ButterKnife
     implementation 'com.jakewharton:butterknife:8.8.1'
@@ -52,13 +52,16 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:${supportLibVersion}"
     implementation "com.android.support:design:${supportLibVersion}"
     // Push Notifications
-    implementation 'com.parse:parse-fcm-android:1.17.3'
+    implementation "com.github.parse-community.Parse-SDK-Android:fcm:1.18.4"
+//    implementation 'com.parse:parse-fcm-android:1.17.3'
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.firebase:firebase-iid:16.2.0'
     implementation 'com.google.firebase:firebase-messaging:17.1.0'
     implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
     // Charts
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    // Post to Facebook
+    implementation 'com.facebook.android:facebook-share:[4,5)'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -6,20 +6,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.l3.one_up.GoalCompletedFragment;
 import com.l3.one_up.Objective;
 import com.l3.one_up.R;
 import com.l3.one_up.model.Activity;
@@ -171,6 +168,7 @@ public class InputFragment extends DialogFragment {
         event.setTotalXP(exp);
         event.setUser(currentUser);
         event.setInputType(new JSONObject().put((String)spInputType.getSelectedItem(), etValue.getText().toString()));
+        event.setIsPrivate(cbIsPrivate.isChecked());
         event.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
