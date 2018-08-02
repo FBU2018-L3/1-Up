@@ -3,40 +3,40 @@ package com.l3.one_up.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CalendarView;
 
 import com.l3.one_up.R;
+import com.l3.one_up.interfaces.CalendarCallback;
 
 import java.util.GregorianCalendar;
 
-public class CalendarFragment extends Fragment {
+public class CalendarFragment extends DialogFragment {
 
     public CalendarView cvTimeline;
-    public FeedFragment timelineFeed;
+    public Button btnRemoveFilter;
+    public CalendarCallback calendarCallback;
 
     public CalendarFragment() {
         // Required empty public constructor
     }
 
-    public static CalendarFragment newInstance() {
+    public static CalendarFragment newInstance(CalendarCallback calendarCallback) {
         CalendarFragment fragment = new CalendarFragment();
-        Bundle args = new Bundle();
-
-        fragment.setArguments(args);
+        fragment.calendarCallback = calendarCallback;
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override
@@ -50,24 +50,31 @@ public class CalendarFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         super.onCreate(savedInstanceState);
-        cvTimeline = (CalendarView) getActivity().findViewById(R.id.cvTimeline);
+        // Finding items
+        cvTimeline = view.findViewById(R.id.cvTimeline);
+        btnRemoveFilter = view.findViewById(R.id.btnRemoveFilter);
+
+        // Assigning listeners
         cvTimeline.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                onDayChange(view, year, month, dayOfMonth);
+                onDayChange(year, month, dayOfMonth);
+                CalendarFragment.this.dismiss();
+            }
+        });
+        btnRemoveFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calendarCallback.onDateCancelled();
+                CalendarFragment.this.dismiss();
             }
         });
 
-        boolean isTimeline = true; // for clarity's sake
-        timelineFeed = FeedFragment.newInstance(isTimeline);
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        ft.replace(R.id.timelineHolder, timelineFeed);
-        ft.commit();
     }
 
-    private void onDayChange(CalendarView v, int y, int m, int d) {
+    private void onDayChange(int y, int m, int d) {
         Log.d("CalendarFragment", ("Selected day is " + m + "/" + d + "/" + y));
-        v.setDate(new GregorianCalendar(y, m, d).getTimeInMillis());
-        timelineFeed.setDate(y, m, d);
+        calendarCallback.onDateClicked(y,m,d);
     }
+
 }

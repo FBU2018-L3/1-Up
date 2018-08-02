@@ -50,8 +50,8 @@ public class ProfileActivity extends AppCompatActivity implements
                         return true;
                     case R.id.action_timeline:
                         /* creating a new Instance of our feed fragment */
-                        CalendarFragment calendarFragment = CalendarFragment.newInstance();
-                        startFragment(calendarFragment);
+                        FeedFragment timelineFeed = FeedFragment.newInstance(true);
+                        startFragment(timelineFeed);
                         return true;
                     case R.id.action_friends:
                         FriendsFragment friendsFragment = FriendsFragment.newInstance();

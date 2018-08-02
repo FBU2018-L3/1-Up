@@ -3,8 +3,10 @@ package com.l3.one_up.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import com.l3.one_up.R;
 import com.l3.one_up.adapters.FeedItemAdapter;
+import com.l3.one_up.interfaces.CalendarCallback;
 import com.l3.one_up.model.Event;
 import com.l3.one_up.model.User;
 import com.parse.FindCallback;
@@ -23,7 +26,7 @@ import com.parse.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeedFragment extends Fragment {
+public class FeedFragment extends Fragment implements CalendarCallback {
     public String tag = "FeedFragment";
     /* oiur recycler view */
     RecyclerView rvFeed;
@@ -71,6 +74,21 @@ public class FeedFragment extends Fragment {
         rvFeed.setAdapter(feedItemAdapter);
         /* call functions to populate  our feed/timeline */
         loadEvents(-1, -1, -1);
+
+        // configuring fab
+        if(isTimeline)
+        {
+            FloatingActionButton fabCalendar = fragAct.findViewById(R.id.fabCalendar);
+            fabCalendar.setVisibility(View.VISIBLE);
+            fabCalendar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager fm = getFragmentManager();
+                    CalendarFragment calendarFragment = CalendarFragment.newInstance(FeedFragment.this);
+                    calendarFragment.show(fm, "calendarFragment");
+                }
+            });
+        }
     }
 
     @Override
@@ -90,10 +108,21 @@ public class FeedFragment extends Fragment {
             eventQuery.onlyOnDay(year, month, day);
         } else{
             Log.d(tag, "Is timeline variable is never initialized");
+            loadAllTimeline();
             return;
         }
 
-        eventQuery.findInBackground(new FindCallback<Event>() {
+        loadTimeline(eventQuery);
+    }
+
+    public void loadAllTimeline(){
+        final Event.Query eventQuery = new Event.Query();
+        eventQuery.includeActivity().byUser(User.getCurrentUser()).mostRecentFirst();
+        loadTimeline(eventQuery);
+    }
+
+    private void loadTimeline(Event.Query query){
+        query.findInBackground(new FindCallback<Event>() {
             @Override
             public void done(List<Event> objects, ParseException e) {
                 if(e == null){
@@ -113,10 +142,20 @@ public class FeedFragment extends Fragment {
                 }
             }
         });
+
     }
 
-    public void setDate(int year, int month, int day) {
+    private void setDate(int year, int month, int day) {
         loadEvents(year, month, day);
     }
 
+    @Override
+    public void onDateClicked(int year, int month, int day) {
+        setDate(year, month, day);
+    }
+
+    @Override
+    public void onDateCancelled() {
+        setDate(-1,-1,-1);
+    }
 }
