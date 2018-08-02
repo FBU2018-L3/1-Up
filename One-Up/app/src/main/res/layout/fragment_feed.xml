@@ -19,7 +19,7 @@
         android:layout_gravity="end|bottom"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:src="@drawable/sleep_android"
+        android:src="@android:drawable/ic_menu_today"
         android:layout_margin="16dp" />
 
 </RelativeLayout>
