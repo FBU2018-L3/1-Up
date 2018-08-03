@@ -3,12 +3,15 @@ package com.l3.one_up.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,19 +30,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FeedFragment extends Fragment implements CalendarCallback {
-    public String tag = "FeedFragment";
-    /* oiur recycler view */
+
+    public static final String TAG = "FeedFragment";
     RecyclerView rvFeed;
-    /* our data set */
     ArrayList<Event> recentEvents;
-    /* oue adapter */
     FeedItemAdapter feedItemAdapter;
     /* our "context" */
     FragmentActivity fragAct;
     /* key for retrieving our flag */
-    String KEY_FLAG = "isTimeline";
-    /* boolean flag for telling us whether we are displaying to feed or timeline */
+    public static final String KEY_FLAG = "isTimeline";
     boolean isTimeline;
+    Toolbar tbFeedBar;
+    AppBarLayout ablFeedBar;
 
     public FeedFragment() {
         // Required empty public constructor
@@ -58,7 +60,7 @@ public class FeedFragment extends Fragment implements CalendarCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d(tag, "In our feed fragment");
+        Log.d(TAG, "In our feed fragment");
         /* get pur flag which will dictate how we initialize */
         isTimeline = getArguments().getBoolean(KEY_FLAG);
         /* set up our context */
@@ -88,6 +90,11 @@ public class FeedFragment extends Fragment implements CalendarCallback {
                     calendarFragment.show(fm, "calendarFragment");
                 }
             });
+            tbFeedBar = getActivity().findViewById(R.id.tbProfileBar);
+            ((AppCompatActivity)fragAct).setSupportActionBar(tbFeedBar);
+            ((AppCompatActivity)fragAct).getSupportActionBar().setTitle("Your timeline");
+            tbFeedBar.setTitleTextColor(fragAct.getColor(android.R.color.white));
+
         }
     }
 
@@ -107,7 +114,7 @@ public class FeedFragment extends Fragment implements CalendarCallback {
         } else if (month != -1) {
             eventQuery.onlyOnDay(year, month, day);
         } else{
-            Log.d(tag, "Is timeline variable is never initialized");
+            Log.d(TAG, "Is timeline variable is never initialized");
             loadAllTimeline();
             return;
         }
@@ -126,7 +133,7 @@ public class FeedFragment extends Fragment implements CalendarCallback {
             @Override
             public void done(List<Event> objects, ParseException e) {
                 if(e == null){
-                    Log.d(tag, "This is the size: " + objects.size());
+                    Log.d(TAG, "This is the size: " + objects.size());
                     feedItemAdapter.clear();
                     Toast.makeText(fragAct, "Got events :)", Toast.LENGTH_LONG).show();
                     for(int i = 0; i < objects.size(); i++){
@@ -136,7 +143,7 @@ public class FeedFragment extends Fragment implements CalendarCallback {
                     }
                 }
                 else{
-                    Log.d(tag, "Failed to get events :'(");
+                    Log.d(TAG, "Failed to get events :'(");
                     Toast.makeText(fragAct, "Got no event :(", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
@@ -151,11 +158,13 @@ public class FeedFragment extends Fragment implements CalendarCallback {
 
     @Override
     public void onDateClicked(int year, int month, int day) {
+        ((AppCompatActivity)fragAct).getSupportActionBar().setTitle(String.format(getString(R.string.dateFormat),month,day,year));
         setDate(year, month, day);
     }
 
     @Override
     public void onDateCancelled() {
+        ((AppCompatActivity)fragAct).getSupportActionBar().setTitle("Your timeline");
         setDate(-1,-1,-1);
     }
 }
