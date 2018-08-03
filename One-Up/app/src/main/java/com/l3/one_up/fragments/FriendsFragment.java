@@ -144,7 +144,7 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         if(isLoggedIn()){
             tvNoFriends.setVisibility(TextView.GONE);
             FacebookQuery query = new FacebookQuery();
-            query.getFriends(this);
+            query.getFriends(this, getContext());
             /* set on click listeners for power up */
             btPowerUp.setOnClickListener(new View.OnClickListener() {
                 @Override
