@@ -1,4 +1,4 @@
-package com.l3.one_up.model;
+package com.l3.one_up.services;
 
 import android.text.format.DateUtils;
 

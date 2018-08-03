@@ -9,15 +9,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.l3.one_up.fragments.ActivitySelectionFragment;
-import com.l3.one_up.fragments.ChartFragment;
 import com.l3.one_up.fragments.HomeFragment;
 import com.l3.one_up.fragments.SleepFragment;
 import com.l3.one_up.interfaces.BackIsClickable;
 import com.l3.one_up.listeners.OnUserTogglesSleepListener;
-import com.l3.one_up.model.Activity;
+import com.l3.one_up.model.Objective;
 import com.l3.one_up.model.User;
 import com.parse.FunctionCallback;
-import com.parse.GetCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseUser;
