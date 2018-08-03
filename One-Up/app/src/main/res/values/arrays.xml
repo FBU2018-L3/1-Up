@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer-array name="your_array_name">
-        <item>@drawable/fitness</item>
         <item>@drawable/food</item>
+        <item>@drawable/fitness</item>
         <item>@drawable/indoor</item>
         <item>@drawable/outdoor</item>
     </integer-array>
