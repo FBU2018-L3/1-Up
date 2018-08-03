@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.l3.one_up.R;
 import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
-import com.l3.one_up.model.ParseRelativeDate;
+import com.l3.one_up.services.ParseRelativeDate;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,15 +68,14 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.ViewHo
             }
             Log.d(tag, value);
         }
-        holder.tvEventNum.setText(value);
-        holder.tvEventNumType.setText(key);
+        holder.tvEvent.setText(String.format("You did %s %s", value, key));
         /* set date and exp points gained */
         String rawDate = event.getCreatedAt().toString();
         ParseRelativeDate thingy = new ParseRelativeDate();
         String relativeDate = thingy.getRelativeTimeAgo(rawDate);
         Log.d(tag, "Time?: " + relativeDate);
         holder.tvEventDate.setText(relativeDate);
-        holder.tvEventEXP.setText(String.valueOf(event.getTotalXP()));
+        holder.tvEventEXP.setText(String.valueOf(String.format("You won %s xp", event.getTotalXP())));
     }
 
     @Override
@@ -98,16 +97,14 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.ViewHo
         public TextView tvEventName;
         public TextView tvEventEXP;
         public TextView tvEventDate;
-        public TextView tvEventNum;
-        public TextView tvEventNumType;
+        public TextView tvEvent;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvEventName = itemView.findViewById(R.id.tvEventName);
             tvEventEXP = itemView.findViewById(R.id.tvEventEXP);
             tvEventDate = itemView.findViewById(R.id.tvEventDate);
-            tvEventNum = itemView.findViewById(R.id.tvEventNum);
-            tvEventNumType = itemView.findViewById(R.id.tvEventNumType);
+            tvEvent = itemView.findViewById(R.id.tvEvent);
         }
     }
 }

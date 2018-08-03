@@ -9,10 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareButton;
 import com.github.jinatonic.confetti.CommonConfetti;
@@ -36,6 +38,7 @@ public class InputConfirmationFragment extends DialogFragment {
     @BindView(R.id.tvUserLvl) TextView tvUserLvl;
     @BindView(R.id.rlImgLvl) RelativeLayout rlImgLvl;
     @BindView(R.id.tvCongrats) TextView tvCongrats;
+    @BindView(R.id.ivUserAvatar) ImageView ivUserAvatar;
     @BindView(R.id.fb_share_button) ShareButton btnFacebookShare;
 
     // Empty constructor required
@@ -97,15 +100,18 @@ public class InputConfirmationFragment extends DialogFragment {
             pbExperiencePoints.startAnimation(anim);
         }
 
-        if(user.getInt("level")>startLvl){
+        if(user.getLevel()>startLvl){
             final ViewTreeObserver viewTreeObserver = view.getViewTreeObserver();
+
+            // Setting the gif
+            Glide.with(getContext()).load(R.drawable.andy_celebrating).into(ivUserAvatar);
             tvCongrats.setText(tvCongrats.getText().toString()+"\nYou leveled up!");
             if (viewTreeObserver.isAlive()) {
                 viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
                         CommonConfetti.rainingConfetti(rlImgLvl, new int[] { Color.RED, Color.YELLOW })
-                                .stream(100);
+                                .stream(75);
                     }
                 });
             }

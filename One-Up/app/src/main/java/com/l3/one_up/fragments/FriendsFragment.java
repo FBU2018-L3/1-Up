@@ -21,7 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,19 +29,14 @@ import com.l3.one_up.R;
 import com.l3.one_up.adapters.FeedItemAdapter;
 import com.l3.one_up.adapters.FriendsAdapter;
 import com.l3.one_up.interfaces.FacebookCallComplete;
-import com.l3.one_up.interfaces.PowerUpCallback;
 import com.l3.one_up.model.Event;
 import com.l3.one_up.model.FacebookQuery;
-import com.l3.one_up.model.OrderFacebookUsersById;
-import com.l3.one_up.model.OrderParseUsersByFbId;
+import com.l3.one_up.services.OrderFacebookUsersById;
+import com.l3.one_up.services.OrderParseUsersByFbId;
 import com.l3.one_up.model.PowerUp;
 import com.l3.one_up.model.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,8 +98,8 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         super.onViewCreated(view, savedInstanceState);
         Log.d(tag, "In our friends fragment");
         // Setting toolbar
-        Toolbar searchBar = getActivity().findViewById(R.id.tbSearchBar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(searchBar);
+        Toolbar toolBar = getActivity().findViewById(R.id.tbProfileBar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolBar);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         /* set up our context */
@@ -144,7 +138,7 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         if(isLoggedIn()){
             tvNoFriends.setVisibility(TextView.GONE);
             FacebookQuery query = new FacebookQuery();
-            query.getFriends(this);
+            query.getFriends(this, getContext());
             /* set on click listeners for power up */
             btPowerUp.setOnClickListener(new View.OnClickListener() {
                 @Override

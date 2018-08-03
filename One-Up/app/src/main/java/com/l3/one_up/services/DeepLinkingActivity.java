@@ -1,4 +1,4 @@
-package com.l3.one_up;
+package com.l3.one_up.services;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +14,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.l3.one_up.R;
 import com.l3.one_up.interfaces.FacebookCallComplete;
 import com.l3.one_up.model.FacebookQuery;
 import com.l3.one_up.model.User;

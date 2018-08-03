@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
-import com.l3.one_up.Objective;
+import com.l3.one_up.model.Objective;
 import com.l3.one_up.R;
 
 import com.l3.one_up.adapters.ActivityItemAdapter;
@@ -76,7 +76,7 @@ public class ActivitySelectionFragment extends Fragment
         Log.d(tag, "In our activity selection fragment");
 
         // Setting toolbar
-        Toolbar searchBar = getActivity().findViewById(R.id.tbSearchBar);
+        Toolbar searchBar = getActivity().findViewById(R.id.tbProfileBar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(searchBar);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
 

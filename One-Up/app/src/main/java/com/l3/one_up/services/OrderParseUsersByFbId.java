@@ -1,6 +1,8 @@
-package com.l3.one_up.model;
+package com.l3.one_up.services;
 
 import android.support.annotation.NonNull;
+
+import com.l3.one_up.model.User;
 
 import java.util.Comparator;
 

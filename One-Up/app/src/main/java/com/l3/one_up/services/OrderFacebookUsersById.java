@@ -1,4 +1,6 @@
-package com.l3.one_up.model;
+package com.l3.one_up.services;
+
+import com.l3.one_up.model.FacebookQuery;
 
 import java.util.Comparator;
 

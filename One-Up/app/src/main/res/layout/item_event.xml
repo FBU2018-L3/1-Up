@@ -1,48 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="4dp">
 
-    <TextView
-        android:id="@+id/tvEventDate"
-        android:layout_width="75dp"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:text="eventDate" />
-
-    <TextView
-        android:id="@+id/tvEventName"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/tvEventDate"
-        android:text="eventName" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvEventEXP"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/tvEventDate"
-        android:layout_toEndOf="@+id/tvEventName"
-        android:text="eventEXP" />
+        <TextView
+            android:id="@+id/tvEventDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            android:text="eventDate"
+            android:textStyle="italic" />
 
-    <TextView
-        android:id="@+id/tvEventNum"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvEventName"
-        android:text="EventNum" />
+        <TextView
+            android:id="@+id/tvEventName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/tvEventDate"
+            android:layout_margin="5dp"
+            android:text="eventName"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tvEventNumType"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_below="@+id/tvEventName"
-        android:layout_centerHorizontal="true"
-        android:text="EventNumType" />
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tvEventEXP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/tvEventName"
+            android:layout_alignEnd="@id/tvEventDate"
+            android:layout_below="@+id/tvEvent"
+            android:lineSpacingExtra="14sp"
+            android:text="eventEXP"
+            android:textSize="12sp"
+            android:layout_marginBottom="5dp"/>
+
+        <TextView
+            android:id="@+id/tvEvent"
+            android:layout_alignStart="@id/tvEventName"
+            android:layout_alignEnd="@id/tvEventDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvEventName"
+            android:text="EventNum" />
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

@@ -1,18 +1,16 @@
 package com.l3.one_up;
 
 import android.app.Application;
-import android.content.Intent;
 import android.util.Log;
 
-import com.facebook.login.LoginManager;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
 import com.l3.one_up.model.Goal;
 import com.l3.one_up.model.PowerUp;
 import com.l3.one_up.model.User;
+import com.l3.one_up.services.TypefaceUtil;
 import com.parse.Parse;
-import com.parse.ParseAnalytics;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
@@ -26,6 +24,8 @@ public class ParseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "fonts/DisposableDroidBB.ttf");
 
         // Use for troubleshooting -- remove this line for production
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);

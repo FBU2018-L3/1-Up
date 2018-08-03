@@ -4,15 +4,9 @@
     android:layout_height="match_parent"
     tools:context="com.l3.one_up.fragments.FriendsFragment">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/tbSearchBar"
-        android:background="@color/colorPrimary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
     <RelativeLayout
         android:layout_marginTop="5dp"
-        android:layout_below="@id/tbSearchBar"
+        android:layout_below="@id/tbProfileBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

@@ -8,7 +8,19 @@
         android:id="@+id/rvEventView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:clipToPadding="false" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabCalendar"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:src="@android:drawable/ic_menu_today"
+        android:layout_margin="16dp" />
 
 </RelativeLayout>

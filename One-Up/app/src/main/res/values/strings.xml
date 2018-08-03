@@ -19,4 +19,5 @@
     <string name="open_graph_action_type">games.achieves</string>
 
     <string name="message">Sent a thing</string>
+    <string name="dateFormat">%02d/%02d/%04d</string>
 </resources>
