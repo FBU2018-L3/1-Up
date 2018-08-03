@@ -4,15 +4,137 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000"
     tools:context="com.l3.one_up.services.DeepLinkingActivity">
+
+    <ImageView
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:background="@drawable/dangertop"
+        android:scaleType="fitCenter" />
+
+    <ImageView
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:background="@drawable/dangerbottom"
+        android:cropToPadding="false"
+        android:scaleType="fitCenter" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/btFBConnect"
+        android:layout_below="@+id/btFBConnect"
+        android:layout_marginTop="76dp"
+        android:text="Login with Facebook to connect with your friends!"
+        android:textAlignment="center"
+        android:textColor="#FFF"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="34dp"
+        android:text="See what your friends are up and send your friends power ups!"
+        android:textAlignment="center"
+        android:textColor="#FFF"
+        android:textSize="18sp" />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/btFBConnect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/top"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="153dp" />
+        android:layout_marginTop="40dp" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView"
+        android:layout_marginStart="32dp"
+        android:src="@drawable/swordwood" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/bottom"
+        android:layout_marginBottom="24dp"
+        android:layout_toEndOf="@+id/imageView4"
+        android:src="@drawable/bow"
+        android:id="@+id/imageView5" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/imageView5"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/gemblue"
+        android:id="@+id/imageView6" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/imageView6"
+        android:layout_toEndOf="@+id/btFBConnect"
+        android:src="@drawable/upg_shield"
+        android:id="@+id/imageView7" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/textView"
+        android:layout_toEndOf="@+id/imageView7"
+        android:src="@drawable/heart"
+        android:id="@+id/imageView10" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignStart="@+id/imageView6"
+        android:layout_below="@+id/btFBConnect"
+        android:layout_marginTop="13dp"
+        android:src="@drawable/potionblue"
+        android:id="@+id/imageView8" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignStart="@+id/imageView4"
+        android:layout_alignTop="@+id/imageView8"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="9dp"
+        android:src="@drawable/tome"
+        android:id="@+id/imageView9" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignEnd="@+id/imageView10"
+        android:layout_alignTop="@+id/imageView9"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/coin" />
+
+    <ImageView
+        android:id="@+id/ivParseUserPic"
+        android:layout_width="74dp"
+        android:layout_height="70dp"
+        android:layout_alignTop="@+id/bottom"
+        android:layout_centerHorizontal="true"
+        android:src="#FFF" />
 
 </RelativeLayout>

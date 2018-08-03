@@ -7,7 +7,7 @@
     <ImageView
         android:id="@+id/ivCategoryIcon"
         android:layout_width="wrap_content"
-        android:layout_height="75dp"
+        android:layout_height="150dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:adjustViewBounds="true"
@@ -24,6 +24,7 @@
         android:paddingTop="10dp"
         android:text="category name"
         android:textAlignment="center"
+        android:visibility="gone"
         android:textAppearance="@android:style/TextAppearance.Large" />
 
 
