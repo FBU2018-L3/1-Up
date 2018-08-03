@@ -17,7 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.l3.one_up.Objective;
+import com.l3.one_up.model.Objective;
 import com.l3.one_up.R;
 import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;

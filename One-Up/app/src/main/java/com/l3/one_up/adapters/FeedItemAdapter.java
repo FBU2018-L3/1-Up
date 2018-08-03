@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.l3.one_up.R;
 import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
-import com.l3.one_up.model.ParseRelativeDate;
+import com.l3.one_up.services.ParseRelativeDate;
 
 import org.json.JSONException;
 import org.json.JSONObject;

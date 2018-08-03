@@ -46,7 +46,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".DeepLinkingActivity"></activity>
+        <activity android:name=".services.DeepLinkingActivity"></activity>
 
         <service
             android:name="com.parse.fcm.ParseFirebaseInstanceIdService"
