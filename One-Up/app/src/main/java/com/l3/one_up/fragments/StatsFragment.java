@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.l3.one_up.Objective;
+import com.l3.one_up.model.Objective;
 import com.l3.one_up.R;
 
 public class StatsFragment extends Fragment
