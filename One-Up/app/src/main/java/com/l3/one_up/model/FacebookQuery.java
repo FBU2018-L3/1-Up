@@ -1,6 +1,8 @@
 package com.l3.one_up.model;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -25,7 +27,7 @@ public class FacebookQuery {
         this.USER_ID = AccessToken.getCurrentAccessToken().getUserId();
     }
 
-    public void getFriends(final FacebookCallComplete callback) {
+    public void getFriends(final FacebookCallComplete callback, final Context context) {
         final ArrayList<String> friendIds = new ArrayList<>();
         /* total data set with all info */
         final ArrayList<FacebookUser> userFriends = new ArrayList<>();
@@ -63,6 +65,9 @@ public class FacebookQuery {
                         } catch (JSONException e) {
                             Log.d(tag, "Something went wrong in our facbeook query :(");
                             e.printStackTrace();
+                        } catch (NullPointerException npe) {
+                            Toast.makeText(context,"No friend data available.", Toast.LENGTH_LONG).show();
+                            npe.printStackTrace();
                         }
                     }
                 });
