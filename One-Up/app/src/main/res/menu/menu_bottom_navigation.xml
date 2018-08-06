@@ -4,33 +4,33 @@
     <item
         android:id="@+id/action_profile"
         android:enabled="true"
-        android:icon="@android:drawable/btn_plus"
+        android:icon="@drawable/menu_icon_profile"
         android:title="Profile"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_stats"
         android:enabled="true"
-        android:icon="@android:drawable/btn_plus"
-        android:title="Stats"
+        android:icon="@drawable/menu_icon_goals"
+        android:title="Goals"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_timeline"
         android:enabled="true"
-        android:icon="@android:drawable/btn_plus"
+        android:icon="@drawable/menu_icon_calendar"
         android:title="Timeline"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_sleep_stats"
         android:enabled="true"
-        android:icon="@android:drawable/btn_plus"
+        android:icon="@drawable/menu_icon_stats"
         android:title="Sleep Stats"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_friends"
         android:enabled="true"
-        android:icon="@android:drawable/btn_plus"
+        android:icon="@drawable/menu_icon_friends"
         android:title="Friends"
         app:showAsAction="ifRoom" />
 </menu>

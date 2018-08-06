@@ -31,8 +31,8 @@ public class FacebookQuery {
         final ArrayList<String> friendIds = new ArrayList<>();
         /* total data set with all info */
         final ArrayList<FacebookUser> userFriends = new ArrayList<>();
-        /* our parameter since we are returning the friends */
-        final String PARAM = "/friends";
+        /* our parameter since we are returning the menu_icon_friends */
+        final String PARAM = "/menu_icon_friends";
         final String TYPE = "?fields=id,name,picture&type=square";
         /* combo for the full URL */
         String fullURL = USER_ID + PARAM + TYPE;
@@ -48,13 +48,13 @@ public class FacebookQuery {
                         try {
                             /* return the JSON array labeled "data" */
                             JSONArray friendData = jsonObject.getJSONArray("data");
-                            /* if the JSON array is empty, that means no user friends can be found logged into the app */
+                            /* if the JSON array is empty, that means no user menu_icon_friends can be found logged into the app */
                             for(int i = 0; i < friendData.length(); i++) {
                                 /* Each friend is in a JSON object  */
                                 JSONObject aFriend = friendData.getJSONObject(i);
                                 String Username = aFriend.getString("name");
                                 String UserID = aFriend.getString("id");
-                                /* try parsing the profile pic url here */
+                                /* try parsing the menu_icon_profile pic url here */
                                 JSONObject picData = aFriend.getJSONObject("picture").getJSONObject("data");
                                 String url = picData.getString("url");
                                 FacebookUser single = new FacebookUser(Username, UserID, url);

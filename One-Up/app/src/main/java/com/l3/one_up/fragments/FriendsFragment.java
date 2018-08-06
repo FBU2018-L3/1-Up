@@ -96,7 +96,7 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d(tag, "In our friends fragment");
+        Log.d(tag, "In our menu_icon_friends fragment");
         // Setting toolbar
         Toolbar toolBar = getActivity().findViewById(R.id.tbProfileBar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolBar);
@@ -161,9 +161,9 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
     public void notifyCompleteList(final ArrayList<FacebookQuery.FacebookUser> FacebookList, ArrayList<String> friendIds) {
         /* Time to make some queries */
         if(FacebookList.size() == 0){
-            Log.d(tag, "Logged user has no facebook friends. Break the news :(");
+            Log.d(tag, "Logged user has no facebook menu_icon_friends. Break the news :(");
             tvNoFriends.setVisibility(TextView.VISIBLE);
-            tvNoFriends.setText("None of your facebook friends on the app :( Invite them to the app to use this feature!");
+            tvNoFriends.setText("None of your facebook menu_icon_friends on the app :( Invite them to the app to use this feature!");
             return;
         }
 

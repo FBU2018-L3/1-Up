@@ -94,7 +94,7 @@ public class GoalSummaryFragment extends Fragment {
                         goalAdapter.notifyItemInserted(goals.size() - 1);
                     }
                 } else {
-                    Log.d("GoalSummaryFragment", "Failed to retrieve goals");
+                    Log.d("GoalSummaryFragment", "Failed to retrieve menu_icon_goals");
                     e.printStackTrace();
                 }
             }

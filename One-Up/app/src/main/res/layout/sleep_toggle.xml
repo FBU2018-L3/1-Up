@@ -9,8 +9,9 @@
 
     <ToggleButton
         android:id="@+id/tbSleepSwitch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:background="@drawable/moon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:checked="false"
         android:text=""
         android:textOff="Day"
