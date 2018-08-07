@@ -14,6 +14,14 @@
         android:layout_height="100dp"
         android:checked="false"
         android:text=""
-        android:textOff="Day"
-        android:textOn="Night" />
+        android:textOff=""
+        android:textOn="" />
+
+    <TextView
+        android:id="@+id/tvSleep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tbSleepSwitch"
+        android:layout_centerHorizontal="true"
+        android:text="Go to sleep"/>
 </RelativeLayout>

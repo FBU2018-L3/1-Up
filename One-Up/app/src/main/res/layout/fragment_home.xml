@@ -113,15 +113,29 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"/>
 
-        <Button
-            android:layout_margin="10dp"
-            android:id="@+id/btSeePowerUps"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:background="@drawable/power_ups"
-            android:text="See Power Ups"
-            />
+            android:layout_margin="10dp">
+            <Button
+                android:id="@+id/btSeePowerUps"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/power_ups"
+                />
+
+            <TextView
+                android:id="@+id/tvPowerUps"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btSeePowerUps"
+                android:layout_centerHorizontal="true"
+                android:text="See Power Ups"
+                android:textAlignment="center" />
+        </RelativeLayout>
+
     </RelativeLayout>
 
 
