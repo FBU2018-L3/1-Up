@@ -19,6 +19,7 @@ import com.facebook.share.widget.ShareButton;
 import com.l3.one_up.R;
 import com.l3.one_up.interfaces.BackIsClickable;
 import com.l3.one_up.listeners.OnUserTogglesSleepListener;
+import com.l3.one_up.services.AvatarFinder;
 import com.parse.ParseUser;
 
 import butterknife.BindView;
@@ -95,6 +96,7 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
             tvXPNum.setText(String.valueOf(user.getInt("experiencePoints")));
         }
 
+        ivProfile.setImageResource(new AvatarFinder().getAvatarId(getContext()));
         ivProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

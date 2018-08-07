@@ -5,24 +5,25 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tvAvatarName"
+        android:id="@+id/tvSelectAvatarPrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:text="@string/avatar_selection_prompt"/>
 
     <ImageView
-        android:id="@+id/ivAvatar"
+        android:id="@+id/ivSelectedAvatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvAvatarName"
+        android:layout_below="@id/tvSelectAvatarPrompt"
         android:src="@mipmap/ic_launcher" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvAvatarPicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ivAvatar"
+        android:layout_below="@id/ivSelectedAvatar"
         android:orientation="horizontal" />
 
 </RelativeLayout>

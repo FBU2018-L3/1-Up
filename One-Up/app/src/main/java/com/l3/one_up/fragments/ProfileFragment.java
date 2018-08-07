@@ -17,8 +17,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.l3.one_up.R;
+import com.l3.one_up.model.User;
+import com.l3.one_up.services.AvatarFinder;
 import com.l3.one_up.services.DeepLinkingActivity;
-import com.parse.ParseUser;
 
 public class ProfileFragment extends Fragment {
     private final String tag = "ProfileFragment";
@@ -35,7 +36,7 @@ public class ProfileFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private ParseUser user;
+    private User user;
     private Activity activity;
 
     public ProfileFragment() {
@@ -91,7 +92,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        user = ParseUser.getCurrentUser();
+        user = User.getCurrentUser();
 
         // populate text fields w user info
         if (user != null) {
@@ -99,6 +100,8 @@ public class ProfileFragment extends Fragment {
             tvLevelNum.setText(String.valueOf(user.getInt("level")));
             tvXPNum.setText(String.valueOf(user.getInt("experiencePoints")));
         }
+
+        ivProfile.setImageResource(new AvatarFinder().getAvatarId(getContext()));
 
         ivProfile.setOnClickListener(new View.OnClickListener() {
             @Override

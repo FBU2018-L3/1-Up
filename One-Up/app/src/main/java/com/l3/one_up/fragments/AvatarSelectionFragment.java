@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.l3.one_up.R;
 import com.l3.one_up.adapters.AvatarSelectionAdapter;
+import com.l3.one_up.services.AvatarFinder;
 
 public class AvatarSelectionFragment extends Fragment implements AvatarSelectionAdapter.OnAvatarSelectListener {
 
@@ -22,7 +23,7 @@ public class AvatarSelectionFragment extends Fragment implements AvatarSelection
     RecyclerView rvAvatarPicker;
 
     TextView tvAvatarName;
-    ImageView ivAvatar;
+    ImageView ivSelectedAvatar;
 
     public AvatarSelectionFragment() {
         // Required empty public constructor
@@ -55,8 +56,10 @@ public class AvatarSelectionFragment extends Fragment implements AvatarSelection
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tvAvatarName = getActivity().findViewById(R.id.tvAvatarName);
-        ivAvatar = getActivity().findViewById(R.id.ivAvatar);
+        tvAvatarName = getActivity().findViewById(R.id.tvSelectAvatarPrompt);
+        ivSelectedAvatar = getActivity().findViewById(R.id.ivSelectedAvatar);
+        ivSelectedAvatar.setImageResource(new AvatarFinder().getAvatarId(getContext()));
+
         rvAvatarPicker = getActivity().findViewById(R.id.rvAvatarPicker);
 
         avatarIDs = getResources().obtainTypedArray(R.array.avatar_id);
@@ -64,12 +67,10 @@ public class AvatarSelectionFragment extends Fragment implements AvatarSelection
 
         rvAvatarPicker.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         rvAvatarPicker.setAdapter(avatarSelectionAdapter);
-
-        tvAvatarName.setText("avatar1");
     }
 
     @Override
     public void onAvatarClicked(int position) {
-        ivAvatar.setImageResource(avatarIDs.getResourceId(position, R.mipmap.ic_launcher));
+        ivSelectedAvatar.setImageResource(new AvatarFinder().getAvatarId(getContext()));
     }
 }
