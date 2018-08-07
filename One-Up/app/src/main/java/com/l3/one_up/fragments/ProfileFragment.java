@@ -16,13 +16,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-<<<<<<< HEAD
 import com.l3.one_up.listeners.OnRedeemedPowerUpRefresh;
 import com.l3.one_up.model.User;
 import com.l3.one_up.services.DeepLinkingActivity;
-=======
->>>>>>> origin/master
 import com.l3.one_up.R;
 import com.l3.one_up.model.User;
 import com.l3.one_up.services.AvatarFinder;
