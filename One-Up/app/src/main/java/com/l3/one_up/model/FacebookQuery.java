@@ -29,32 +29,32 @@ public class FacebookQuery {
 
     public void getFriends(final FacebookCallComplete callback, final Context context) {
         final ArrayList<String> friendIds = new ArrayList<>();
-        /* total data set with all info */
+        // total data set with all info
         final ArrayList<FacebookUser> userFriends = new ArrayList<>();
-        /* our parameter since we are returning the menu_icon_friends */
+        // our parameter since we are returning the menu_icon_friends
         final String PARAM = "/friends";
         final String TYPE = "?fields=id,name,picture&type=square";
-        /* combo for the full URL */
+        // combo for the full URL
         String fullURL = USER_ID + PARAM + TYPE;
-        /* Send our graphrequest */
+        // Send our graphrequest
         GraphRequest request = GraphRequest.newGraphPathRequest(AccessToken.getCurrentAccessToken(),
                 fullURL, new GraphRequest.Callback() {
-                    /* App Code necessary for returning friend data */
+                    // App Code necessary for returning friend data
                     @Override
                     public void onCompleted(GraphResponse response) {
                         Log.d(tag, "Graph request completed");
-                        /* retreive the JSON object from the Facebook request */
+                        // retreive the JSON object from the Facebook request
                         JSONObject jsonObject = response.getJSONObject();
                         try {
-                            /* return the JSON array labeled "data" */
+                            // return the JSON array labeled "data"
                             JSONArray friendData = jsonObject.getJSONArray("data");
-                            /* if the JSON array is empty, that means no user menu_icon_friends can be found logged into the app */
+                            // if the JSON array is empty, that means no user friends can be found logged into the app
                             for(int i = 0; i < friendData.length(); i++) {
                                 /* Each friend is in a JSON object  */
                                 JSONObject aFriend = friendData.getJSONObject(i);
                                 String Username = aFriend.getString("name");
                                 String UserID = aFriend.getString("id");
-                                /* try parsing the menu_icon_profile pic url here */
+                                // try parsing the menu_icon_profile pic url here
                                 JSONObject picData = aFriend.getJSONObject("picture").getJSONObject("data");
                                 String url = picData.getString("url");
                                 FacebookUser single = new FacebookUser(Username, UserID, url);
