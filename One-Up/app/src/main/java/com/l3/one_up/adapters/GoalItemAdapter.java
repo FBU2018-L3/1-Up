@@ -1,12 +1,14 @@
 package com.l3.one_up.adapters;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.l3.one_up.R;
@@ -67,6 +69,7 @@ public class GoalItemAdapter extends RecyclerView.Adapter<GoalItemAdapter.ViewHo
                 e.printStackTrace();
             }
         }
+
         boolean isComplete = myGoal.getIsCompleted();
         Log.d(tag, "Is the goal complete: " + isComplete);
         /* Display the data accordingly */
@@ -78,6 +81,12 @@ public class GoalItemAdapter extends RecyclerView.Adapter<GoalItemAdapter.ViewHo
         // display current progress versus ultimate progress
         holder.tvCurrGoalProgress.setText("Current Progress: " + currentProgress + " " + goalInputType);
         holder.tvUltimateGoal.setText("Goal: " + ultimateGoal + " " + goalInputType);
+
+        Integer currProg = Integer.parseInt(currentProgress);
+        Integer ultGoal = Integer.parseInt(ultimateGoal);
+        // progress bar
+        holder.progressBar.setMax(ultGoal);
+        holder.progressBar.setProgress(currProg);
     }
 
     @Override
@@ -91,6 +100,7 @@ public class GoalItemAdapter extends RecyclerView.Adapter<GoalItemAdapter.ViewHo
         public TextView tvCurrGoalProgress;
         public TextView tvIsComplete;
         public TextView tvUltimateGoal;
+        public ProgressBar progressBar;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -99,6 +109,7 @@ public class GoalItemAdapter extends RecyclerView.Adapter<GoalItemAdapter.ViewHo
             tvCurrGoalProgress = (TextView) itemView.findViewById(R.id.tvCurrentGoalProgress);
             tvIsComplete = (TextView) itemView.findViewById(R.id.tvisGoalComplete);
             tvUltimateGoal = (TextView) itemView.findViewById(R.id.tvUltimateGoal);
+            progressBar = itemView.findViewById(R.id.progGoalProgress);
         }
     }
 }
