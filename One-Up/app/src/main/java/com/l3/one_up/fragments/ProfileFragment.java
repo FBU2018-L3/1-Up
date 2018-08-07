@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.l3.one_up.services.DeepLinkingActivity;
 import com.l3.one_up.R;
-import com.parse.ParseUser;
+import com.l3.one_up.model.User;
+import com.l3.one_up.services.AvatarFinder;
+import com.l3.one_up.services.DeepLinkingActivity;
 
 public class ProfileFragment extends Fragment {
     private final String tag = "ProfileFragment";
@@ -34,7 +36,7 @@ public class ProfileFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private ParseUser user;
+    private User user;
     private Activity activity;
 
     public ProfileFragment() {
@@ -90,7 +92,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        user = ParseUser.getCurrentUser();
+        user = User.getCurrentUser();
 
         // populate text fields w user info
         if (user != null) {
@@ -99,6 +101,22 @@ public class ProfileFragment extends Fragment {
             tvXPNum.setText(String.valueOf(user.getInt("experiencePoints")));
         }
 
+        ivProfile.setImageResource(new AvatarFinder().getAvatarId(getContext()));
+
+        ivProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm;
+                if (getParentFragment() == null) {
+                    fm = getActivity().getSupportFragmentManager();
+                } else {
+                    fm = getParentFragment().getChildFragmentManager();
+                }
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.fragmentHolder, AvatarSelectionFragment.newInstance()).commit();
+            }
+        });
+
         /* launch the feed fragment from here */
         boolean isTimeline = false;
         FeedFragment feedFragment = FeedFragment.newInstance(isTimeline);
@@ -106,8 +124,6 @@ public class ProfileFragment extends Fragment {
         android.support.v4.app.FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.replace(R.id.feedContainer, feedFragment).commit();
     }
-
-
 
     @Override
     public void onAttach(Context context) {

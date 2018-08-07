@@ -6,4 +6,14 @@
         <item>@drawable/indoor</item>
         <item>@drawable/outdoor</item>
     </integer-array>
+
+    <array name="avatar_id">
+        <item>@drawable/coin</item>
+        <item>@drawable/bow</item>
+        <item>@drawable/potionblue</item>
+        <item>@drawable/gemblue</item>
+        <item>@drawable/gemred</item>
+        <item>@drawable/gemgreen</item>
+    </array>
+
 </resources>
