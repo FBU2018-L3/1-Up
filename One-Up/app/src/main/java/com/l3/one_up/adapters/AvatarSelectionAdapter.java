@@ -3,12 +3,16 @@ package com.l3.one_up.adapters;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.l3.one_up.R;
+import com.l3.one_up.model.User;
+import com.parse.ParseException;
+import com.parse.SaveCallback;
 
 public class AvatarSelectionAdapter extends RecyclerView.Adapter<AvatarSelectionAdapter.ViewHolder> {
 
@@ -30,7 +34,14 @@ public class AvatarSelectionAdapter extends RecyclerView.Adapter<AvatarSelection
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         int placeholder = R.mipmap.ic_launcher;
+        final int index = position;
         holder.ivAvatarItem.setImageResource(avatarIds.getResourceId(position, placeholder));
+        holder.ivAvatarItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onAvatarSelect(index);
+            }
+        });
     }
 
     @Override
@@ -47,5 +58,17 @@ public class AvatarSelectionAdapter extends RecyclerView.Adapter<AvatarSelection
 
             ivAvatarItem = itemView.findViewById(R.id.ivAvatarItem);
         }
+    }
+
+    public void onAvatarSelect(int position) {
+        Log.d("AvatarSelection", "text was clicked");
+        User user = User.getCurrentUser();
+        user.setAvatar(position);
+        user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Log.d("AvatarSelection", "done updating user's avatar in Parse");
+            }
+        });
     }
 }

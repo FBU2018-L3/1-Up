@@ -9,7 +9,11 @@
 
     <array name="avatar_id">
         <item>@drawable/coin</item>
-        <item>@drawable/food</item>
+        <item>@drawable/bow</item>
+        <item>@drawable/potionblue</item>
+        <item>@drawable/gemblue</item>
+        <item>@drawable/gemred</item>
+        <item>@drawable/gemgreen</item>
     </array>
 
 </resources>
