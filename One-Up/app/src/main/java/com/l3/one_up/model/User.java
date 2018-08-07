@@ -1,21 +1,11 @@
 package com.l3.one_up.model;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.util.Log;
-
 import com.parse.ParseClassName;
-import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-import com.parse.SignUpCallback;
 
 import java.util.ArrayList;
-import java.util.Map;
-
-import bolts.Task;
 
 @ParseClassName("_User")
 public class User extends ParseUser {
@@ -26,7 +16,8 @@ public class User extends ParseUser {
     private static final String KEY_AVATAR = "avatar";
     private static final String KEY_FACEBOOK_ID = "facebookId";
 
-    public ParseFile getAvatar(){ return getParseFile(KEY_AVATAR); }
+    public String getAvatar(){ return getString(KEY_AVATAR); }
+    public void setAvatar(String avatarName) { put(KEY_AVATAR, avatarName); }
     public int getExperiencePoints(){ return getInt(KEY_EXPERIENCE_POINTS); }
     public int getLevel(){ return getInt(KEY_LEVEL); }
     public boolean isAsleep(){ return getBoolean(KEY_IS_ASLEEP); }

@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.l3.one_up.services.DeepLinkingActivity;
 import com.l3.one_up.R;
+import com.l3.one_up.services.DeepLinkingActivity;
 import com.parse.ParseUser;
 
 public class ProfileFragment extends Fragment {
@@ -98,6 +99,20 @@ public class ProfileFragment extends Fragment {
             tvLevelNum.setText(String.valueOf(user.getInt("level")));
             tvXPNum.setText(String.valueOf(user.getInt("experiencePoints")));
         }
+
+        ivProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm;
+                if (getParentFragment() == null) {
+                    fm = getActivity().getSupportFragmentManager();
+                } else {
+                    fm = getParentFragment().getChildFragmentManager();
+                }
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.fragmentHolder, AvatarSelectionFragment.newInstance()).commit();
+            }
+        });
 
         /* launch the feed fragment from here */
         boolean isTimeline = false;
