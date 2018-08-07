@@ -15,5 +15,10 @@
         android:layout_alignParentTop="true"
         app:srcCompat="@drawable/sleep_android" />
 
-    <include layout="@layout/sleep_toggle" android:id="@+id/sleepToggle"/>
+    <include layout="@layout/sleep_toggle" android:id="@+id/sleepToggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"/>
 </RelativeLayout>

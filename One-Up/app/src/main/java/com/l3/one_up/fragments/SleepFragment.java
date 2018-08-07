@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -39,6 +40,7 @@ public class SleepFragment extends Fragment implements BackIsClickable {
 
     private Unbinder unbinder;
     @BindView(R.id.tbSleepSwitch) ToggleButton tbSleepSwitch;
+    @BindView(R.id.tvSleep) TextView tvSleep;
 
     public SleepFragment(){}
 
@@ -60,6 +62,7 @@ public class SleepFragment extends Fragment implements BackIsClickable {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         tbSleepSwitch.setChecked(true);
+        tvSleep.setText("Wake up");
     }
 
     @OnClick(R.id.tbSleepSwitch)

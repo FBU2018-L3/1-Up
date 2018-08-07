@@ -32,6 +32,7 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
     private ImageView ivProfile;
     private TextView tvWelcome;
     private TextView tvLevelNum;
+    private TextView tvPowerUps;
     private TextView tvXPNum;
     /* Button for toggling */
     private Button btSeePowerUps;
@@ -83,6 +84,7 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
         tvLevelNum = (TextView) getActivity().findViewById(R.id.tvLevelNum);
         tvXPNum = (TextView) getActivity().findViewById(R.id.tvXPNum);
         btSeePowerUps = (Button) getActivity().findViewById(R.id.btSeePowerUps);
+        tvPowerUps = getActivity().findViewById(R.id.tvPowerUps);
 
         user = ParseUser.getCurrentUser();
 
@@ -116,7 +118,7 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
             @Override
             public void onClick(View v) {
                 if(fragmentFlag){
-                    btSeePowerUps.setText("Go back to categories");
+                    tvPowerUps.setText("Go back");
                     fragmentFlag = false;
                     PowerUpFragment powerUpFragment = PowerUpFragment.newInstance();
                     FragmentTransaction ft = getChildFragmentManager().beginTransaction();
@@ -125,7 +127,7 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
 
                 }
                 else {
-                    btSeePowerUps.setText("See Power Ups");
+                    tvPowerUps.setText("See Power Ups");
                     fragmentFlag = true;
                     CategorySelectionFragment categorySelectionFragment = CategorySelectionFragment.newInstance();
                     FragmentTransaction ft = getChildFragmentManager().beginTransaction();

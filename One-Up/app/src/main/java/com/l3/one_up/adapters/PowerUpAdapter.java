@@ -54,7 +54,7 @@ public class PowerUpAdapter extends RecyclerView.Adapter<PowerUpAdapter.ViewHold
         String powerUpMessage = currPowerUp.getMessage();
 
         holder.tvPowerUpMessage.setText(powerUpMessage);
-        holder.tvSentBy.setText(sentBy);
+        holder.tvSentBy.setText(String.format("Your friend '%s' sent to you:", sentBy));
     }
 
     @Override
