@@ -32,7 +32,7 @@ public class FacebookQuery {
         /* total data set with all info */
         final ArrayList<FacebookUser> userFriends = new ArrayList<>();
         /* our parameter since we are returning the menu_icon_friends */
-        final String PARAM = "/menu_icon_friends";
+        final String PARAM = "/friends";
         final String TYPE = "?fields=id,name,picture&type=square";
         /* combo for the full URL */
         String fullURL = USER_ID + PARAM + TYPE;

@@ -3,7 +3,6 @@ package com.l3.one_up.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -38,10 +37,11 @@ public class FeedFragment extends Fragment implements CalendarCallback {
     /* our "context" */
     FragmentActivity fragAct;
     /* key for retrieving our flag */
-    public static final String KEY_FLAG = "isTimeline";
-    boolean isTimeline;
+    private static final String KEY_IS_TIMELINE = "isTimeline";
+    private boolean isTimeline;
+
     Toolbar tbFeedBar;
-    AppBarLayout ablFeedBar;
+
 
     public FeedFragment() {
         // Required empty public constructor
@@ -51,7 +51,7 @@ public class FeedFragment extends Fragment implements CalendarCallback {
     public static FeedFragment newInstance(boolean isTimeline) {
         Bundle args = new Bundle();
         FeedFragment fragment = new FeedFragment();
-        args.putBoolean("isTimeline", isTimeline);
+        args.putBoolean(KEY_IS_TIMELINE, isTimeline);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,20 +61,20 @@ public class FeedFragment extends Fragment implements CalendarCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "In our feed fragment");
-        /* get pur flag which will dictate how we initialize */
-        isTimeline = getArguments().getBoolean(KEY_FLAG);
-        /* set up our context */
+        // obtaining flags
+        isTimeline = getArguments().getBoolean(KEY_IS_TIMELINE);
+        // set up our context
         fragAct = (FragmentActivity) getActivity();
-        /* set up recycler view */
+        // set up recycler view
         rvFeed = fragAct.findViewById(R.id.rvEventView);
         rvFeed.setLayoutManager(new LinearLayoutManager(fragAct));
-        /* init data set */
+        // init data set
         recentEvents = new ArrayList<>();
-        /* set up adapter */
-        feedItemAdapter = new FeedItemAdapter(recentEvents);
-        /* set as adapter and more! */
+        // set up adapter
+        feedItemAdapter = new FeedItemAdapter(recentEvents, true);
+        // set as adapter and more!
         rvFeed.setAdapter(feedItemAdapter);
-        /* call functions to populate  our feed/timeline */
+        // call functions to populate  our feed/timeline
         loadEvents(-1, -1, -1);
 
         // configuring fab

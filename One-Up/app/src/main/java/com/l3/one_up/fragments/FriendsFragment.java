@@ -124,7 +124,7 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
         rvFriendList.setAdapter(friendsAdapter);
         /* set up the the friend feed things */
         friendEvents = new ArrayList<>();
-        feedItemAdapter = new FeedItemAdapter(friendEvents);
+        feedItemAdapter = new FeedItemAdapter(friendEvents, false);
         rvFriendFeed = fragAct.findViewById(R.id.rvFriendFeed);
         rvFriendFeed.setLayoutManager(new LinearLayoutManager(fragAct));
         rvFriendFeed.setAdapter(feedItemAdapter);

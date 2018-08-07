@@ -25,14 +25,19 @@ import java.util.Iterator;
  */
 
 public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.ViewHolder> {
-    public String tag = "FeedItemAdapter";
-    /* our data set */
-    private ArrayList<Event> recentEvents;
-    /* our context */
-    Context context;
 
-    public FeedItemAdapter(ArrayList<Event> recentEvents){
+    private static final String TAG = "FeedItemAdapter";
+
+    private ArrayList<Event> recentEvents;
+    private Context context;
+
+    private boolean isCurrentUser;
+
+
+
+    public FeedItemAdapter(ArrayList<Event> recentEvents, boolean isCurrentUser){
         this.recentEvents = recentEvents;
+        this.isCurrentUser = isCurrentUser;
     }
 
 
@@ -60,22 +65,29 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.ViewHo
         String value = "";
         while (iter.hasNext()) {
             key = iter.next().toString();
-            Log.d(tag, key);
+            Log.d(TAG, key);
             try {
                 value = String.valueOf(inputTypes.getInt(key));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Log.d(tag, value);
+            Log.d(TAG, value);
         }
-        holder.tvEvent.setText(String.format("You did %s %s", value, key));
+        String start = isCurrentUser?"You":"Your friend";
+
+        holder.tvEvent.setText(String.format("%s did %s %s", start, value, key));
         /* set date and exp points gained */
         String rawDate = event.getCreatedAt().toString();
         ParseRelativeDate thingy = new ParseRelativeDate();
         String relativeDate = thingy.getRelativeTimeAgo(rawDate);
-        Log.d(tag, "Time?: " + relativeDate);
+        Log.d(TAG, "Time?: " + relativeDate);
         holder.tvEventDate.setText(relativeDate);
-        holder.tvEventEXP.setText(String.valueOf(String.format("You won %s xp", event.getTotalXP())));
+        if(isCurrentUser) {
+            holder.tvEventEXP.setText(String.valueOf(String.format("You won %s xp", event.getTotalXP())));
+        }
+        else{
+            holder.tvEventEXP.setVisibility(View.GONE);
+        }
     }
 
     @Override
