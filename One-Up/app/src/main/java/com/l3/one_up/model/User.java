@@ -16,8 +16,8 @@ public class User extends ParseUser {
     private static final String KEY_AVATAR = "avatar";
     private static final String KEY_FACEBOOK_ID = "facebookId";
 
-    public String getAvatar(){ return getString(KEY_AVATAR); }
-    public void setAvatar(String avatarName) { put(KEY_AVATAR, avatarName); }
+    public int getAvatar(){ return getInt(KEY_AVATAR); }
+    public void setAvatar(int avatarName) { put(KEY_AVATAR, avatarName); }
     public int getExperiencePoints(){ return getInt(KEY_EXPERIENCE_POINTS); }
     public int getLevel(){ return getInt(KEY_LEVEL); }
     public boolean isAsleep(){ return getBoolean(KEY_IS_ASLEEP); }
