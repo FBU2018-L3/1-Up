@@ -4,6 +4,8 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +14,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.l3.one_up.R;
+import com.l3.one_up.adapters.AvatarSelectionAdapter;
 import com.l3.one_up.model.User;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
 public class AvatarSelectionFragment extends Fragment {
+
+    TypedArray[] avatarIDs;
+    AvatarSelectionAdapter avatarSelectionAdapter;
+    RecyclerView rvAvatarPicker;
 
     TextView tvAvatarName;
     ImageView ivAvatar;
@@ -54,6 +61,13 @@ public class AvatarSelectionFragment extends Fragment {
 
         tvAvatarName = getActivity().findViewById(R.id.tvAvatarName);
         ivAvatar = getActivity().findViewById(R.id.ivAvatar);
+        rvAvatarPicker = getActivity().findViewById(R.id.rvAvatarPicker);
+
+        TypedArray avatarIDs = getResources().obtainTypedArray(R.array.avatar_id);
+        avatarSelectionAdapter = new AvatarSelectionAdapter(avatarIDs);
+
+        rvAvatarPicker.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rvAvatarPicker.setAdapter(avatarSelectionAdapter);
 
         tvAvatarName.setText("avatar1");
         tvAvatarName.setOnClickListener(new View.OnClickListener() {
