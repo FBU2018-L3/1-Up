@@ -8,12 +8,14 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_launcher"
-            android:layout_margin="10dp" />
+            android:layout_margin="10dp"/>
+
+
 
         <TextView
             android:id="@+id/tvWelcome"
@@ -85,19 +87,57 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/btSeePowerUps"
+        android:layout_above="@+id/marioAndroid"
         android:layout_below="@+id/rlHeader">
 
     </FrameLayout>
 
-    <include layout="@layout/sleep_toggle" android:id="@+id/sleepToggle"/>
+    <ImageView
+        android:id="@+id/marioAndroid"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/rlButtons"
+        android:src="@drawable/mario_android"/>
 
-    <Button
-        android:id="@+id/btSeePowerUps"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/sleepToggle"
-        android:layout_alignParentStart="true"
-        android:text="See Power Ups" />
+        android:id="@+id/rlButtons"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+        <include layout="@layout/sleep_toggle"
+            android:layout_margin="10dp"
+            android:id="@+id/sleepToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_margin="10dp">
+            <Button
+                android:id="@+id/btSeePowerUps"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/power_ups"
+                />
+
+            <TextView
+                android:id="@+id/tvPowerUps"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btSeePowerUps"
+                android:layout_centerHorizontal="true"
+                android:text="See Power Ups"
+                android:textAlignment="center" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
 
 </RelativeLayout>

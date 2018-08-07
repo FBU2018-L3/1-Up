@@ -62,6 +62,8 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     // Post to Facebook
     implementation 'com.facebook.android:facebook-share:[4,5)'
+    // CircleImageView
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
