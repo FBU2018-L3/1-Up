@@ -1,11 +1,10 @@
 package com.l3.one_up.services;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -15,19 +14,17 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.l3.one_up.R;
-import com.l3.one_up.interfaces.FacebookCallComplete;
-import com.l3.one_up.model.FacebookQuery;
 import com.l3.one_up.model.User;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DeepLinkingActivity extends AppCompatActivity {
     private String tag = "DeepLinkActivity";
     private LoginButton btFBConnect;
+    private ImageView userAvatar;
     public CallbackManager callbackManager;
     final private static String EMAIL = "email";
     final private static String FRIENDS = "user_friends";
@@ -40,6 +37,9 @@ public class DeepLinkingActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         btFBConnect = findViewById(R.id.btFBConnect);
         btFBConnect.setReadPermissions(Arrays.asList(EMAIL, FRIENDS));
+
+        userAvatar = findViewById(R.id.ivParseUserPic);
+        userAvatar.setImageResource(new AvatarFinder().getAvatarId(getApplicationContext()));
 
         btFBConnect.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override

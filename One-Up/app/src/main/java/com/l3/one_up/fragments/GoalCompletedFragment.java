@@ -8,6 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import com.facebook.share.widget.ShareButton;
 import com.l3.one_up.R;
 import com.l3.one_up.model.Goal;
 import com.l3.one_up.model.User;
+import com.l3.one_up.services.AvatarFinder;
 
 import org.json.JSONException;
 
@@ -34,6 +36,7 @@ public class GoalCompletedFragment extends DialogFragment {
     @BindView(R.id.tvUserName) TextView tvUserName;
     @BindView(R.id.tvUserLvl) TextView tvUserLvl;
     @BindView(R.id.rlImgLvl) RelativeLayout rlImgLvl;
+    @BindView(R.id.ivUserAvatar) ImageView ivUserAvatar;
     @BindView(R.id.tvCongrats) TextView tvCongrats;
     @BindView(R.id.fb_share_button) ShareButton btnFacebookShare;
 
@@ -74,6 +77,8 @@ public class GoalCompletedFragment extends DialogFragment {
         tvUserName.setText(user.getUsername());
         //pbExperiencePoints.setProgress(user.getInt("experiencePoints")%100);
         tvUserLvl.setText(String.valueOf(user.getLevel()));
+
+        ivUserAvatar.setImageResource(new AvatarFinder().getAvatarId(getContext()));
 
         tvCongrats.setText(makeCongratsMessage(goal));
 

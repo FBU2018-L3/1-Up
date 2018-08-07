@@ -20,4 +20,6 @@
 
     <string name="message">Sent a thing</string>
     <string name="dateFormat">%02d/%02d/%04d</string>
+
+    <string name="avatar_selection_prompt">Select an avatar:</string>
 </resources>

@@ -21,6 +21,7 @@ import com.github.jinatonic.confetti.CommonConfetti;
 import com.l3.one_up.R;
 import com.l3.one_up.animations.ProgressBarAnimation;
 import com.l3.one_up.model.User;
+import com.l3.one_up.services.AvatarFinder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,6 +69,8 @@ public class InputConfirmationFragment extends DialogFragment {
         tvUserName.setText(user.getUsername());
         //pbExperiencePoints.setProgress(user.getInt("experiencePoints")%100);
         tvUserLvl.setText(String.valueOf(user.getLevel()));
+
+        ivUserAvatar.setImageResource(new AvatarFinder().getAvatarId(getContext()));
 
         pbExperiencePoints.setMax(User.getCurrentUser().getNeededXpToLevelUp());
 
