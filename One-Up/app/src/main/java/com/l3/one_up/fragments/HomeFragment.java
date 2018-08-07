@@ -7,18 +7,22 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.facebook.share.widget.ShareButton;
 import com.l3.one_up.R;
 import com.l3.one_up.interfaces.BackIsClickable;
+import com.l3.one_up.listeners.OnRedeemedPowerUpRefresh;
 import com.l3.one_up.listeners.OnUserTogglesSleepListener;
+import com.l3.one_up.model.User;
 import com.parse.ParseUser;
 
 import butterknife.BindView;
@@ -27,7 +31,8 @@ import butterknife.OnCheckedChanged;
 import butterknife.Unbinder;
 
 
-public class HomeFragment extends Fragment implements CategorySelectionFragment.OnCategorySelectedListener, BackIsClickable {
+public class HomeFragment extends Fragment implements CategorySelectionFragment.OnCategorySelectedListener, BackIsClickable, OnRedeemedPowerUpRefresh {
+    private static String tag = "HomeFragment";
 
     private ImageView ivProfile;
     private TextView tvWelcome;
@@ -120,7 +125,7 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
                 if(fragmentFlag){
                     tvPowerUps.setText("Go back");
                     fragmentFlag = false;
-                    PowerUpFragment powerUpFragment = PowerUpFragment.newInstance();
+                    PowerUpFragment powerUpFragment = PowerUpFragment.newInstance(HomeFragment.this);
                     FragmentTransaction ft = getChildFragmentManager().beginTransaction();
                     ft.replace(R.id.categoryContainer, powerUpFragment);
                     ft.addToBackStack("category").commit();
@@ -186,6 +191,14 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
         // Save into shared preferences
         editor.putLong("sleepTime", time).apply();
         sleepListener.toggleSleep(true);
+    }
+
+    /* listener on to see whether the exp/level has been updated after redeeming power ups */
+    @Override
+    public void onUserUpdated(User currUser) {
+        tvLevelNum.setText(String.valueOf(currUser.getLevel()));
+        tvXPNum.setText(String.valueOf(currUser.getExperiencePoints()));
+        Log.d(tag, "Home screen updated");
     }
 
 
