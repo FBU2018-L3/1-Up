@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +14,10 @@ import android.widget.TextView;
 
 import com.l3.one_up.R;
 import com.l3.one_up.adapters.AvatarSelectionAdapter;
-import com.l3.one_up.model.User;
-import com.parse.ParseException;
-import com.parse.SaveCallback;
 
-public class AvatarSelectionFragment extends Fragment {
+public class AvatarSelectionFragment extends Fragment implements AvatarSelectionAdapter.OnAvatarSelectListener {
 
-    TypedArray[] avatarIDs;
+    TypedArray avatarIDs;
     AvatarSelectionAdapter avatarSelectionAdapter;
     RecyclerView rvAvatarPicker;
 
@@ -63,31 +59,17 @@ public class AvatarSelectionFragment extends Fragment {
         ivAvatar = getActivity().findViewById(R.id.ivAvatar);
         rvAvatarPicker = getActivity().findViewById(R.id.rvAvatarPicker);
 
-        TypedArray avatarIDs = getResources().obtainTypedArray(R.array.avatar_id);
-        avatarSelectionAdapter = new AvatarSelectionAdapter(avatarIDs);
+        avatarIDs = getResources().obtainTypedArray(R.array.avatar_id);
+        avatarSelectionAdapter = new AvatarSelectionAdapter(avatarIDs, this);
 
         rvAvatarPicker.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         rvAvatarPicker.setAdapter(avatarSelectionAdapter);
 
         tvAvatarName.setText("avatar1");
-        tvAvatarName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("AvatarSelection", "text was clicked");
-                User user = User.getCurrentUser();
-                user.setAvatar(1);
-                user.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Log.d("AvatarSelection", "done updating user's avatar in Parse");
-                        TypedArray avatarIds = getResources().obtainTypedArray(R.array.avatar_id);
-                        int avatarResId = avatarIds.getResourceId(0, R.mipmap.ic_launcher);
-                        ivAvatar.setImageResource(avatarResId);
-                        Log.d("AvatarSelection", "the ID of the resources is " + avatarResId);
-                    }
-                });
-            }
-        });
     }
 
+    @Override
+    public void onAvatarClicked(int position) {
+        ivAvatar.setImageResource(avatarIDs.getResourceId(position, R.mipmap.ic_launcher));
+    }
 }

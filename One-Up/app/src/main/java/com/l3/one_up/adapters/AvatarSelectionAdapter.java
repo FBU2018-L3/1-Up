@@ -17,9 +17,11 @@ import com.parse.SaveCallback;
 public class AvatarSelectionAdapter extends RecyclerView.Adapter<AvatarSelectionAdapter.ViewHolder> {
 
     TypedArray avatarIds;
+    OnAvatarSelectListener mListener;
 
-    public AvatarSelectionAdapter(TypedArray IDs) {
+    public AvatarSelectionAdapter(TypedArray IDs, OnAvatarSelectListener listener) {
         this.avatarIds = IDs;
+        this.mListener = listener;
     }
 
     @NonNull
@@ -60,7 +62,7 @@ public class AvatarSelectionAdapter extends RecyclerView.Adapter<AvatarSelection
         }
     }
 
-    public void onAvatarSelect(int position) {
+    public void onAvatarSelect(final int position) {
         Log.d("AvatarSelection", "text was clicked");
         User user = User.getCurrentUser();
         user.setAvatar(position);
@@ -68,7 +70,14 @@ public class AvatarSelectionAdapter extends RecyclerView.Adapter<AvatarSelection
             @Override
             public void done(ParseException e) {
                 Log.d("AvatarSelection", "done updating user's avatar in Parse");
+                if (mListener != null) {
+                    mListener.onAvatarClicked(position);
+                }
             }
         });
+    }
+
+    public interface OnAvatarSelectListener {
+        void onAvatarClicked(int position);
     }
 }

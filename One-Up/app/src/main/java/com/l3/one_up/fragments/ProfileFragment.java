@@ -122,8 +122,6 @@ public class ProfileFragment extends Fragment {
         ft.replace(R.id.feedContainer, feedFragment).commit();
     }
 
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
