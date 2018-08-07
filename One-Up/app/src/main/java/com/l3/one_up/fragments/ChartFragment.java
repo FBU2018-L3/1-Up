@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -26,6 +28,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.l3.one_up.R;
+import com.l3.one_up.formatters.XAxisDateValueFormatter;
 import com.l3.one_up.model.Activity;
 import com.l3.one_up.model.Event;
 import com.l3.one_up.model.User;
@@ -34,8 +37,14 @@ import com.parse.ParseException;
 
 import org.json.JSONException;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +59,8 @@ public class ChartFragment extends Fragment{
     private Unbinder unbinder;
     private Chart<?> chart;
     private int chartType;
+    private List<BarEntry> entries = new ArrayList<>();
+    private ArrayList<Date> dates = new ArrayList<>();
     @BindView(R.id.spInputType) Spinner spInputType;
     @BindView(R.id.rlChartFragment) RelativeLayout rlChartFragment;
 
@@ -179,20 +190,41 @@ public class ChartFragment extends Fragment{
     }
 
     private BarData getBarData(List<Event> events, String item){
-        List<BarEntry> entries = new ArrayList<>();
-        ArrayList<String> dates = new ArrayList<>();
+        LinkedHashMap<Date, Integer> map = new LinkedHashMap<>();
+
 
         for(int i = 0; i < events.size(); i++){
             Event event = events.get(i);
             if(event.getInputType().has(item)){
                 try {
-                    entries.add(new BarEntry(i + 1, event.getInputType().getInt(item)));
-                    dates.add(event.getCreatedAt().toString());
+
+                    Integer value = event.getInputType().getInt(item);
+                    Date date = parseDate(event.getCreatedAt().toString());
+
+                    if(map.containsKey(date)){
+                        map.put(date, map.get(date)+value);
+                    }
+                    else{
+                        map.put(date, value);
+                    }
+
                 } catch (JSONException e1) {
                     e1.printStackTrace();
+                } catch (java.text.ParseException e) {
+                    e.printStackTrace();
                 }
             }
         }
+
+        Iterator iterator = map.entrySet().iterator();
+
+        for(int i = 0;iterator.hasNext(); i++){
+            Map.Entry e = (Map.Entry) iterator.next();
+            entries.add(new BarEntry(i, (Integer)e.getValue()));
+            dates.add((Date)e.getKey());
+            Log.d("CHARTS", e.getKey().toString() + ":  " + e.getValue().toString());
+        }
+
 
         BarDataSet eventsDataSet = new BarDataSet(entries, activity.getName() + " in " + item);
 
@@ -202,6 +234,8 @@ public class ChartFragment extends Fragment{
     }
 
     private void configureChart(){
+        chart.getDescription().setEnabled(false);
+
         XAxis xAxis = chart.getXAxis();
         YAxis leftAxis = new YAxis();
         YAxis rightAxis = new YAxis();
@@ -213,12 +247,14 @@ public class ChartFragment extends Fragment{
         else if(chart instanceof BarChart){
             leftAxis = ((BarChart) chart).getAxisLeft();
             rightAxis = ((BarChart) chart).getAxisRight();
+
         }
 
 
         // configure axis
-        xAxis.setAxisMinimum(1);
+        xAxis.setValueFormatter(new XAxisDateValueFormatter(dates));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularityEnabled(true);
 
         leftAxis.setAxisMinimum(0);
         rightAxis.setDrawAxisLine(false); // no axis line
@@ -227,5 +263,13 @@ public class ChartFragment extends Fragment{
 
         // configuring chart
         //chart.setPinchZoom(true);
+    }
+    private Date parseDate(String dateString) throws java.text.ParseException {
+        SimpleDateFormat parser=new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+        Date date = parser.parse(dateString);
+        date.setHours(0);
+        date.setMinutes(0);
+        date.setSeconds(0);
+        return date;
     }
 }
