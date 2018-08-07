@@ -21,6 +21,7 @@ import com.l3.one_up.R;
 import com.l3.one_up.adapters.FeedItemAdapter;
 import com.l3.one_up.adapters.PowerUpAdapter;
 import com.l3.one_up.interfaces.PowerUpCallback;
+import com.l3.one_up.listeners.OnRedeemedPowerUpRefresh;
 import com.l3.one_up.model.PowerUp;
 import com.l3.one_up.model.User;
 import com.parse.FindCallback;
@@ -40,15 +41,18 @@ public class PowerUpFragment extends Fragment implements PowerUpCallback {
     PowerUpAdapter powerUpAdapter;
     /* actual recycler view */
     RecyclerView rvPowerUpList;
+    /* our refresher callback */
+    OnRedeemedPowerUpRefresh refresh;
 
     public PowerUpFragment() {
         // Required empty public constructor
     }
 
-    public static PowerUpFragment newInstance() {
+    public static PowerUpFragment newInstance(OnRedeemedPowerUpRefresh refresh) {
         PowerUpFragment fragment = new PowerUpFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+        fragment.refresh = refresh;
         return fragment;
     }
 
@@ -104,13 +108,14 @@ public class PowerUpFragment extends Fragment implements PowerUpCallback {
     @Override
     public void applyBonusExp(PowerUp atPowerUp) {
         int expGained = atPowerUp.getBonusXP();
-        User user = User.getCurrentUser();
+        final User user = User.getCurrentUser();
         final int startXp = user.getCurrentXpFromLevel();
         final int startLevel = user.getLevel();
         user.updateExperiencePoints(expGained, new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if(e == null){
+                    refresh.onUserUpdated(user);
                     FragmentManager fragmentManager = getFragmentManager();
                     InputConfirmationFragment inputConfirmationFragment = InputConfirmationFragment.newInstance(startXp, startLevel);
                     inputConfirmationFragment.show(fragmentManager, "tagz");
