@@ -1,59 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="4dp">
 
-    <TextView
-        android:id="@+id/tvGoalName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvisGoalComplete"
-        android:hint="Goal activity name"
-        android:text="I am a goal!"
-        android:textSize="24sp" />
-
-    <TextView
-        android:id="@+id/tvCurrentGoalProgress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvGoalName"
-        android:hint="Current Goal Progress"
-        android:textAlignment="center"
-        android:textStyle="italic" />
-
-    <TextView
-        android:id="@+id/tvUltimateGoal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvCurrentGoalProgress"
-        android:hint="ultimate goal"
-        android:textAlignment="center"
-        android:textStyle="italic" />
-
-    <TextView
-        android:id="@+id/tvisGoalComplete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:hint="Is complete?"
-        android:textSize="22sp"
-        android:textStyle="bold|italic" />
-
-    <ProgressBar
-        android:id="@+id/progGoalProgress"
-        style="?android:attr/progressBarStyleHorizontal"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvUltimateGoal"
-        android:min="0" />
+        android:layout_height="wrap_content">
 
-</RelativeLayout>
+        <TextView
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="2dp"
+            android:id="@+id/tvGoalName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tvisGoalComplete"
+            android:hint="Goal activity name"
+            android:text="I am a goal!"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="2dp"
+            android:id="@+id/tvCurrentGoalProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tvGoalName"
+            android:hint="Current Goal Progress"
+            android:textAlignment="center"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/tvUltimateGoal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tvCurrentGoalProgress"
+            android:hint="ultimate goal"
+            android:textAlignment="center"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/tvisGoalComplete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:hint="Is complete?"
+            android:textSize="22sp"
+            android:textStyle="bold|italic" />
+
+        <ProgressBar
+            android:id="@+id/progGoalProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tvUltimateGoal"
+            android:min="0" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
