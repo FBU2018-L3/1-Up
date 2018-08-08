@@ -8,12 +8,12 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/ivProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"
-            android:layout_margin="10dp"/>
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:src="@mipmap/ic_launcher" />
 
 
 
@@ -128,11 +128,11 @@
 
             <TextView
                 android:id="@+id/tvPowerUps"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/btSeePowerUps"
                 android:layout_centerHorizontal="true"
-                android:text="See Power Ups"
+                android:text="PowerUps"
                 android:textAlignment="center" />
         </RelativeLayout>
 

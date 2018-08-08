@@ -8,12 +8,13 @@
     </integer-array>
 
     <array name="avatar_id">
-        <item>@drawable/coin</item>
-        <item>@drawable/bow</item>
-        <item>@drawable/potionblue</item>
-        <item>@drawable/gemblue</item>
-        <item>@drawable/gemred</item>
-        <item>@drawable/gemgreen</item>
+        <item>@drawable/profile_cool</item>
+        <item>@drawable/profile_dino</item>
+        <item>@drawable/profile_dogge</item>
+        <item>@drawable/profile_grizzly</item>
+        <item>@drawable/profile_mushroom</item>
+        <item>@drawable/profile_polar</item>
+        <item>@drawable/profile_panda</item>
     </array>
 
 </resources>
