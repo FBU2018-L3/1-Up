@@ -203,6 +203,9 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
         Log.d(tag, "Home screen updated");
     }
 
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        ivProfile.setImageResource(new AvatarFinder().getAvatarId(getContext()));
+    }
 }
