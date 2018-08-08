@@ -96,9 +96,10 @@
         android:id="@+id/marioAndroid"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_alignBottom="@+id/rlButtons"
         android:layout_centerHorizontal="true"
-        android:layout_above="@id/rlButtons"
-        android:src="@drawable/mario_android"/>
+        android:layout_marginBottom="133dp"
+        android:src="@drawable/mario_android" />
 
     <RelativeLayout
         android:layout_width="match_parent"
