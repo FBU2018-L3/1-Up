@@ -275,7 +275,6 @@ public class FriendsFragment extends Fragment implements FacebookCallComplete {
     private void sendPowerUp() {
         /* condition to check whether we are a valid position */
         if(positionAtUser >= 0) {
-            Toast.makeText(fragAct, "Valid position!", Toast.LENGTH_LONG).show();
             User atUser = parseUsers.get(positionAtUser);
             Log.d(tag, "At user: " + atUser.getFacebookId());
             PowerUp newPowerUp = new PowerUp();

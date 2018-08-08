@@ -135,7 +135,6 @@ public class FeedFragment extends Fragment implements CalendarCallback {
                 if(e == null){
                     Log.d(TAG, "This is the size: " + objects.size());
                     feedItemAdapter.clear();
-                    Toast.makeText(fragAct, "Got events :)", Toast.LENGTH_LONG).show();
                     recentEvents.addAll(objects);
                     feedItemAdapter.notifyDataSetChanged();
                 }
