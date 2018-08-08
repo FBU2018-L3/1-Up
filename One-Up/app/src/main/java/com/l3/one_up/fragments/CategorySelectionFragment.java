@@ -61,7 +61,13 @@ public class CategorySelectionFragment extends Fragment
         categoriesAdapter = new CategoryAdapter(categories, categoryIcons, this);
 
         rvCategories = (RecyclerView) getActivity().findViewById(R.id.rvCategories);
-        rvCategories.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        rvCategories.setLayoutManager(layoutManager);
         rvCategories.setAdapter(categoriesAdapter);
     }
 
