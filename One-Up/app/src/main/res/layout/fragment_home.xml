@@ -120,7 +120,7 @@
             android:layout_margin="10dp">
             <Button
                 android:id="@+id/btSeePowerUps"
-                android:layout_width="100dp"
+                android:layout_width="90dp"
                 android:layout_height="100dp"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/power_ups"
