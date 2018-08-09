@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onCategoryInteraction(String categoryName) {
-        Toast.makeText(getApplicationContext(), categoryName + " button was clicked!", Toast.LENGTH_SHORT).show();
         ActivitySelectionFragment activitySelectionFragment = ActivitySelectionFragment.newInstance(categoryName, Objective.EVENT);
         startFragment(activitySelectionFragment, TAG_ACTIVITY_SELECTION_FRAGMENT);
     }

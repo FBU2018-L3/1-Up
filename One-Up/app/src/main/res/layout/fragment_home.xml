@@ -8,12 +8,12 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/ivProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"
-            android:layout_margin="10dp"/>
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_margin="10dp"
+            android:src="@mipmap/ic_launcher" />
 
 
 
@@ -96,9 +96,10 @@
         android:id="@+id/marioAndroid"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_alignBottom="@+id/rlButtons"
         android:layout_centerHorizontal="true"
-        android:layout_above="@id/rlButtons"
-        android:src="@drawable/mario_android"/>
+        android:layout_marginBottom="133dp"
+        android:src="@drawable/mario_android" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -132,13 +133,13 @@
             <TextView
                 android:layout_marginBottom="5dp"
                 android:id="@+id/tvPowerUps"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/btSeePowerUps"
                 android:layout_centerHorizontal="true"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
-                android:text="See Power Ups"
+                android:text="PowerUps"
                 android:textAlignment="center" />
         </RelativeLayout>
 

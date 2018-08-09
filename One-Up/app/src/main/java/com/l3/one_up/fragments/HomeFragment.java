@@ -125,7 +125,7 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
             @Override
             public void onClick(View v) {
                 if(fragmentFlag){
-                    tvPowerUps.setText("Go back");
+                    tvPowerUps.setText("Home");
                     fragmentFlag = false;
                     PowerUpFragment powerUpFragment = PowerUpFragment.newInstance(HomeFragment.this);
                     FragmentTransaction ft = getChildFragmentManager().beginTransaction();
@@ -134,7 +134,7 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
 
                 }
                 else {
-                    tvPowerUps.setText("See Power Ups");
+                    tvPowerUps.setText("PowerUps");
                     fragmentFlag = true;
                     CategorySelectionFragment categorySelectionFragment = CategorySelectionFragment.newInstance();
                     FragmentTransaction ft = getChildFragmentManager().beginTransaction();
@@ -203,6 +203,9 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
         Log.d(tag, "Home screen updated");
     }
 
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        ivProfile.setImageResource(new AvatarFinder().getAvatarId(getContext()));
+    }
 }

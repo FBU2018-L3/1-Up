@@ -24,7 +24,6 @@
         android:paddingTop="10dp"
         android:text="category name"
         android:textAlignment="center"
-        android:visibility="gone"
         android:textAppearance="@android:style/TextAppearance.Large" />
 
 
