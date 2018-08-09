@@ -111,9 +111,8 @@
         android:layout_toRightOf="@id/verticalBorder"
         android:layout_marginBottom="0dp"/>
 
-    <include
+    <include layout="@layout/modal_dots"
         android:id="@+id/dotsBottom"
-        layout="@layout/modal_dots"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/verticalBorder"
