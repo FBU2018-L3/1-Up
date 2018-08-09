@@ -21,18 +21,20 @@ import com.l3.one_up.fragments.FeedFragment;
 import com.l3.one_up.fragments.FriendsFragment;
 import com.l3.one_up.fragments.ProfileFragment;
 import com.l3.one_up.fragments.StatsFragment;
+import com.l3.one_up.interfaces.SelectNavBarItem;
 import com.l3.one_up.model.Activity;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
 public class ProfileActivity extends AppCompatActivity implements
-        ProfileFragment.OnFragmentInteractionListener {
+        ProfileFragment.OnFragmentInteractionListener, SelectNavBarItem {
 
     private static final String TAG = "Profile Activity";
 
     private AppBarLayout ablProfileBar;
     private CoordinatorLayout.LayoutParams params;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +45,9 @@ public class ProfileActivity extends AppCompatActivity implements
         FrameLayout layout = findViewById(R.id.fragmentHolder);
         params = (CoordinatorLayout.LayoutParams) layout.getLayoutParams();
 
-        final ProfileFragment profileFragment = ProfileFragment.newInstance();
+        final ProfileFragment profileFragment = ProfileFragment.newInstance(this);
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -129,4 +131,11 @@ public class ProfileActivity extends AppCompatActivity implements
     }
 
 
+    @Override
+    public void selectTimelineItem() {
+        bottomNavigationView.getMenu().getItem(2).setChecked(true);
+        setAppBarVisibility(true);
+        FeedFragment timelineFeed = FeedFragment.newInstance(true);
+        startFragment(timelineFeed);
+    }
 }

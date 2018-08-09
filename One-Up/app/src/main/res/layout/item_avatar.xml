@@ -5,9 +5,10 @@
 
     <ImageView
         android:id="@+id/ivAvatarItem"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="100dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
+        android:layout_margin="10dp"
         android:src="@android:drawable/ic_menu_crop" />
 </RelativeLayout>

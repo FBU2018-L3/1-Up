@@ -91,8 +91,6 @@ public class PowerUpFragment extends Fragment implements PowerUpCallback {
             @Override
             public void done(List<PowerUp> objects, ParseException e) {
                 if(e == null){
-                    Toast.makeText(fragAct, "Got the things!", Toast.LENGTH_LONG).show();
-
                     for(int i = 0; i < objects.size(); i++){
                         userPowerUps.add(objects.get(i));
                     }

@@ -82,13 +82,13 @@ public class InputConfirmationFragment extends DialogFragment {
 
     private void setAnimation(View view, User user) {
 
-        int startXp = getArguments().getInt("startXp");
+        int startXp = getArguments().getInt("startXp")%user.getNeededXpToLevelUp();
         int endXp = user.getCurrentXpFromLevel();
         int startLvl = getArguments().getInt("startLvl");
 
         // Animation:
         ProgressBarAnimation anim;
-        if(startXp >= endXp) {
+        if(startXp > endXp || (user.getLevel() > startLvl && startXp == endXp)) {
             anim = new ProgressBarAnimation(pbExperiencePoints, startXp,  100);
             anim.setDuration(1000);
             pbExperiencePoints.startAnimation(anim);
