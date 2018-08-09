@@ -2,91 +2,128 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/modalYellow">
+
+    <RelativeLayout
+        android:id="@+id/modal_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp">
+
+        <TextView
+            android:id="@+id/tvInputPrompt"
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/how_many"
+            android:textSize="18sp" />
+
+        <Spinner
+            android:id="@+id/spInputType"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tvInputPrompt"
+            />
+
+        <TextView
+            android:id="@+id/tvValue"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spInputType"
+            android:layout_centerHorizontal="true"
+            android:text="@string/you_did"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/etValue"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvValue"
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:id="@+id/tvGoalWarning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etValue"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:background="#f0c8c8"
+            android:padding="10dp"
+            android:text="Warning"
+            android:textColor="@android:color/holo_red_dark" />
+        <!-- android:visibility="gone" -->
+
+        <CheckBox
+            android:id="@+id/cbIsPrivate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvGoalWarning"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="@string/save_as_private" />
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cbIsPrivate"
+            android:layout_centerHorizontal="true"
+            android:text="@string/submit" />
+
+    </RelativeLayout>
 
     <ImageView
-        android:id="@+id/ivActivityIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/horizontalBorder"
+        android:src="@drawable/horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        app:srcCompat="@mipmap/ic_launcher_round"
+        android:scaleType="fitXY"/>
+
+    <ImageView
+        android:id="@+id/verticalBorder"
+        android:layout_width="16dp"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:layout_alignBottom="@id/dotsBottom"
+        android:src="@drawable/vertical" />
+
+    <ImageView
+        android:src="@drawable/ogbox"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_alignParentLeft="true"
         />
 
-    <TextView
-        android:id="@+id/tvInputType"
-        android:layout_marginTop="30dp"
-        android:layout_width="wrap_content"
+    <include layout="@layout/modal_dots"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ivActivityIcon"
-        android:layout_centerHorizontal="true"
-        android:text="@string/how_many"
-        android:textSize="18sp" />
+        android:layout_width="match_parent"
+        android:layout_below="@id/horizontalBorder"
+        android:layout_toRightOf="@id/verticalBorder"
+        android:layout_marginBottom="0dp"/>
 
-    <Spinner
-        android:id="@+id/spInputType"
-        android:layout_marginTop="20dp"
+    <include layout="@layout/modal_dots"
+        android:id="@+id/dotsBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvInputType"
-         />
-
-    <TextView
-        android:id="@+id/tvValue"
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/spInputType"
-        android:layout_centerHorizontal="true"
-        android:text="@string/you_did"
-        android:textSize="18sp" />
-
-    <EditText
-        android:id="@+id/etValue"
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvValue"
-        android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:inputType="numberDecimal" />
-
-    <TextView
-        android:id="@+id/tvGoalWarning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etValue"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="20dp"
-
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:background="#f0c8c8"
-        android:padding="10dp"
-        android:text="Warning"
-        android:textColor="@android:color/holo_red_dark" />
-    <!-- android:visibility="gone" -->
-
-    <Button
-        android:id="@+id/btnSubmit"
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/cbIsPrivate"
-        android:layout_centerHorizontal="true"
-        android:text="@string/submit" />
-
-    <CheckBox
-        android:id="@+id/cbIsPrivate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvGoalWarning"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="@string/save_as_private" />
+        android:layout_below="@id/modal_content"
+        android:layout_toRightOf="@id/verticalBorder"
+        android:layout_marginTop="-16dp"/>
 
 </RelativeLayout>

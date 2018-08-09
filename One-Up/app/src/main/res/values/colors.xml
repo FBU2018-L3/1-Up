@@ -6,4 +6,5 @@
     <color name="hintColor">#c0cde0</color>
     <color name="writeColor">#211c1c</color>
     <color name="backgroundColor">#5F95EC</color>
+    <color name="modalYellow">#FCEF51</color>
 </resources>
