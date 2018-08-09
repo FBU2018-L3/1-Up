@@ -97,6 +97,11 @@ public class ChartFragment extends Fragment{
             }
         }
 
+        if(activity.getInputType().length()==1){
+            spInputType.setBackground(null);
+            spInputType.setEnabled(false);
+        }
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, spinnerArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spInputType.setAdapter(adapter);
@@ -185,8 +190,10 @@ public class ChartFragment extends Fragment{
         eventsDataSet.setCircleSize(5);
         eventsDataSet.setFillColor(R.color.colorAccent);
 
+        LineData lineData = new LineData(eventsDataSet);
+        lineData.setValueTextSize(18);
 
-        return new LineData(eventsDataSet);
+        return lineData;
     }
 
     private BarData getBarData(List<Event> events, String item){
@@ -228,9 +235,11 @@ public class ChartFragment extends Fragment{
 
         BarDataSet eventsDataSet = new BarDataSet(entries, activity.getName() + " in " + item);
 
+        BarData barData = new BarData(eventsDataSet);
+        barData.setValueTextSize(16);
 
 
-        return new BarData(eventsDataSet);
+        return barData;
     }
 
     private void configureChart(){
@@ -255,8 +264,10 @@ public class ChartFragment extends Fragment{
         xAxis.setValueFormatter(new XAxisDateValueFormatter(dates));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularityEnabled(true);
+        xAxis.setTextSize(14);
 
         leftAxis.setAxisMinimum(0);
+        leftAxis.setTextSize(16);
         rightAxis.setDrawAxisLine(false); // no axis line
         rightAxis.setDrawGridLines(false); // no grid lines
         rightAxis.setEnabled(false);
@@ -264,6 +275,8 @@ public class ChartFragment extends Fragment{
         // configuring chart
         //chart.setPinchZoom(true);
     }
+
+
     private Date parseDate(String dateString) throws java.text.ParseException {
         SimpleDateFormat parser=new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
         Date date = parser.parse(dateString);
