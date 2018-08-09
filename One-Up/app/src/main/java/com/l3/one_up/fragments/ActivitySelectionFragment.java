@@ -152,7 +152,7 @@ public class ActivitySelectionFragment extends Fragment
             return;
         }
         myActivities.clear();
-        query.toLowerCase();
+        query = query.toLowerCase();
         for(int i = 0; i < completeActivities.size(); i++){
             String lowerName = completeActivities.get(i).getName().toLowerCase();
             if(lowerName.contains(query)){
