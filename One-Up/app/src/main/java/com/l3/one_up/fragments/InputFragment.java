@@ -55,6 +55,7 @@ public class InputFragment extends DialogFragment {
     @BindView(R.id.etValue) EditText etValue;
     @BindView(R.id.cbIsPrivate) CheckBox cbIsPrivate;
     @BindView(R.id.tvGoalWarning) TextView tvGoalWarning;
+    @BindView(R.id.tvInputPrompt) TextView tvInputPrompt;
 
     // Empty constructor required
     public InputFragment(){}
@@ -83,6 +84,12 @@ public class InputFragment extends DialogFragment {
 
         int objectiveIndex = getArguments().getInt(KEY_OBJECTIVE);
         objective = Objective.values()[objectiveIndex];
+
+        if(this.objective == Objective.GOAL){
+            Log.d(TAG, "This input is for a goal");
+            tvInputPrompt.setText(R.string.goal_text);
+
+        }
 
         tvGoalWarning.setVisibility(View.GONE);
 

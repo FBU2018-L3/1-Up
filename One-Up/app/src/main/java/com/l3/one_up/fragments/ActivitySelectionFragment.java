@@ -78,7 +78,9 @@ public class ActivitySelectionFragment extends Fragment
         // Setting toolbar
         Toolbar searchBar = getActivity().findViewById(R.id.tbProfileBar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(searchBar);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Choose your Activity: ");
+        searchBar.setTitleTextColor(getActivity().getColor(android.R.color.white));
 
         Bundle args = getArguments();
         category = args.getString(KEY_CATEGORY);
