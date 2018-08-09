@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.l3.one_up.interfaces.SelectNavBarItem;
 import com.l3.one_up.listeners.OnRedeemedPowerUpRefresh;
 import com.l3.one_up.model.User;
 import com.l3.one_up.services.DeepLinkingActivity;
@@ -42,14 +44,17 @@ public class ProfileFragment extends Fragment {
     private User user;
     private Activity activity;
 
+    private SelectNavBarItem selectNavBarItem;
+
     public ProfileFragment() {
         // Required empty public constructor
     }
 
-    public static ProfileFragment newInstance() {
+    public static ProfileFragment newInstance(SelectNavBarItem selectNavBarItem) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+        fragment.selectNavBarItem = selectNavBarItem;
         return fragment;
     }
 
@@ -122,7 +127,12 @@ public class ProfileFragment extends Fragment {
 
         /* launch the feed fragment from here */
         boolean isTimeline = false;
-        FeedFragment feedFragment = FeedFragment.newInstance(isTimeline);
+        FeedFragment feedFragment = FeedFragment.newInstance(isTimeline, true, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectNavBarItem.selectTimelineItem();
+            }
+        });
         FragmentManager fragmentManager = getFragmentManager();
         android.support.v4.app.FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.replace(R.id.feedContainer, feedFragment).commit();

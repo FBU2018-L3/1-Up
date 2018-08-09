@@ -38,7 +38,10 @@ public class FeedFragment extends Fragment implements CalendarCallback {
     FragmentActivity fragAct;
     /* key for retrieving our flag */
     private static final String KEY_IS_TIMELINE = "isTimeline";
+    private static final String KEY_HAS_FOOTER = "hasFooter";
     private boolean isTimeline;
+    private boolean hasFooter;
+    private View.OnClickListener footerOnClickListener;
 
     Toolbar tbFeedBar;
 
@@ -48,14 +51,19 @@ public class FeedFragment extends Fragment implements CalendarCallback {
     }
 
     /* instantiate bundle things here, pass in flag */
-    public static FeedFragment newInstance(boolean isTimeline) {
+    public static FeedFragment newInstance(boolean isTimeline, boolean hasFooter, View.OnClickListener footerOnClickListener) {
         Bundle args = new Bundle();
         FeedFragment fragment = new FeedFragment();
         args.putBoolean(KEY_IS_TIMELINE, isTimeline);
+        args.putBoolean(KEY_HAS_FOOTER, hasFooter);
+        fragment.footerOnClickListener = footerOnClickListener;
         fragment.setArguments(args);
         return fragment;
     }
-    
+
+    public static FeedFragment newInstance(boolean isTimeline) {
+        return newInstance(isTimeline, false, null);
+    }
     
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -63,6 +71,7 @@ public class FeedFragment extends Fragment implements CalendarCallback {
         Log.d(TAG, "In our feed fragment");
         // obtaining flags
         isTimeline = getArguments().getBoolean(KEY_IS_TIMELINE);
+        hasFooter = getArguments().getBoolean(KEY_HAS_FOOTER);
         // set up our context
         fragAct = (FragmentActivity) getActivity();
         // set up recycler view
@@ -71,7 +80,10 @@ public class FeedFragment extends Fragment implements CalendarCallback {
         // init data set
         recentEvents = new ArrayList<>();
         // set up adapter
-        feedItemAdapter = new FeedItemAdapter(recentEvents, true);
+        if(hasFooter)
+            feedItemAdapter = new FeedItemAdapter(recentEvents, true, "You've reached the end of the weekly feed!", "Go to timeline!", footerOnClickListener);
+        else
+            feedItemAdapter = new FeedItemAdapter(recentEvents, true);
         // set as adapter and more!
         rvFeed.setAdapter(feedItemAdapter);
         // call functions to populate  our feed/timeline
