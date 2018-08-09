@@ -76,7 +76,7 @@ public class ActivitySelectionFragment extends Fragment
         Log.d(tag, "In our activity selection fragment");
 
         // Setting toolbar
-        Toolbar searchBar = getActivity().findViewById(R.id.tbProfileBar);
+        Toolbar searchBar = getActivity().findViewById(R.id.tbSearchBar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(searchBar);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Choose your Activity: ");
