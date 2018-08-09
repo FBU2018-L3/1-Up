@@ -10,9 +10,9 @@
         android:id="@+id/modal_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginRight="16dp">
+        android:layout_marginLeft="@dimen/modal_scale_margin"
+        android:layout_marginTop="@dimen/modal_scale_margin"
+        android:layout_marginRight="@dimen/modal_scale">
 
         <RelativeLayout
             android:id="@+id/rlImgLvl"
@@ -85,13 +85,13 @@
         android:id="@+id/horizontalBorder"
         android:src="@drawable/horizontal"
         android:layout_width="match_parent"
-        android:layout_height="16dp"
+        android:layout_height="@dimen/modal_scale"
         android:layout_alignParentTop="true"
         android:scaleType="fitXY"/>
 
     <ImageView
         android:id="@+id/verticalBorder"
-        android:layout_width="16dp"
+        android:layout_width="@dimen/modal_scale"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:layout_alignBottom="@id/dotsBottom"
@@ -99,8 +99,8 @@
 
     <ImageView
         android:src="@drawable/ogbox"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="@dimen/modal_scale"
+        android:layout_height="@dimen/modal_scale"
         android:layout_alignParentLeft="true"
         />
 
@@ -118,6 +118,6 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/verticalBorder"
         android:layout_below="@+id/modal_content"
-        android:layout_marginTop="-16dp" />
+        android:layout_marginTop="@dimen/modal_scale_offset" />
 
 </RelativeLayout>

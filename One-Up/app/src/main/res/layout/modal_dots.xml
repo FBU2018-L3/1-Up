@@ -4,20 +4,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:paddingTop="@dimen/modal_scale"
+    android:paddingBottom="@dimen/modal_scale"
+    android:paddingLeft="@dimen/modal_scale"
+    android:paddingRight="@dimen/modal_scale">
 
     <ImageView
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="@dimen/modal_scale"
+        android:layout_height="@dimen/modal_scale"
         android:layout_alignParentLeft="true"
         android:src="@drawable/ogbox" />
 
     <ImageView
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="@dimen/modal_scale"
+        android:layout_height="@dimen/modal_scale"
         android:layout_alignParentRight="true"
         android:src="@drawable/ogbox" />
 
