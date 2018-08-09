@@ -15,6 +15,7 @@ public class User extends ParseUser {
     private static final String KEY_IS_ASLEEP = "isAsleep";
     private static final String KEY_AVATAR = "avatar";
     private static final String KEY_FACEBOOK_ID = "facebookId";
+    private static final int XP_FOR_LEVEL_UP = 250;
 
     public int getAvatar(){ return getInt(KEY_AVATAR); }
     public void setAvatar(int avatarName) { put(KEY_AVATAR, avatarName); }
@@ -56,14 +57,15 @@ public class User extends ParseUser {
     }
 
     private void setLevel(){
-        put(KEY_LEVEL, this.getExperiencePoints()/100);
+        put(KEY_LEVEL, this.getExperiencePoints()/XP_FOR_LEVEL_UP);
     }
 
     public int getCurrentXpFromLevel(){
-        return this.getExperiencePoints()%100;
+        return this.getExperiencePoints()%XP_FOR_LEVEL_UP;
     }
 
-    public int getNeededXpToLevelUp() { return 100; }
+    public int getNeededXpToLevelUp() { return XP_FOR_LEVEL_UP; }
+
 
     public static User getCurrentUser(){
         return (User)ParseUser.getCurrentUser();
