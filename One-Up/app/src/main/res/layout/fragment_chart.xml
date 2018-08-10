@@ -4,23 +4,13 @@
     android:id="@+id/rlChartFragment"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_margin="5dp"
-        android:id="@+id/tvText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:text="Input type:"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
     <Spinner
         android:layout_margin="5dp"
-        android:layout_below="@id/tvText"
+        android:layout_alignParentTop="true"
         android:id="@+id/spInputType"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        />
 
     <!--<com.github.mikephil.charting.charts.LineChart-->
         <!--android:layout_margin="5dp"-->

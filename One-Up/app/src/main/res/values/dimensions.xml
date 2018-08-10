@@ -3,4 +3,5 @@
     <dimen name="modal_scale">12dp</dimen>
     <dimen name="modal_scale_margin">24dp</dimen>
     <dimen name="modal_scale_offset">-12dp</dimen>
+    <dimen name="buttons_home">60dp</dimen>
 </resources>

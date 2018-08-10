@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentStart="true"
+    android:background="@drawable/bricks">
+
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageButton
+            android:id="@+id/btSeePowerUps"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/buttons_home"
+            android:layout_centerHorizontal="true"
+            android:adjustViewBounds="false"
+            android:src="@drawable/power_ups"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/tvPowerUps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btSeePowerUps"
+            android:layout_centerHorizontal="true"
+            android:text="PowerUps"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

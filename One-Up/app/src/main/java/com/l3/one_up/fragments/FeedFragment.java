@@ -104,7 +104,7 @@ public class FeedFragment extends Fragment implements CalendarCallback {
             });
             tbFeedBar = getActivity().findViewById(R.id.tbProfileBar);
             ((AppCompatActivity)fragAct).setSupportActionBar(tbFeedBar);
-            ((AppCompatActivity)fragAct).getSupportActionBar().setTitle("Your timeline");
+            ((AppCompatActivity)fragAct).getSupportActionBar().setTitle("Your Timeline");
             tbFeedBar.setTitleTextColor(fragAct.getColor(android.R.color.white));
 
         }

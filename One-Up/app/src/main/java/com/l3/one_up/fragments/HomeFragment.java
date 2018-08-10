@@ -11,10 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.facebook.share.widget.ShareButton;
@@ -41,7 +40,7 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
     private TextView tvPowerUps;
     private TextView tvXPNum;
     /* Button for toggling */
-    private Button btSeePowerUps;
+    private ImageButton btSeePowerUps;
     /* fragment flag */
     private boolean fragmentFlag;
 
@@ -89,7 +88,7 @@ public class HomeFragment extends Fragment implements CategorySelectionFragment.
         tvWelcome = (TextView) getActivity().findViewById(R.id.tvWelcome);
         tvLevelNum = (TextView) getActivity().findViewById(R.id.tvLevelNum);
         tvXPNum = (TextView) getActivity().findViewById(R.id.tvXPNum);
-        btSeePowerUps = (Button) getActivity().findViewById(R.id.btSeePowerUps);
+        btSeePowerUps = (ImageButton) getActivity().findViewById(R.id.btSeePowerUps);
         tvPowerUps = getActivity().findViewById(R.id.tvPowerUps);
 
         user = ParseUser.getCurrentUser();

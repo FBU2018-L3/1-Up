@@ -7,5 +7,6 @@
     android:gravity="center"
     android:textAlignment="center"
     android:text=""
-    android:textSize="16sp"
-    android:textStyle="bold" />
+    android:textSize="18sp"
+    android:textStyle="bold"
+    android:textColor="@android:color/white"/>

@@ -63,6 +63,7 @@
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/tvUserName"
             android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
             android:layout_toRightOf="@id/rlImgLvl"
             android:indeterminate="false" />
