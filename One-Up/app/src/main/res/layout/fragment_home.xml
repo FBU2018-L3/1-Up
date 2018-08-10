@@ -10,12 +10,13 @@
 
         <ImageView
             android:id="@+id/ivProfile"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:adjustViewBounds="true"
+            android:maxWidth="60sp"
+            android:scaleType="fitXY"
             android:src="@mipmap/ic_launcher" />
-
-
 
         <TextView
             android:id="@+id/tvWelcome"
@@ -57,9 +58,9 @@
             android:id="@+id/rlLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:layout_margin="10dp" >
+            android:layout_centerVertical="true"
+            android:layout_margin="16dp">
 
             <TextView
                 android:id="@+id/tvLevelText"
@@ -102,46 +103,26 @@
         android:src="@drawable/mario_android" />
 
     <RelativeLayout
+        android:id="@+id/rlButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/rlButtons"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true">
 
-        <include layout="@layout/sleep_toggle"
-            android:id="@+id/sleepToggle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"/>
-
-        <RelativeLayout
+        <include
+            layout="@layout/powerup_toggle"
+            android:id="@+id/rlPowerUps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:background="@drawable/bricks"
-            >
-            <Button
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:id="@+id/btSeePowerUps"
-                android:layout_width="90dp"
-                android:layout_height="100dp"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/power_ups"
-                />
+            android:layout_alignParentBottom="true"/>
 
-            <TextView
-                android:layout_marginBottom="5dp"
-                android:id="@+id/tvPowerUps"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/btSeePowerUps"
-                android:layout_centerHorizontal="true"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:text="PowerUps"
-                android:textAlignment="center" />
-        </RelativeLayout>
+        <include
+            android:id="@+id/sleepToggle"
+            layout="@layout/sleep_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
 
