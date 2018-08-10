@@ -2,30 +2,81 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:background="@color/modalYellow"
+    android:layout_margin="@dimen/category_button_scale_2">
 
     <ImageView
-        android:id="@+id/ivCategoryIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:id="@+id/horizontalBorder"
+        android:src="@drawable/horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/category_button_scale"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:adjustViewBounds="true"
-        android:cropToPadding="false"
-        android:padding="10dp"
-        android:src="@android:drawable/ic_menu_crop" />
+        android:scaleType="fitXY"/>
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/tvCategoryName"
+    <ImageView
+        android:id="@+id/verticalBorder"
+        android:layout_width="@dimen/category_button_scale"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@id/dotsBottom"
+        android:src="@drawable/vertical" />
+
+    <ImageView
+        android:src="@drawable/ogbox"
+        android:layout_width="@dimen/category_button_scale"
+        android:layout_height="@dimen/category_button_scale"
+        android:layout_alignParentLeft="true"
+        />
+
+    <include layout="@layout/category_dots"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@id/horizontalBorder"
+        android:layout_toRightOf="@id/verticalBorder"
+        android:layout_marginBottom="0dp"/>
+
+    <include
+        android:id="@+id/dotsBottom"
+        layout="@layout/category_dots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/categoryBtnContent"
+        android:layout_marginTop="@dimen/category_button_offset"
+        android:layout_toRightOf="@id/verticalBorder" />
+
+    <RelativeLayout
+        android:id="@+id/categoryBtnContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/ivCategoryIcon"
-        android:paddingTop="10dp"
-        android:text="category name"
-        android:textAlignment="center"
-        android:textAppearance="@android:style/TextAppearance.Large" />
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@id/verticalBorder"
+        android:layout_below="@id/horizontalBorder"
+        android:paddingLeft="@dimen/category_button_scale_2"
+        android:paddingTop="@dimen/category_button_scale_2">
 
+        <ImageView
+            android:id="@+id/ivCategoryIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/category_button_image"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:adjustViewBounds="true"
+            android:cropToPadding="false"
+            android:padding="10dp"
+            android:src="@android:drawable/ic_menu_crop" />
+
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/tvCategoryName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivCategoryIcon"
+            android:paddingTop="10dp"
+            android:text="category name"
+            android:layout_centerHorizontal="true"
+            android:textAppearance="@android:style/TextAppearance.Large" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
 
