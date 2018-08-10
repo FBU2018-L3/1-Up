@@ -81,21 +81,21 @@
 
     </RelativeLayout>
 
-    <ImageView
+    <TextView
         android:id="@+id/horizontalBorder"
-        android:src="@drawable/horizontal"
         android:layout_width="match_parent"
         android:layout_height="@dimen/modal_scale"
         android:layout_alignParentTop="true"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY"
+        android:background="@color/modalOrange"/>
 
-    <ImageView
+    <TextView
         android:id="@+id/verticalBorder"
         android:layout_width="@dimen/modal_scale"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:layout_alignBottom="@id/dotsBottom"
-        android:src="@drawable/vertical" />
+        android:background="@color/modalOrange" />
 
     <ImageView
         android:src="@drawable/ogbox"
