@@ -2,7 +2,8 @@
     <string name="app_name">One-Up</string>
     <string name="submit">Submit</string>
     <string name="you_did">you did?</string>
-    <string name="how_many">How many</string>
+    <string name="how_many">You completed: </string>
+    <string name="goal_text">I would like to complete: </string>
     <string name="goal_already_exists_warning">Warning: you\'ve already set a goal for this activity!</string>
     <string name="activitySearch">Search activities</string>
     <string name="save_as_private">Save as Private</string>

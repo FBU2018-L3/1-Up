@@ -50,11 +50,15 @@ public class InputFragment extends DialogFragment {
     private Objective objective;
     private String inputType;
     private List<Goal> activeGoals;
+    /* Used to pass in info to input confirmation fragment */
+    private Goal myGoal = null;
+    private Event myEvent = null;
 
     @BindView(R.id.spInputType) Spinner spInputType;
     @BindView(R.id.etValue) EditText etValue;
     @BindView(R.id.cbIsPrivate) CheckBox cbIsPrivate;
     @BindView(R.id.tvGoalWarning) TextView tvGoalWarning;
+    @BindView(R.id.tvInputPrompt) TextView tvInputPrompt;
 
     // Empty constructor required
     public InputFragment(){}
@@ -83,6 +87,12 @@ public class InputFragment extends DialogFragment {
 
         int objectiveIndex = getArguments().getInt(KEY_OBJECTIVE);
         objective = Objective.values()[objectiveIndex];
+
+        if(this.objective == Objective.GOAL){
+            Log.d(TAG, "This input is for a goal");
+            tvInputPrompt.setText(R.string.goal_text);
+
+        }
 
         tvGoalWarning.setVisibility(View.GONE);
 
@@ -162,7 +172,7 @@ public class InputFragment extends DialogFragment {
 
     private void saveEvent(final int exp, final User currentUser) throws JSONException{
         // Event
-        Event event = new Event();
+        final Event event = new Event();
         event.setActivity(activity);
         event.setTotalXP(exp);
         event.setUser(currentUser);
@@ -173,6 +183,7 @@ public class InputFragment extends DialogFragment {
             public void done(ParseException e) {
                 if(e==null)
                 {
+                    myEvent = event;
                     updateUser(currentUser, exp);
                     updateActiveGoals(activeGoals);
                 }
@@ -186,7 +197,7 @@ public class InputFragment extends DialogFragment {
 
     private void saveGoal(final User currentUser) throws JSONException {
         // Event
-        Goal goal = new Goal();
+        final Goal goal = new Goal();
         goal.setActivity(activity);
         goal.setUser(currentUser);
         String inputKey = (String)spInputType.getSelectedItem();
@@ -199,6 +210,7 @@ public class InputFragment extends DialogFragment {
             public void done(ParseException e) {
                 if(e==null)
                 {
+                    myGoal = goal;
                     Toast.makeText(getContext(), "You've created a new goal!", Toast.LENGTH_SHORT).show();
                     dismiss();
                 }
@@ -222,7 +234,7 @@ public class InputFragment extends DialogFragment {
                     int i = User.getCurrentUser().getCurrentXpFromLevel();
                     int x = User.getCurrentUser().getExperiencePoints();
                     FragmentManager fm = getParentFragmentManager();
-                    InputConfirmationFragment icf = InputConfirmationFragment.newInstance(startXp, startLvl);
+                    InputConfirmationFragment icf = InputConfirmationFragment.newInstance(startXp, startLvl, myEvent, null);
                     icf.show(fm, "icf");
 
                     dismiss();

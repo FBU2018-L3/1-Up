@@ -76,7 +76,6 @@
             android:text="category name"
             android:layout_centerHorizontal="true"
             android:textAppearance="@android:style/TextAppearance.Large" />
-
     </RelativeLayout>
 
 </RelativeLayout>

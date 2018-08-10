@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,9 @@ import com.l3.one_up.model.User;
 import com.l3.one_up.services.AvatarFinder;
 
 import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Iterator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +31,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class GoalCompletedFragment extends DialogFragment {
-
+    private static String tag = "GoalCompletedFragment";
     private static final String ARG_GOAL = "goal";
     private Goal goal;
 
@@ -104,9 +108,29 @@ public class GoalCompletedFragment extends DialogFragment {
     }
 
     public void setBtnFacebookShare() {
+        String fullQuote = "";
+        if(goal != null){
+            String currUser = User.getCurrentUser().getUsername();
+            fullQuote = "User " + currUser + " just completed a goal! ";
+            String goalName = goal.getActivity().getName();
+            String key = " ";
+            String value = " ";
+            JSONObject goalInputType = goal.getInputType();
+            Iterator iter = goalInputType.keys();
+            while(iter.hasNext()){
+                key = iter.next().toString();
+                try {
+                    value = String.valueOf(goalInputType.getInt(key));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            fullQuote = fullQuote + "They completed " + value +  " " + key + " of activity " + goalName;
+            Log.d(tag, "Full quote is: " + fullQuote);
+        }
         ShareLinkContent content = new ShareLinkContent.Builder()
                 .setContentUrl(Uri.parse("https://developers.facebook.com/"))
-                .setQuote("Move fast.")
+                .setQuote(fullQuote)
                 .build();
         btnFacebookShare.setShareContent(content);
     }

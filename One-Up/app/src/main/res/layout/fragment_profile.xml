@@ -1,120 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:layout_margin="8dp"
-            android:id="@+id/btnLogOut"
-            android:background="@drawable/logout"
-            android:layout_width="50dp"
-            android:layout_height="70dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true" />
-
-        <Button
-            android:layout_margin="8dp"
-            android:id="@+id/btfbLogin"
-            android:background="@drawable/facebook"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_width="50dp"
-            android:layout_height="50dp"/>
+    <RelativeLayout
+        android:id="@+id/userInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:id="@+id/userInfo"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
+            android:layout_alignParentEnd="true">
 
-            <ImageView
-                android:id="@+id/ivProfile"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+            <Button
+                android:id="@+id/btnLogOut"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:adjustViewBounds="true"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/logout" />
 
             <TextView
-                android:id="@+id/tvWelcome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ivProfile"
+                android:layout_below="@id/btnLogOut"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
-                android:text="User"
-                android:textAppearance="@android:style/TextAppearance.Medium" />
+                android:layout_marginStart="-7dp"
+                android:text="Logout" />
+        </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/rlXP"
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:id="@+id/btfbLogin"
+                android:background="@drawable/facebook"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+
+            <TextView
                 android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_margin="20dp"
-                android:layout_toStartOf="@+id/ivProfile">
-
-                <TextView
-                    android:id="@+id/tvXPText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="XP"
-                    android:textAppearance="@android:style/TextAppearance.Small" />
-
-                <TextView
-                    android:id="@+id/tvXPNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvXPText"
-                    android:layout_centerHorizontal="true"
-                    android:text="245"
-                    android:textAppearance="@android:style/TextAppearance.Large" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlLevel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_margin="20dp"
-                android:layout_toEndOf="@+id/ivProfile">
-
-                <TextView
-                    android:id="@+id/tvLevelText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="Level"
-                    android:textAppearance="@android:style/TextAppearance.Small" />
-
-                <TextView
-                    android:id="@+id/tvLevelNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tvLevelText"
-                    android:layout_centerHorizontal="true"
-                    android:text="5"
-                    android:textAppearance="@android:style/TextAppearance.Large" />
-
-            </RelativeLayout>
+                android:layout_below="@id/btfbLogin"
+                android:text="Connect"/>
 
         </RelativeLayout>
 
-        <!-- TODO insert timeline feed here -->
-        <FrameLayout
-            android:id="@+id/feedContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/userInfo">
+        <ImageView
+            android:id="@+id/ivProfile"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvWelcome"
+            android:layout_centerHorizontal="true"
+            android:adjustViewBounds="true"
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginBottom="8dp"/>
 
-        </FrameLayout>
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:text="User"
+            android:layout_marginBottom="8dp"
+            android:textStyle="bold"
+            android:textSize="22sp"
+             />
+
+        <RelativeLayout
+            android:id="@+id/rlXP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:layout_toStartOf="@+id/ivProfile"
+            android:layout_alignBottom="@id/ivProfile">
+
+            <TextView
+                android:id="@+id/tvXPText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="XP"
+                android:textAppearance="@android:style/TextAppearance.Small" />
+
+            <TextView
+                android:id="@+id/tvXPNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvXPText"
+                android:layout_centerHorizontal="true"
+                android:text="245"
+                android:textAppearance="@android:style/TextAppearance.Large" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:layout_toEndOf="@+id/ivProfile"
+            android:layout_alignBottom="@id/ivProfile">
+
+            <TextView
+                android:id="@+id/tvLevelText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Level"
+                android:textAppearance="@android:style/TextAppearance.Small" />
+
+            <TextView
+                android:id="@+id/tvLevelNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvLevelText"
+                android:layout_centerHorizontal="true"
+                android:text="5"
+                android:textAppearance="@android:style/TextAppearance.Large" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
-</FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/feedContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/userInfo">
+
+    </FrameLayout>
+
+</RelativeLayout>
