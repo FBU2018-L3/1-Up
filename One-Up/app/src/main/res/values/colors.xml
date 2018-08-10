@@ -7,4 +7,6 @@
     <color name="writeColor">#211c1c</color>
     <color name="backgroundColor">#5F95EC</color>
     <color name="modalYellow">#FCEF51</color>
+    <color name="modalOrange">#EE7A3B</color>
+    <color name="modalRed">#BB2C22</color>
 </resources>
