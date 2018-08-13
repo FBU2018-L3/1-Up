@@ -12,4 +12,7 @@
     <dimen name="category_button_scale_2">16dp</dimen>
     <dimen name="category_button_offset">-16dp</dimen>
     <dimen name="category_button_image">100dp</dimen>
+
+    <!-- friends -->
+    <dimen name="friend_profile_pic">88dp</dimen>
 </resources>
