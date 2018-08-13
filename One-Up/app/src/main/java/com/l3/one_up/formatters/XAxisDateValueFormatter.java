@@ -19,7 +19,7 @@ public class XAxisDateValueFormatter implements IAxisValueFormatter {
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
 //        if(Math.ceil(value)==value)
-            return new SimpleDateFormat("MM-dd-yy").format(mValues.get((int)value));
+            return new SimpleDateFormat("MM-dd").format(mValues.get((int)value));
 //        return "";
     }
 
