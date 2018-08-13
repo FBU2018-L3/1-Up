@@ -63,7 +63,7 @@ dependencies {
     // Post to Facebook
     implementation 'com.facebook.android:facebook-share:[4,5)'
     // CircleImageView
-    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'com.mikhaellopez:circularimageview:3.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
