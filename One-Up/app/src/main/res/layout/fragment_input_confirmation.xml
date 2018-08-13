@@ -63,6 +63,7 @@
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/tvUserName"
             android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
             android:layout_toRightOf="@id/rlImgLvl"
             android:indeterminate="false" />
@@ -97,11 +98,11 @@
 
     <ImageView
         android:id="@+id/horizontalBorder"
-        android:src="@drawable/horizontal"
         android:layout_width="match_parent"
         android:layout_height="@dimen/modal_scale"
         android:layout_alignParentTop="true"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY"
+        android:background="@color/modalOrange" />
 
     <ImageView
         android:id="@+id/verticalBorder"
@@ -109,7 +110,7 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:layout_alignBottom="@id/dotsBottom"
-        android:src="@drawable/vertical" />
+        android:background="@color/modalOrange" />
 
     <ImageView
         android:src="@drawable/ogbox"

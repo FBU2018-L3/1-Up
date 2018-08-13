@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- modal -->
     <dimen name="modal_scale">12dp</dimen>
     <dimen name="modal_scale_margin">24dp</dimen>
     <dimen name="modal_scale_offset">-12dp</dimen>
+
+    <!-- home page -->
+    <dimen name="buttons_home">60dp</dimen>
+    <dimen name="category_button_scale">8dp</dimen>
+    <dimen name="category_button_scale_2">16dp</dimen>
+    <dimen name="category_button_offset">-16dp</dimen>
+    <dimen name="category_button_image">100dp</dimen>
+
+    <!-- friends -->
+    <dimen name="friend_profile_pic">88dp</dimen>
 </resources>

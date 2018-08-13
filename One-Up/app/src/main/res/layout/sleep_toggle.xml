@@ -2,31 +2,52 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rlSwitch"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:background="@drawable/bricks"
-    android:layout_alignParentStart="true">
+    android:layout_alignParentStart="true"
+    android:background="@drawable/bricks">
 
-    <ToggleButton
-        android:id="@+id/tbSleepSwitch"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/moon"
-        android:checked="false"
-        android:text=""
-        android:textOff=""
-        android:textOn="" />
-
-    <TextView
-        android:id="@+id/tvSleep"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tbSleepSwitch"
-        android:layout_centerHorizontal="true"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
-        android:text="Go to sleep"/>
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/ivSleepIcon"
+            android:layout_width="70dp"
+            android:layout_height="@dimen/buttons_home"
+            android:layout_centerHorizontal="true"
+            android:adjustViewBounds="false"
+            android:src="@drawable/moon"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/tvSleep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivSleepIcon"
+            android:layout_centerHorizontal="true"
+            android:text="Go to sleep"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <ToggleButton
+            android:id="@+id/tbSleepSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/tvSleep"
+            android:layout_alignEnd="@id/ivSleepIcon"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/transparent"
+            android:checked="false"
+            android:text=""
+            android:textColor="@android:color/transparent"
+            android:textOff=""
+            android:textOn="" />
+
+    </RelativeLayout>
+
 </RelativeLayout>

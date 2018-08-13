@@ -1,24 +1,19 @@
 package com.l3.one_up.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.l3.one_up.R;
-import com.l3.one_up.adapters.FeedItemAdapter;
 import com.l3.one_up.adapters.PowerUpAdapter;
 import com.l3.one_up.interfaces.PowerUpCallback;
 import com.l3.one_up.listeners.OnRedeemedPowerUpRefresh;
@@ -104,7 +99,7 @@ public class PowerUpFragment extends Fragment implements PowerUpCallback {
     }
 
     @Override
-    public void applyBonusExp(PowerUp atPowerUp) {
+    public void applyBonusExp(final PowerUp atPowerUp) {
         int expGained = atPowerUp.getBonusXP();
         final User user = User.getCurrentUser();
         final int startXp = user.getCurrentXpFromLevel();
@@ -115,7 +110,7 @@ public class PowerUpFragment extends Fragment implements PowerUpCallback {
                 if(e == null){
                     refresh.onUserUpdated(user);
                     FragmentManager fragmentManager = getFragmentManager();
-                    InputConfirmationFragment inputConfirmationFragment = InputConfirmationFragment.newInstance(startXp, startLevel);
+                    InputConfirmationFragment inputConfirmationFragment = InputConfirmationFragment.newInstance(startXp, startLevel, null, atPowerUp);
                     inputConfirmationFragment.show(fragmentManager, "tagz");
                 }
                 else{

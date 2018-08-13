@@ -1,5 +1,6 @@
 package com.l3.one_up.fragments;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -76,9 +77,11 @@ public class ActivitySelectionFragment extends Fragment
         Log.d(tag, "In our activity selection fragment");
 
         // Setting toolbar
-        Toolbar searchBar = getActivity().findViewById(R.id.tbProfileBar);
+        Toolbar searchBar = getActivity().findViewById(R.id.tbSearchBar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(searchBar);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Choose your Activity: ");
+        searchBar.setTitleTextColor(getActivity().getColor(android.R.color.white));
 
         Bundle args = getArguments();
         category = args.getString(KEY_CATEGORY);
