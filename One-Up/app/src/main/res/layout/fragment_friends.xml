@@ -17,7 +17,8 @@
             android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:text="testingggg" />
+            android:text="testingggg"
+            android:textAlignment="center" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvFriendList"

@@ -46,7 +46,6 @@ public class DeepLinkingActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 /* We can use this LoginResult object to see recently granted permissions and to
                 * get the access token (sets our access token to the current access token ) */
-                Toast.makeText(getApplicationContext(), "Login sucessful", Toast.LENGTH_LONG).show();
                 Log.d(tag, "FB Login Sucessful");
                 /* store the ID within the parse user to develop that connection */
                 /* NOTE: every time a facebook user is logged into our app, their facebook id is updated! */
@@ -70,7 +69,7 @@ public class DeepLinkingActivity extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException error) {
-                Toast.makeText(getApplicationContext(), "Failed to login to FB :(", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Failed to login to Facebook. Try again later.", Toast.LENGTH_LONG).show();
                 Log.d(tag, "Failed to login to FB");
                 error.printStackTrace();
             }
