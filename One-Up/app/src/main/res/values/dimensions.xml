@@ -9,7 +9,7 @@
     <!-- home page -->
     <dimen name="buttons_home">60dp</dimen>
     <dimen name="category_button_scale">8dp</dimen>
-    <dimen name="category_button_scale_2">16dp</dimen>
+    <dimen name="category_button_scale_2">10dp</dimen>
     <dimen name="category_button_offset">-16dp</dimen>
     <dimen name="category_button_image">100dp</dimen>
 
