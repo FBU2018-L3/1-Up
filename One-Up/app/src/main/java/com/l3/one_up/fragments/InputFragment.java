@@ -153,8 +153,10 @@ public class InputFragment extends DialogFragment {
     public void submit(){
         try {
             inputType = (String)spInputType.getSelectedItem();
-            Integer basePoints = activity.getInputType().getInt(inputType);
-            int exp = basePoints * Integer.parseInt(etValue.getText().toString());
+            Integer basePoints = activity.getBaseXP();
+            Integer multiplier = activity.getInputType().getInt(inputType);
+            int exp = basePoints + multiplier * Integer.parseInt(etValue.getText().toString());
+
 
             // Obtaining the user
             User current = User.getCurrentUser();
