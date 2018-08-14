@@ -91,6 +91,7 @@ public class GoalCompletedFragment extends DialogFragment {
 
     private String makeCongratsMessage(Goal goal) {
         StringBuilder sb = new StringBuilder("Congrats!");
+        sb.append(" ");
         sb.append("You completed ");
         try {
             if (goal.getInputType().keys().hasNext()) {
