@@ -152,6 +152,11 @@ public class InputFragment extends DialogFragment {
     @OnClick(R.id.btnSubmit)
     public void submit(){
         try {
+            if(etValue.getText().toString().equals("") || Integer.parseInt(etValue.getText().toString())<0)
+            {
+                Toast.makeText(getContext(), "Please enter a valid number", Toast.LENGTH_SHORT).show();
+                return;
+            }
             inputType = (String)spInputType.getSelectedItem();
             Integer basePoints = activity.getBaseXP();
             Integer multiplier = activity.getInputType().getInt(inputType);
